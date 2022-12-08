@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Route} from "react-router-dom";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 
 import About from "./routes/admin/About";
 import Home from "./routes/Home";
@@ -12,9 +12,11 @@ function App() {
 	return (
 		<BrowserRouter basename={process.env.PUBLIC_URL}>
 			<Navigation />
-			<Route exact path="/" component={Home} />
-			<Route path="/about" component={About} />
-			<Route path="/contact" component={Contact} />
+			<Switch>
+				<Route exact path="/" component={Home} />
+				<Route path="/about" component={About} />
+				<Route path="/contact" component={Contact} />
+			</Switch>
 		</BrowserRouter>
 	);
 }

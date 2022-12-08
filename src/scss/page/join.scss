@@ -1,0 +1,49 @@
+.join_wrap {
+	margin: 0 auto;
+	padding: 60px 32px;
+	max-width: 776px;
+
+	.title {
+		text-align: center;
+
+		.logo_admin {
+			margin-left: 10px;
+		}
+	}
+
+	.description {
+		margin: 13px 0 62px;
+		font-size: 20px;
+		line-height: 24px;
+		text-align: center;
+	}
+
+	.form {
+		& ~ .form {
+			margin-top: 20px;
+		}
+
+		label {
+			display: inline-block;
+			vertical-align: top;
+		}
+		input {
+			display: block;
+			width: 100%;
+			height: 40px;
+			padding: 0 12px;
+			margin-top: 8px;
+			border: 1px solid #ddd;
+			border-radius: 1px;
+			box-sizing: border-box;
+		}
+	}
+
+	.btn_login {
+		margin-top: 20px;
+		width: 100%;
+		height: 44px;
+		background-color: $color-main;
+		color: #fff;
+	}
+}

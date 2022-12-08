@@ -1,0 +1,48 @@
+@import "reset",
+		"color",
+		"mixin",
+		"placeholder";
+
+.sort_list {
+	margin-top: 8px;
+	padding: 10px 0;
+	font-size: 14px;
+	line-height: 19px;
+	color: #ACACAC;
+	border-bottom: 1px solid #F5F5F5;
+
+	.item {
+		display: inline-block;
+		vertical-align: top;
+
+		& ~ .item {
+			margin-left: 8px;
+		}
+	}
+
+	input {
+		@include blind;
+
+		&:checked + label {
+			font-weight: 700;
+			color: #333;
+
+			&::before {
+				background-color: #25AAF5;
+			}
+		}
+	}
+
+	label {
+		&::before {
+			content: '';
+			display: inline-block;
+			width: 4px;
+			height: 4px;
+			margin-right: 4px;
+			background-color: currentColor;
+			border-radius: 50%;
+			vertical-align: 3px;
+		}
+	}
+}

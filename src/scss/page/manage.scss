@@ -1,0 +1,112 @@
+.manage_wrap {
+	.section.full {
+		display: flex;
+		flex-direction: column;
+		height: calc(100vh - 57px - 12px);
+		box-sizing: border-box;
+	}
+
+	.manage_header {
+		flex: 0 0 auto;
+
+		.header_area {
+			display: flex;
+			font-size: 16px;
+			line-height: 19px;
+			align-items: center;
+		}
+
+		.btn_edit {
+			height: 32px;
+			margin-left: auto;
+			padding: 0 8px;
+			font-weight: 400;
+			font-size: 12px;
+			border: 1px solid #D9D9D9;
+			border-radius: 2px;
+
+			svg {
+				margin-right: 4px;
+				vertical-align: -2px;
+			}
+		}
+	}
+
+	.manage_content {
+		flex: 1 1 auto;
+		padding-top: 12px;
+
+		.personal_list {
+			overflow-y: auto;
+			width: 100%;
+
+			&:empty {
+				text-align: center;
+
+				&::before {
+					content: '일정이 없습니다.';
+					display: inline-block;
+					text-align: center;
+					vertical-align: middle;
+					color: #666;
+				}
+
+				&:after {
+					content: '';
+					display: inline-block;
+					width: 0;
+					height: 100%;
+					vertical-align: middle;
+				}
+			}
+
+			.item {
+				display: flex;
+				line-height: 40px;
+
+				& ~ .item {
+					margin-top: 16px;
+				}
+			}
+
+			.index {
+				width: 36px;
+				padding-right: 10px;
+				box-sizing: border-box;
+			}
+
+			.state {
+				flex: 1 1 auto;
+				padding: 0 16px;
+
+				&.prearrange {
+					color: #25AAF5;
+				}
+			}
+
+			.btn_detail {
+				display: inline-block;
+				line-height: 26px;
+				padding: 0 14px;
+				font-size: 12px;
+				color: #666;
+				border: 1px solid #D9D9D9;
+				border-radius: 2px;
+				vertical-align: 1px;
+				box-sizing: border-box;
+			}
+		}
+	}
+
+	.btn_back {
+		margin-right: 4px;
+	}
+
+	.class_description {
+		min-height: 200px;
+		margin-top: 30px;
+		padding: 16px;
+		border: 1px solid #999;
+		border-radius: 5px;
+	}
+}

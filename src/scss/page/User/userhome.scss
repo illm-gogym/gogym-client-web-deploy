@@ -1,0 +1,167 @@
+$header-height: 60px;
+
+.user_home_wrap {
+	overflow: hidden;
+	padding-top: $header-height;
+
+	.header {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		padding: 0 20px;
+		background-color: #fff;
+		border-bottom: 1px solid #d9d9d9;
+		box-sizing: border-box;
+
+		.inner {
+			display: flex;
+			height: $header-height;
+			margin: 0 auto;
+			max-width: 1060px;
+			align-items: center;
+			flex-direction: row;
+		}
+
+		.user_info {
+			margin-left: auto;
+
+			.name {
+				padding: 0 8px;
+				font-size: 14px;
+				line-height: 23px;
+			}
+
+			.thumbnail {
+				overflow: hidden;
+				width: 23px;
+				height: 23px;
+				border-radius: 50%;
+			}
+
+			.btn_more {
+				padding-top: 3px;
+			}
+		}
+	}
+
+	.content {
+		overflow-y: auto;
+		height: 100%;
+		max-width: 1060px;
+		background-color: #fff;
+		box-sizing: border-box;
+
+		.section {
+			padding: 20px;
+
+			& ~ .section {
+				border-top: 10px solid #F5F5F5;
+			}
+		}
+
+		.section_center {
+			.thumbnail {
+				float: left;
+				position: relative;
+				overflow: hidden;
+				margin-right: 26px;
+				width: 68px;
+				height: 68px;
+				border-radius: 50%;
+
+				img {
+					@include absoluteFullCenter;
+					max-width: 100%;
+					height: auto;
+				}
+			}
+
+			.detail {
+				@include clearfix;
+
+				.name {
+					font-size: 24px;
+					line-height: 29px;
+				}
+
+				.address {
+					font-size: 12px;
+					line-height: 14px;
+					color: #666;
+				}
+			}
+
+			.center_card {
+				margin-top: 20px;
+				padding: 20px;
+				border-radius: 2px;
+				background-color: #E9F7FE;
+				border: 1px solid #D3EEFD;
+				font-size: 16px;
+				color: #333;
+				text-align: center;
+
+				&.expired {
+					border-color: #D9D9D9;
+					background-color: #F5F5F5;
+					color: #999;
+
+					.state {
+						color: #ACACAC;
+					}
+
+					.trainer {
+						border-color: #D9D9D9;
+					}
+
+					.num {
+						color: inherit;
+					}
+				}
+
+				.state {
+					display: inline-block;
+					padding: 0 10px;
+					background: #FFFFFF;
+					border-radius: 40px;
+					font-size: 12px;
+					line-height: 26px;
+					color: #25AAF5;
+					vertical-align: top;
+				}
+
+				.period {
+					margin-top: 5px;
+				}
+
+				.num {
+					padding-right: 8px;
+					font-size: 50px;
+					line-height: 60px;
+					color: #25AAF5;
+					vertical-align: baseline;
+				}
+
+				.trainer {
+					margin-top: 20px;
+					padding-top: 20px;
+					line-height: 24px;
+					border-top: 1px dashed #A8DDFB;
+				}
+			}
+		}
+
+		.section_calender {
+
+		}
+
+		.section_task {
+			.header_area {
+				display: block;
+				font-size: 16px;
+				line-height: 19px;
+			}
+		}
+	}
+}

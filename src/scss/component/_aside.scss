@@ -1,0 +1,187 @@
+.aside {
+	float: left;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	width: 250px;
+	margin-right: 16px;
+	padding: 5px 20px;
+	background-color: #fff;
+	box-sizing: border-box;
+
+	.aside_header {
+		padding: 35px 0;
+		flex: 0 0 auto;
+		text-align: center;
+
+		.company {
+			margin-bottom: 30px;
+		}
+
+		.logo_admin {
+			margin-left: 8px;
+		}
+
+		.thumb_area {
+			position: relative;
+			width: 68px;
+			margin: 0 auto;
+
+			.input_file {
+				@include blind;
+			}
+
+			.label_file {
+				position: absolute;
+				top: 0;
+				right: 0;
+				z-index: 1;
+				width: 20px;
+				height: 20px;
+				padding-top: 4px;
+				border-radius: 50%;
+				background-color: rgba(#333, 0.9);
+				box-sizing: border-box;
+			}
+		}
+
+		.thumbnail {
+			overflow: hidden;
+			position: relative;
+			height: 68px;
+			border-radius: 50%;
+
+			&::after {
+				content: '';
+				@include absoluteFull;
+				border-radius: 50%;
+				border: 1px solid #d9d9d9;
+			}
+
+			img {
+				position: absolute;
+				top: -50%;
+				left: -50%;
+				bottom: -50%;
+				right: -50%;
+				margin: auto;
+				width: 100%;
+				height: auto;
+			}
+		}
+
+		.information {
+			margin-top: 16px;
+
+			.name_area {
+				overflow: hidden;
+				position: relative;
+
+				&.edit {
+					.name {
+						visibility: hidden;
+					}
+					.input_name {
+						display: block;
+					}
+				}
+			}
+
+			.name,
+			.input_name {
+				display: block;
+				width: 100%;
+				padding: 0 20px;
+				font-weight: 700;
+				font-size: 16px;
+				line-height: 24px;
+				outline: none;
+				text-align: center;
+				-webkit-appearance: none;
+				resize: none;
+				word-break: break-all;
+				word-wrap: break-word;
+				box-sizing: border-box;
+			}
+
+			.input_name {
+				display: none;
+				@include absoluteFull;
+				text-align: left;
+				text-decoration: underline;
+				text-decoration-color: #25AAF5;
+			}
+
+			.btn_edit {
+				@include absoluteVerticalCenter;
+				right: 0;
+				width: 16px;
+				height: 16px;
+				padding-top: 4px;
+				border-radius: 50%;
+				background-color: rgba(#333, 0.9);
+				box-sizing: border-box;
+			}
+
+			.description {
+				margin-top: 4px;
+				color: #333;
+				font-size: 11px;
+				line-height: 15px;
+			}
+
+			.btn_setting {
+				margin-top: 12px;
+				padding: 0 8px;
+				border: 1px solid #acacac;
+				border-radius: 2px;
+				font-size: 12px;
+				line-height: 30px;
+
+				svg {
+					vertical-align: -2px;
+				}
+			}
+		}
+	}
+
+	.aside_content {
+		flex: 1 1 auto;
+		padding-top: 16px;
+		border-top: 1px solid #d9d9d9;
+
+		.menage_list {
+			.link {
+				display: block;
+				font-size: 16px;
+				line-height: 60px;
+				color: #999;
+			}
+
+			.active {
+				font-weight: 700;
+				color: #333;
+
+				svg path {
+					fill : #333;
+				}
+			}
+
+			.sub_area {
+				color: #999;
+			}
+
+			.sub_link {
+				display: block;
+				padding-left: 44px;
+				font-size: 14px;
+				line-height: 35px;
+			}
+
+			svg {
+				margin-right: 20px;
+				vertical-align: -7px;
+			}
+		}
+	}
+}

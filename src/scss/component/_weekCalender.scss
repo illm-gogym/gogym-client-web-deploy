@@ -1,0 +1,155 @@
+.WeekCalender_wrap {
+	.week_header {
+		padding-top: 10px;
+		line-height: 21px;
+
+		.period {
+			display: inline-block;
+			font-size: 16px;
+			padding: 0 20px;
+		}
+
+		.btn_prev {
+			svg {
+				transform: rotate(90deg);
+			}
+		}
+		.btn_next {
+			svg {
+				transform: rotate(-90deg);
+			}
+		}
+	}
+
+	$time-area-width: 50px;
+	$time-area-height: 34px;
+
+	.week_content {
+		position: relative;
+		margin-top: 35px;
+		@include clearfix;
+
+		.week_day_header {
+			position: relative;
+			padding-left: $time-area-width;
+			@include clearfix;
+
+			&::before {
+				content: '';
+				position: absolute;
+				bottom: -1px;
+				left: $time-area-width;
+				right: 0;
+				border-bottom: 1px solid #E1E1E1;
+			}
+
+			.main {
+				float: left;
+				width: 14.28%;
+				height: 70px;
+				text-align: center;
+
+				&.today {
+					color: #25AAF5;
+
+					.num {
+						width: 32px;
+						height: 32px;
+						font-weight: 500;
+						color: #fff;
+						border-radius: 50%;
+						background-color: #25AAF5;
+					}
+				}
+
+				.text {
+					display: block;
+					font-size: 10px;
+					line-height: 12px;
+				}
+
+				.num {
+					display: inline-block;
+					margin-top: 8px;
+					font-size: 20px;
+					line-height: 32px;
+					vertical-align: top;
+				}
+			}
+		}
+
+		.week_day_content {
+			position: relative;
+			max-height: 500px;
+			overflow: auto;
+			padding-left: $time-area-width;
+
+			@include clearfix;
+		}
+
+		.time_area {
+			position: absolute;
+			top: -2px;
+			left: 0;
+			bottom: 0;
+			width: $time-area-width;
+
+			.time {
+				display: block;
+				height: $time-area-height;
+				font-size: 10px;
+				line-height: 12px;
+				color: #666;
+			}
+		}
+
+		.day_area {
+			position: relative;
+			float: left;
+			width: 14.28%;
+			text-align: center;
+		}
+
+		.task_area {
+			@include absoluteFull;
+
+			.btn_task {
+				position: absolute;
+				left: 0;
+				width: 100%;
+				height: $time-area-height;
+				padding: 0 7px;
+				background-color: #5784FC;
+				border-radius: 2px;
+				font-size: 10px;
+				line-height: 12px;
+				color: #fff;
+				text-align: left;
+
+				@for $i from 1 to 24{
+					&.time_#{$i}{
+						top: (($i - 1) * $time-area-height);
+					}
+				}
+
+				&.half {
+					margin-top: $time-area-height / 2;
+				}
+			}
+		}
+
+		.base_day {
+			display: block;
+			width: 100%;
+			height: $time-area-height;
+			border: 1px solid #E1E1E1;
+			font-size: 0;
+			box-sizing: border-box;
+
+			.date {
+				font-size: 0;
+				line-height: 0;
+			}
+		}
+	}
+}

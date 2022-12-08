@@ -1,0 +1,172 @@
+@mixin blind {
+	overflow: hidden;
+	position: absolute;
+	clip:rect(0, 0, 0, 0);
+	width:1px;
+	height: 1px;
+	margin: -1px;
+}
+
+@mixin ellipsis($line: 1) {
+	@if ($line == 1) {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	} @else {
+		display: -webkit-box;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: $line;
+	}
+}
+
+@mixin absoluteFull {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+@mixin absoluteFullCenter {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+@mixin absoluteVerticalCenter {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+@mixin absoluteHorizontalCenter {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+@mixin g-button($height, $space: 16, $font-size: 14, $display: inline-block, $align: 'center') {
+	display: $display;
+	height: $height * 1px;
+	padding: 0 $space * 1px;
+	background-color: #25AAF5;
+	line-height: $height * 1px;
+	font-size: $font-size * 1px;
+	color: #fff;
+	border-radius: 4px;
+}
+
+@mixin placeholder($color: #9d9d9d) {
+	&::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+		color: $color;
+	}
+
+	&:-ms-input-placeholder { /* Internet Explorer 10-11 */
+		color: $color;
+	}
+
+	&::-ms-input-placeholder { /* Microsoft Edge */
+		color: $color;
+	}
+}
+
+@mixin clearfix {
+	&::after {
+		content: '';
+		display: block;
+		clear: both;
+		height: 0;
+	}
+}
+
+@mixin scrollHide {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+	&::-webkit-scrollbar {
+		display: none; /* Chrome, Safari, Opera*/
+	}
+}
+
+@mixin apperanceNone {
+	-o-appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+$sqrt_2: 1.41421356237;
+
+// bullet icon SCSS mixin '>'
+@mixin iconBullet($direction: 'up', $width: 50px, $height: 25px, $thick: 2px, $color: #222, $display: inline-block, $position: relative){
+	position: $position;
+	display: $display;
+	width: $width;
+	height: $height;
+	overflow: hidden;
+
+	@if ($direction == 'up' or $direction == 'down') {
+		$size: floor($width/$sqrt_2 - 2*$thick);
+		$rate: 2*$height/$width;
+		$margin-top : round($rate*$size/(2*$sqrt_2));
+
+		&:before {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: $size;
+			height: $size;
+			@if ($rate == 1) {
+				-webkit-transform: translate(-50%, -50%) rotate(45deg);
+				transform: translate(-50%, -50%) rotate(45deg);
+			} @else {
+				-webkit-transform: translate(-50%, -50%) scale(1, $rate) rotate(45deg);
+				transform: translate(-50%, -50%) scale(1, $rate) rotate(45deg);
+			}
+
+			@if ($direction == 'up') {
+				margin-top: $margin-top;
+				border-top: $thick solid $color;
+				border-left: $thick solid $color;
+			} @else if ($direction == 'down') {
+				margin-top: - $margin-top;
+				border-right: $thick solid $color;
+				border-bottom: $thick solid $color;
+			}
+		}
+	}  @else if ($direction == 'left' or $direction == 'right') {
+		$size: floor($height/$sqrt_2 - 2*$thick);
+		$rate: 2*$width/$height;
+		$margin-left : round($rate*$size/(2*$sqrt_2));
+
+		&:before {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: $size;
+			height: $size;
+
+			@if ($rate == 1) {
+				-webkit-transform: translate(-50%, -50%) rotate(45deg);
+				transform: translate(-50%, -50%) rotate(45deg);
+			} @else {
+				-webkit-transform: translate(-50%, -50%) scale($rate, 1) rotate(45deg);
+				transform: translate(-50%, -50%) scale($rate, 1) rotate(45deg);
+			}
+
+			@if ($direction == 'left') {
+				margin-left: $margin-left;
+				border-left: $thick solid $color;
+				border-bottom: $thick solid $color;
+			}  @else if ($direction == 'right') {
+				margin-left: - $margin-left;
+				border-top: $thick solid $color;
+				border-right: $thick solid $color;
+			}
+		}
+	}
+}

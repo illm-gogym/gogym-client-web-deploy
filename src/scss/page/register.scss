@@ -1,0 +1,147 @@
+.register_wrap {
+	.container {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		background-color: #fff;
+		box-sizing: border-box;
+	}
+
+	.form_area {
+		overflow-y: auto;
+		height: 100%;
+		padding: 20px;
+		box-sizing: border-box;
+
+		.form_box {
+			position: relative;
+			padding-top: 33px;
+
+			& ~ .form_box {
+				margin-top: 30px;
+			}
+		}
+
+		.form_label {
+			position: absolute;
+			top: 0;
+			left: 0;
+			font-weight: 700;
+			line-height: 25px;
+		}
+
+		.form_input {
+			display: block;
+			width: 100%;
+			height: 40px;
+			padding: 0 12px;
+			border: 1px solid #D9D9D9;
+			border-radius: 2px;
+			box-sizing: border-box;
+			outline: none;
+			-webkit-appearance: none;
+
+			&::-webkit-outer-spin-button,
+			&::-webkit-inner-spin-button {
+				-webkit-appearance: none;
+				margin: 0;
+			}
+
+			@include placeholder();
+
+			&:required {
+				& ~ .form_label {
+					&::after {
+						content: '';
+						display: inline-block;
+						width: 4px;
+						height: 4px;
+						margin-left: 2px;
+						border-radius: 50%;
+						background-color: #FF4B50;
+						vertical-align: 10px;
+					}
+				}
+			}
+		}
+
+		.form_detail {
+			margin-top: 4px;
+			font-size: 11px;
+			line-height: 16px;
+			color: #666;
+		}
+	}
+
+	.register_area {
+		flex: 0 0 auto;
+		padding: 8px 16px;
+		margin-top: auto;
+
+		.btn_register {
+			@include g-button(44, $font-size: 16, $display: block);
+			width: 100%;
+
+			&:disabled {
+				background-color: #c9c9c9;
+			}
+		}
+	}
+
+	.modal {
+		text-align: center;
+
+		.title {
+			font-weight: 700;
+			font-size: 22px;
+			line-height: 26px;
+
+			strong {
+				color: #25AAF5;
+			}
+		}
+
+		.description {
+			margin-top: 7px;
+			font-size: 12px;
+			line-height: 16px;
+			color: #9d9d9d;
+		}
+
+		.user_information {
+			display: table;
+			width: 100%;
+			margin: 15px 0 45px;
+			padding: 0 100px;
+			table-layout: fixed;
+			text-align: left;
+			font-size: 16px;
+			box-sizing: border-box;
+
+			.row {
+				display: table-row;
+				padding-top: 4px;
+			}
+
+			.cell {
+				display: table-cell;
+				font-weight: 700;
+				border-top: 10px solid #fff;
+
+				&:first-child {
+					width: 50px;
+				}
+
+				&:last-child {
+					height: 40px;
+					line-height: 40px;
+					padding: 0 20px;
+					color: #25AAF5;
+					background-color: #F6F6F6;
+					border-radius: 2px;
+				}
+			}
+		}
+	}
+}
