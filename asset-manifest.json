@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "https://illm-gogym.github.io/gogym-client-web-deploy/static/css/main.0751ca4c.css",
+    "main.js": "https://illm-gogym.github.io/gogym-client-web-deploy/static/js/main.b00cc002.js",
+    "static/js/787.6ced20fd.chunk.js": "https://illm-gogym.github.io/gogym-client-web-deploy/static/js/787.6ced20fd.chunk.js",
+    "index.html": "https://illm-gogym.github.io/gogym-client-web-deploy/index.html",
+    "main.0751ca4c.css.map": "https://illm-gogym.github.io/gogym-client-web-deploy/static/css/main.0751ca4c.css.map",
+    "main.b00cc002.js.map": "https://illm-gogym.github.io/gogym-client-web-deploy/static/js/main.b00cc002.js.map",
+    "787.6ced20fd.chunk.js.map": "https://illm-gogym.github.io/gogym-client-web-deploy/static/js/787.6ced20fd.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0751ca4c.css",
+    "static/js/main.b00cc002.js"
+  ]
+}
