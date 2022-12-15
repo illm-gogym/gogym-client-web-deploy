@@ -11,6 +11,7 @@ const defaultStyle = {
 	textDecoration: "none",
 	color: "black",
 };
+
 class Navigation extends React.Component {
 	constructor(props) {
 		super(props);
@@ -76,21 +77,22 @@ class Navigation extends React.Component {
 							{manageList.map((value, index) =>
 								<li key={`manage-${value.router}`} className={'item'}>
 									<div className="navigation">
-										<NavLink to={value.router} className={'link'} activeStyle={activeStyle} exact style={defaultStyle}>
+										{ value.subMenu &&
+										<>
+											{value.subMenu.map((value, index) =>
+												<NavLink to={value.router} className={'sub_link'}>
+													{value.title}
+												</NavLink>
+											)}
+										</>
+										}
+										<NavLink to={value.router} activeClassName={'active'} className={'main_link'}  exact>
 											{value.icon}
 											{value.title}
 										</NavLink>
 									</div>
 
-									{ value.subMenu &&
-									<div className={'sub_area'}>
-										{value.subMenu.map((value, index) =>
-											<NavLink to={value.router} className={'sub_link'}>
-												{value.title}
-											</NavLink>
-										)}
-									</div>
-									}
+
 								</li>
 							)}
 						</ul>
