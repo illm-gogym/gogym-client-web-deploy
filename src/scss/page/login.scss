@@ -1,4 +1,34 @@
-.join_wrap {
+.login_wrap {
+	display: flex;
+	margin: 0 auto;
+	padding: 0 20px;
+	height: 100%;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	background-color: #fff;
+
+	.logo_area {
+		padding: 20px 0;
+	}
+
+	.btn_type {
+		max-width: 500px;
+		width: 100%;
+		line-height: 50px;
+		background-color: #25AAF5;
+		color: #fff;
+		border-radius: 4px;
+		font-size: 20px;
+
+		& ~ .btn_type {
+			margin-top: 10px;
+		}
+	}
+}
+
+.login_main_wrap {
 	margin: 0 auto;
 	padding: 60px 32px;
 	max-width: 776px;

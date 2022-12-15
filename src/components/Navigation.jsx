@@ -23,23 +23,30 @@ class Navigation extends React.Component {
 			},
 			manageList: [
 				{
-					title:'스케줄', icon: <Icon.ic24Schedule/>, router: '/schedule/trainer', active: false,
+					title:'스케줄', icon: <Icon.ic24Schedule/>, router: '/schedule/member', active: true,
 					subMenu: [
+						{title:'내 회원', router: '/schedule/member', active: false, sub: 'member'},
 						{title:'트레이너', router: '/schedule/trainer', active: false, sub: 'trainer'},
-						{title:'내 회원', router: '/schedule/member', active: false, sub: 'member'}
 					]
 				},
 				{
-					title:'회원 관리', icon: <Icon.ic24MemberManage/>, router: '/', active: true
+					title:'회원 관리', icon: <Icon.ic24MemberManage/>, router: '/manage', active: false
 				},
 			],
 		};
 
 	}
 
+	logout() {
+		localStorage.clear();
+		window.location.replace('/');
+	}
+
 	render() {
 		const {centerName, userImage, manageList} = this.state;
 
+		if(window.location.pathname.match('login'))
+			return null;
 		return (
 			<>
 				<div className={'aside'}>
@@ -66,7 +73,7 @@ class Navigation extends React.Component {
 								<p className={'description'}>
 									{/*{getAuthTrainerId() || '로그인 해주세요.'}*/}
 								</p>
-								<button type={'button'} className={'btn_setting'}>
+								<button type={'button'} className={'btn_setting'} onClick={this.logout}>
 									<Icon.ic14Setting/> 계정설정
 								</button>
 							</div>
