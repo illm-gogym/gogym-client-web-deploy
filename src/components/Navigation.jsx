@@ -1,6 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import classNames from 'classnames';
 
+import {getAuthToken, getAuthTrainerId} from "../Util/Authentication";
 import {Icon} from "../asset/js/icon";
 
 const activeStyle = {
@@ -25,19 +27,25 @@ class Navigation extends React.Component {
 				{
 					title:'스케줄', icon: <Icon.ic24Schedule/>, router: '/schedule/member', active: true,
 					subMenu: [
-						{title:'내 회원', router: '/schedule/member', active: false, sub: 'member'},
-						{title:'트레이너', router: '/schedule/trainer', active: false, sub: 'trainer'},
+						{title:'내 회원', router: '/schedule/member', active: false, visibility: true},
+						{title:'트레이너', router: '/schedule/trainer', active: false, visibility: true},
 					]
 				},
 				{
-					title:'회원 관리', icon: <Icon.ic24MemberManage/>, router: '/manage', active: false
+					title:'회원 관리', icon: <Icon.ic24MemberManage/>, router: '/manage/list', active: false,
+					subMenu: [
+						{title:'회원 목록', router: '/manage/list', active: false, visibility: true},
+						{title:'회원 등록', router: '/manage/register', active: false, visibility: true},
+						{title:'수업 목록', router: '/manage/detail', active: false, visibility: false},
+						{title:'수업 상세', router: '/manage/class', active: false, visibility: false},
+					]
 				},
 			],
 		};
 
 	}
 
-	logout() {
+	onLogout() {
 		localStorage.clear();
 		window.location.replace('/');
 	}
@@ -45,8 +53,9 @@ class Navigation extends React.Component {
 	render() {
 		const {centerName, userImage, manageList} = this.state;
 
-		if(window.location.pathname.match('login'))
+		if(!getAuthToken()) {
 			return null;
+		}
 		return (
 			<>
 				<div className={'aside'}>
@@ -68,12 +77,12 @@ class Navigation extends React.Component {
 
 							<div className={'information'}>
 								<div className={'name'}>
-									{/*{getAuthTrainerId() || '로그인 해주세요.'}*/}
+									{getAuthTrainerId() || '로그인 해주세요.'}
 								</div>
 								<p className={'description'}>
 									{/*{getAuthTrainerId() || '로그인 해주세요.'}*/}
 								</p>
-								<button type={'button'} className={'btn_setting'} onClick={this.logout}>
+								<button type={'button'} className={'btn_setting'} onClick={this.onLogout}>
 									<Icon.ic14Setting/> 계정설정
 								</button>
 							</div>
@@ -87,7 +96,7 @@ class Navigation extends React.Component {
 										{ value.subMenu &&
 										<>
 											{value.subMenu.map((value, index) =>
-												<NavLink to={value.router} className={'sub_link'}>
+												<NavLink to={value.router} className={classNames('sub_link', {'hidden': !value.visibility})}>
 													{value.title}
 												</NavLink>
 											)}

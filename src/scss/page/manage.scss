@@ -103,10 +103,26 @@
 	}
 
 	.class_description {
+		overflow: auto;
 		min-height: 200px;
 		margin-top: 30px;
+		margin-bottom: auto;
 		padding: 16px;
 		border: 1px solid #999;
 		border-radius: 5px;
+	}
+
+	.btn_modify {
+		//margin-top: auto;
+		flex: 0 0 auto;
+		margin-top: 20px;
+		height: 44px;
+		background-color: #25AAF5;
+		color: #fff;
+		font-size: 16px;
+
+		&:disabled {
+			background-color: #c9c9c9;
+		}
 	}
 }

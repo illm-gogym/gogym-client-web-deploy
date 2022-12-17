@@ -4,17 +4,54 @@
 	}
 
 	.tab {
+		position: relative;
 		margin-top: -20px;
 		text-align: center;
 		font-size: 18px;
 		line-height: 48px;
 
-		.text {
+		.menu_area {
+			display: inline-block;
+			margin-left: 8px;
 		}
 
 		.btn_menu {
-			margin-left: 8px;
 			vertical-align: 1px;
+
+			&.open ~ .ly_menu {
+				display: block;
+			}
+		}
+
+		.ly_menu {
+			display: none;
+			position: absolute;
+			left: 50%;
+			top: 100%;
+			z-index: 10;
+			width: 200px;
+			margin-top: -10px;
+			padding: 10px 0;
+			border-radius: 5px;
+			transform: translateX(-50%);
+			background: #fff;
+			text-align: left;
+			box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.1);
+
+			.menu {
+				display: block;
+				padding: 0 15px;
+				line-height: 40px;
+				font-size: 14px;
+
+				&:hover {
+					background-color: #fafafa;
+				}
+
+				&.active {
+					font-weight: 700;
+				}
+			}
 		}
 	}
 
@@ -28,16 +65,11 @@
 		@include clearfix;
 		margin-top: -14px;
 
-		&.member {
-			.input_label {
-				color: #D694F4;
-			}
-		}
-
 		.item {
 			float: left;
 			width: 33.33%;
 			margin-top: 14px;
+			line-height: 20px;
 		}
 
 		.input_check {
@@ -54,7 +86,6 @@
 		}
 
 		.input_label {
-			line-height: 20px;
 			color: #5784FC;
 
 			.text {
@@ -236,6 +267,40 @@
 
 .modal {
 	.schedule_add_area {
+		input[type='date'],
+		input[type='time'] {
+			position: relative;
+
+			&::-webkit-clear-button,
+			&::-webkit-inner-spin-button {
+				display: none;
+			}
+			&::-webkit-calendar-picker-indicator {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+			}
+		}
+
+
+		input[type='date'] {
+			&::-webkit-calendar-picker-indicator {
+				background-position: right 10px top 7px;
+				background-size: 15px 15px;
+			}
+		}
+
+		input[type='time'] {
+			&::-webkit-calendar-picker-indicator {
+				background-position: right 20px top 7px;
+				background-size: 15px 15px;
+			}
+		}
+
 		.plus_area {
 			margin: 0 -16px 20px;
 			padding: 12px 0 12px 16px;

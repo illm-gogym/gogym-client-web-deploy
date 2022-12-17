@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import $ from 'jquery';
 
 import {Icon} from "../asset/js/icon";
+import {getAuthToken, getLoginType} from "../Util/Authentication";
 
 class Login extends React.Component {
 	constructor(props) {
@@ -11,12 +12,19 @@ class Login extends React.Component {
 	}
 
 	componentDidMount() {
-		$('.aside').hide();
+		// $('.aside').hide();
 	}
 
 	render() {
+		if(getAuthToken()) {
+			if(getLoginType() === 'trainer') {
+				return <Redirect to="/schedule/member" />;
+			}
+			else
+				return <Redirect to="/user" />;
+		}
 		return (
-			<div class={'login_wrap'} >
+			<div className={'login_wrap'} >
 				<div className={'logo_area'}>
 					<span className="blind">GoGym</span>
 					{ <Icon.logoGo/>}

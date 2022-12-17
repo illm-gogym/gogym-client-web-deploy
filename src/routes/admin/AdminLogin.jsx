@@ -3,7 +3,6 @@ import axios from "axios";
 import {Link, NavLink, Redirect} from 'react-router-dom';
 import {Icon} from "../../asset/js/icon";
 import { useParams, Navigate } from 'react-router-dom';
-import classNames from 'classnames';
 
 import {getAuthToken, getAuthTrainerId, getLoginType} from '../../Util/Authentication';
 

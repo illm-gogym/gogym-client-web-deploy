@@ -38,9 +38,41 @@ $header-height: 60px;
 				height: 23px;
 				border-radius: 50%;
 			}
+		}
+
+		.more_area {
+			display: inline-block;
+			position: relative;
 
 			.btn_more {
 				padding-top: 3px;
+
+				&.open  ~ .ly_menu {
+					display: block;
+				}
+			}
+
+			.ly_menu {
+				display: none;
+				position: absolute;
+				top: 100%;
+				right: 0;
+				width: 150px;
+				padding: 10px 0;
+				background-color: #fff;
+				box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.1);
+			}
+
+			.btn_menu {
+				display: block;
+				width: 100%;
+				text-align: left;
+				height: 30px;
+				padding: 0 15px;
+
+				&:hover {
+					background-color: #fafafa;
+				}
 			}
 		}
 	}
