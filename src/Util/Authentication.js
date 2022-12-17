@@ -9,7 +9,7 @@ export function getAuthTrainerId() {
 };
 
 export function getUserData() {
-	return Authentication.user_id === undefined ? false : {
+	return Authentication  === null ? false : {
 		user_id: Authentication.user_id,
 		user_name: Authentication.user_name,
 	}

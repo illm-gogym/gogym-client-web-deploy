@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import {Link, NavLink, Redirect} from 'react-router-dom';
+import {Link, NavLink, Redirect, withRouter} from 'react-router-dom';
 import {Icon} from "../../asset/js/icon";
 import {getAuthToken, getAuthTrainerId, getLoginType} from '../../Util/Authentication';
 
@@ -25,6 +25,39 @@ class UserLogin extends React.Component {
 				[target.name]: target.value,
 			},
 		});
+	}
+
+	render() {
+		const {loginInfo} = this.state;
+		if(getAuthToken()) {
+			return <Redirect replace to="/" />;
+		}
+		return (
+			<div className={'login_main_wrap'} >
+				<h1 className={'title'}>
+					<span className="blind">GoGym</span>
+					<Icon.logoGo/>
+					<Icon.logoGym/>
+				</h1>
+				<p className={'description'}>
+					PT 회원 서비스
+				</p>
+
+				<div className={'form'}>
+					<label htmlFor="form_email">아이디</label>
+					<input id={'form_email'} type="text" placeholder={'아이디를 입력해 주세요'} name={'user_phone'} value={loginInfo.user_phone || ''} onChange={(e) =>this.onInputChange(e)}/>
+				</div>
+
+				<div className={'form'}>
+					<label htmlFor="form_pwd">비밀번호</label>
+					<input id={'form_pwd'} type="password" placeholder={'비밀번호를 입력해 주세요'} name={'password'} value={loginInfo.password || ''} onChange={(e) =>this.onInputChange(e)} />
+				</div>
+
+				<button type={'submit'} className={'btn_login'} onClick={this.userLoginApi}>로그인</button>
+
+				<NavLink to={'/login/admin'} className={'btn_change'}>관리자 로그인 가기</NavLink>
+			</div>
+		)
 	}
 
 	userLoginApi = async () =>  {
@@ -58,7 +91,7 @@ class UserLogin extends React.Component {
 						user_name : accessToken.user.name,
 					};
 					localStorage.setItem('access-info', JSON.stringify(myObject));
-					window.location.reload('/user');
+					// window.location.reload('/user');
 				})
 				.catch(ex=>{
 					console.log("login requset fail : " + ex);
@@ -69,37 +102,6 @@ class UserLogin extends React.Component {
 			console.log(e);
 		}
 	}
-
-	render() {
-		const {loginInfo} = this.state;
-		if(getAuthToken()) {
-			return <Redirect replace to="/" />;
-		}
-		return (
-			<div className={'login_main_wrap'} >
-				<h1 className={'title'}>
-					<span className="blind">GoGym</span>
-					<Icon.logoGo/>
-					<Icon.logoGym/>
-					<Icon.logoAdmin className={'logo_admin'} />
-				</h1>
-				<p className={'description'}>
-					PT 회원 예약 서비스
-				</p>
-
-				<div className={'form'}>
-					<label htmlFor="form_email">아이디</label>
-					<input id={'form_email'} type="text" placeholder={'아이디를 입력해 주세요'} name={'user_phone'} value={loginInfo.user_phone || ''} onChange={(e) =>this.onInputChange(e)}/>
-				</div>
-
-				<div className={'form'}>
-					<label htmlFor="form_pwd">비밀번호</label>
-					<input id={'form_pwd'} type="password" placeholder={'비밀번호를 입력해 주세요'} name={'password'} value={loginInfo.password || ''} onChange={(e) =>this.onInputChange(e)} />
-				</div>
-
-				<button type={'submit'} className={'btn_login'} onClick={this.userLoginApi}>로그인</button>
-			</div>
-		)
-	}
 }
-export default UserLogin;
+// export default UserLogin;
+export default withRouter(UserLogin);

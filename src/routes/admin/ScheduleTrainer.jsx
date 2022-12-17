@@ -131,7 +131,7 @@ class ScheduleTrainer extends React.Component {
 		const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
 
 		if(!getAuthToken()) {
-			return <Redirect to="/login" />;
+			return <Redirect to="/login/admin" />;
 		}
 		return (
 			<div className={classNames('schedule_wrap')}>

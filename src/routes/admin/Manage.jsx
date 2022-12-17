@@ -3,7 +3,6 @@ import { Link, Redirect, withRouter  } from 'react-router-dom';
 import classNames from 'classnames';
 import {Icon} from "../../asset/js/icon";
 
-import Navigation from '../../components/Navigation';
 import {getAuthToken, getAuthTrainerId} from '../../Util/Authentication';
 import {dateFormatYYYYMMDD, dateFormatWithTime, dateFormatGetMMDD} from '../../Util/DateFormat';
 import axios from "axios";
@@ -63,7 +62,7 @@ class Manage extends React.Component {
 	render() {
 		const {memberList} = this.state;
 		if(!getAuthToken()) {
-			return <Redirect replace to="/login" />;
+			return <Redirect replace to="/login/admin" />;
 		}
 		return (
 			<div className={classNames('home_wrap')}>
@@ -76,7 +75,7 @@ class Manage extends React.Component {
 							<strong className={'title'}>새로운 회원을 등록하세요.</strong>
 							<p className={'description'}>신규 회원을 등록하고 한눈에 관리해 보세요!</p>
 						</div>
-						<Link to={'/register'} className={'btn_article'} >
+						<Link to={'/manage/register'} className={'btn_article'} >
 							회원 등록하기
 						</Link>
 						{/*<span  className={'btn_article'} >*/}

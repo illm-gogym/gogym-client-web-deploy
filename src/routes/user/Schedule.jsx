@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, withRouter } from 'react-router-dom';
 import classNames from 'classnames';
 import {Icon} from "../../asset/js/icon";
 
@@ -25,61 +25,12 @@ class Schedule extends React.Component {
 			],
 			membership: false,
 			loginMenuOpen: false,
+			userId: '',
 		}
 	}
 
 	makeTaskList = (dataList) => {
 		console.log(dataList);
-		// dataList.map((value, index) => {
-		// 		value.id = value.reservation.reservation_id;
-		// 		value.text = `${value.user.name}
-		// 		 			(${this.dateCalenderTime(value.reservation.start_time)}~${this.dateCalenderTime(value.reservation.end_time)})`;
-		// 		value.start = value.reservation.start_time;
-		// 		value.end = value.reservation.end_time;
-		// 		delete value.reservation;
-		// 		delete value.user;
-		// 	}
-		// )
-		// this.setState({
-		// 	calenderOption: {
-		// 		...this.state.calenderOption,
-		// 		events: dataList
-		// 	}
-		// });
-	}
-
-	getUserNameReservationApi = async (value) => {
-		console.log('name');
-		try{
-			// console.log(value);
-			const param = JSON.parse(JSON.stringify({
-				user_phone: value
-			}));
-			console.log(param);
-			const requestOption ={
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'Cache-Control': 'no-cache',
-					'Accept': 'application/json',
-					Authorization: `Bearer ${getAuthToken()}`,
-				},
-			};
-			await axios.post("http://13.125.53.84:8080/api/auth/reservation/all/user",
-				JSON.stringify(param), requestOption )
-				.then(res =>{
-					const resData = JSON.parse(JSON.stringify(res.data));
-					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
-					this.makeTaskList(resData.data);
-				})
-				.catch(ex=>{
-					console.log("login requset fail : " + ex);
-					// console.log(ex.response.status);
-				})
-				.finally(()=>{console.log("login request end")});
-		}catch(e){
-			console.log(e.response);
-		}
 	}
 
 	componentDidMount() {
@@ -93,7 +44,6 @@ class Schedule extends React.Component {
 	}
 
 	onLogout = () => {
-		this.onLoginMenuOpen();
 		localStorage.clear();
 		window.location.reload(false);
 	}
@@ -178,5 +128,40 @@ class Schedule extends React.Component {
 			</div>
 		);
 	}
+
+	getUserNameReservationApi = async (value) => {
+		try{
+			// console.log(value);
+			const param = JSON.parse(JSON.stringify({
+				user_phone: value
+			}));
+			console.log(param);
+			const requestOption ={
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Cache-Control': 'no-cache',
+					'Accept': 'application/json',
+					Authorization: `Bearer ${getAuthToken()}`,
+				},
+			};
+			await axios.post("http://13.125.53.84:8080/api/auth/reservation/all/user",
+				JSON.stringify(param), requestOption )
+				.then(res =>{
+					const resData = JSON.parse(JSON.stringify(res.data));
+					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
+					this.makeTaskList(resData.data);
+				})
+				.catch(ex=>{
+					console.log("login requset fail : " + ex);
+					// console.log(ex.response.status);
+				})
+				.finally(()=>{console.log("login request end")});
+		}catch(e){
+			console.log(e.response);
+		}
+	}
+
 };
-export default Schedule;
+// export default Schedule;
+export default withRouter(Schedule);

@@ -267,40 +267,6 @@
 
 .modal {
 	.schedule_add_area {
-		input[type='date'],
-		input[type='time'] {
-			position: relative;
-
-			&::-webkit-clear-button,
-			&::-webkit-inner-spin-button {
-				display: none;
-			}
-			&::-webkit-calendar-picker-indicator {
-				position: absolute;
-				top: 0;
-				left: 0;
-				right: 0;
-				bottom: 0;
-				width: 100%;
-				height: 100%;
-			}
-		}
-
-
-		input[type='date'] {
-			&::-webkit-calendar-picker-indicator {
-				background-position: right 10px top 7px;
-				background-size: 15px 15px;
-			}
-		}
-
-		input[type='time'] {
-			&::-webkit-calendar-picker-indicator {
-				background-position: right 20px top 7px;
-				background-size: 15px 15px;
-			}
-		}
-
 		.plus_area {
 			margin: 0 -16px 20px;
 			padding: 12px 0 12px 16px;

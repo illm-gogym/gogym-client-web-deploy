@@ -267,13 +267,6 @@ class ScheduleMember extends React.Component {
 		})
 	}
 
-	// setPersonalType(type) { // 현재 페이지 trainer? member? 체크
-	// 	this.setState({
-	// 		personalType: type,
-	// 	})
-	// 	this.makeCheckMemberList();
-	// }
-
 	makeSendScheduleList = () => {
 		this.state.addScheduleList.map((value, index) => {
 				let startDate = new Date(`${value.date} ${value.start_time}`);
@@ -309,7 +302,7 @@ class ScheduleMember extends React.Component {
 		const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
 
 		if(!getAuthToken()) {
-			return <Redirect to="/login" />;
+			return <Redirect to="/login/admin" />;
 		}
 		return (
 			<div className={classNames('schedule_wrap')}>
@@ -464,7 +457,6 @@ class ScheduleMember extends React.Component {
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
 					// console.log(resData);
-					window.location.reload('/schedule/member');
 				})
 				.catch(ex=>{
 					console.log("login requset fail : " + ex);

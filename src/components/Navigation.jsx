@@ -47,7 +47,8 @@ class Navigation extends React.Component {
 
 	onLogout = () => {
 		localStorage.clear();
-		window.location.reload(false);
+		window.location.replace('/login/admin');
+		// window.location.reload(false);
 	}
 
 	render() {
@@ -79,9 +80,13 @@ class Navigation extends React.Component {
 								<p className={'description'}>
 									{/*{getAuthTrainerId() || '로그인 해주세요.'}*/}
 								</p>
-								<button type={'button'} className={'btn_setting'} onClick={this.onLogout}>
-									<Icon.ic14Setting/> 계정설정
-								</button>
+								{
+									getAuthTrainerId() &&
+									<button type={'button'} className={'btn_setting'} onClick={this.onLogout}>
+										<Icon.ic14Setting/> 로그아웃
+									</button>
+								}
+
 							</div>
 						</div>
 					</div>
@@ -104,8 +109,6 @@ class Navigation extends React.Component {
 											{value.title}
 										</NavLink>
 									</div>
-
-
 								</li>
 							)}
 						</ul>

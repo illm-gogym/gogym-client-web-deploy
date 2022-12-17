@@ -1,7 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
+import { withRouter} from "react-router-dom";
 
 import Modal from "../../components/Modal";
+import {dateFormatYYYYMMDD, dateFormatWithTime} from '../../Util/DateFormat';
 import {getAuthToken, getAuthTrainerId} from '../../Util/Authentication';
 
 import axios from 'axios';
@@ -23,7 +25,9 @@ class ManageRegister extends React.Component {
 				remaining: 0,
 				total: 0,
 				trainer_id: getAuthTrainerId() ? getAuthTrainerId() : '',
-				until: "2022-12-31"
+				until: dateFormatYYYYMMDD(new Date()),
+				start_time: dateFormatYYYYMMDD(new Date()),
+				end_time:  dateFormatYYYYMMDD(new Date()),
 			},
 			submitDisabled: true,
 		}
@@ -41,6 +45,9 @@ class ManageRegister extends React.Component {
 		});
 
 		this.setInputReset();
+
+		window.location.reload(false);
+		window.location.replace('/manage');
 	};
 
 	onInputChange = (e) => {
@@ -63,6 +70,15 @@ class ManageRegister extends React.Component {
 					[target.name]: parseInt(target.value)
 				}
 			});
+		} else if(target.name.indexOf('_time')) {
+			this.setState({
+				...this.state,
+				userInfo: {
+					...this.state.userInfo,
+					[target.name]: target.value,
+					until: this.state.userInfo.end_time,
+				}
+			});
 		} else {
 			this.setState({
 				...this.state,
@@ -72,41 +88,10 @@ class ManageRegister extends React.Component {
 				}
 			});
 		}
-
 	}
 
 	onSubmit = () => {
 		this.setUserinfoApi();
-	}
-
-	setUserinfoApi = async () => {
-		try{
-			console.log(this.state.userInfo);
-			let userInfo = JSON.parse(JSON.stringify(this.state.userInfo));
-			const requestOption ={
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'Cache-Control': 'no-cache',
-					'Accept': 'application/json',
-					Authorization: `Bearer ${getAuthToken()}`,
-				}
-			};
-			await axios.post("http://13.125.53.84:8080/api/auth/user/signup" ,
-				JSON.stringify(userInfo), requestOption )
-				.then(res =>{
-					const resData = JSON.parse(JSON.stringify(res.data));
-					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
-					console.log(resData);
-					this.openModal();
-				})
-				.catch(ex=>{
-					console.log("login requset fail : " + ex);
-				})
-				.finally(()=>{console.log("login request end")});
-		}catch(e){
-			console.log(e);
-		}
 	}
 
 	validate = () => {
@@ -132,7 +117,9 @@ class ManageRegister extends React.Component {
 				remaining: 0,
 				total: 0,
 				trainer_id: getAuthTrainerId() ? getAuthTrainerId() : '',
-				until: "2022-12-31"
+				until: "2022-12-31",
+				start_time: new Date(),
+				end_time: new Date(),
 			}
 		});
 	}
@@ -175,17 +162,11 @@ class ManageRegister extends React.Component {
 							<p className={'form_detail'}>안내문구 작성하기</p>
 						</div>
 
-						<div className={'form_box'}>
-							<input type="text" className={'form_input'} placeholder={'0'} required={true} onChange={(e) =>this.onInputChange(e)} onKeyUp={this.validate}  name={'total'}/>
-							<label className={'form_label'}>수강권 (횟수)</label>
-							<p className={'form_detail'}>안내문구 작성하기</p>
-						</div>
-
-						<div className={classNames('form_box', 'time')}>
-							<label htmlFor="plus_start_time" className={'form_label'}>시간</label>
-							<input type="time" id={'plus_start_time'} className={'form_input'} onChange={(e) =>this.onInputChange(e)} name={'start_time'} />
+						<div className={classNames('form_box', 'multi')}>
+							<label htmlFor="plus_start_time" className={'form_label'}>기간</label>
+							<input type="date" id={'plus_start_time'} value={userInfo.start_time} className={'form_input'} onChange={(e) =>this.onInputChange(e)} name={'start_time'} />
 							<span className={'dash'}>-</span>
-							<input type="time" id={'plus_end_time'} className={'form_input'} onChange={(e) =>this.onInputChange(e)} name={'end_time'}/>
+							<input type="date" id={'plus_end_time'} value={userInfo.end_time} className={'form_input'} onChange={(e) =>this.onInputChange(e)} name={'end_time'}/>
 						</div>
 					</form>
 
@@ -214,7 +195,39 @@ class ManageRegister extends React.Component {
 			</div>
 		);
 	}
+
+	setUserinfoApi = async () => {
+		try{
+			console.log(this.state.userInfo);
+			let userInfo = JSON.parse(JSON.stringify(this.state.userInfo));
+			console.log(userInfo);
+			const requestOption ={
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Cache-Control': 'no-cache',
+					'Accept': 'application/json',
+					Authorization: `Bearer ${getAuthToken()}`,
+				}
+			};
+			await axios.post("http://13.125.53.84:8080/api/auth/user/signup" ,
+				JSON.stringify(userInfo), requestOption )
+				.then(res =>{
+					const resData = JSON.parse(JSON.stringify(res.data));
+					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
+					console.log(resData);
+					this.openModal();
+				})
+				.catch(ex=>{
+					console.log("login requset fail : " + ex);
+				})
+				.finally(()=>{console.log("login request end")});
+		}catch(e){
+			console.log(e);
+		}
+	}
 }
 
-export default ManageRegister;
+// export default ManageRegister;
+export default withRouter(ManageRegister);
 

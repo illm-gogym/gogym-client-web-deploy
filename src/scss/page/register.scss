@@ -23,6 +23,15 @@
 			}
 		}
 
+		.multi {
+			display: flex;
+			align-items: center;
+
+			.dash {
+				padding: 0 10px;
+			}
+		}
+
 		.form_label {
 			position: absolute;
 			top: 0;

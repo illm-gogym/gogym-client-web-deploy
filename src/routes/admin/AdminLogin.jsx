@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import {Link, NavLink, Redirect} from 'react-router-dom';
 import {Icon} from "../../asset/js/icon";
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, withRouter } from 'react-router-dom';
 
 import {getAuthToken, getAuthTrainerId, getLoginType} from '../../Util/Authentication';
 
@@ -30,53 +30,12 @@ class AdminLogin extends React.Component {
 		});
 	}
 
-	loginApi = async () => {
-		console.log('관리자 로그인');
-		try{
-			let loginInfo = JSON.parse(JSON.stringify(this.state.loginInfo));
-			const requestOption ={
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'Cache-Control': 'no-cache',
-					'Accept': 'application/json'
-				}
-			};
-			console.log(loginInfo);
 
-			await axios.post("http://13.125.53.84:8080/api/authenticate/login/trainer" ,
-				JSON.stringify(loginInfo), requestOption )
-
-				.then(res =>{
-					const accessToken = JSON.parse(JSON.stringify(res.data));
-					console.log(res.data);
-					const myObject = {
-						token : accessToken.token,
-						trainer_id : loginInfo.trainer_id
-					};
-					localStorage.setItem('access-info', JSON.stringify(myObject));
-					// console.log(localStorage.getItem('access-info'));
-					// API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
-					// axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-					// localStorage.setItem('login-id', loginInfo.trainer_id);
-					window.location.reload('/login');
-					window.location.replace('/');
-					// alert('로그인 되었습니다.');
-				})
-				.catch(ex=>{
-					console.log("login requset fail : " + ex);
-					alert('로그인 정보를 확인해주세요.')
-				})
-				.finally(()=>{console.log("login request end")});
-		}catch(e){
-			console.log(e);
-		}
-	}
 
 	render() {
 		const {loginInfo} = this.state;
 		if(getAuthToken()) {
-			return <Redirect replace to="/" />;
+			return <Redirect replace to="/schedule/member" />;
 		}
 		return (
 			<div className={'login_main_wrap'} >
@@ -101,8 +60,54 @@ class AdminLogin extends React.Component {
 				</div>
 
 				<button type={'submit'} className={'btn_login'} onClick={this.loginApi}>로그인</button>
+
+				<NavLink to={'/login/user'} className={'btn_change'}>회원 로그인 가기</NavLink>
 			</div>
 		)
 	}
+
+	loginApi = async () => {
+		console.log('관리자 로그인');
+		try{
+			let loginInfo = JSON.parse(JSON.stringify(this.state.loginInfo));
+			const requestOption ={
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Cache-Control': 'no-cache',
+					'Accept': 'application/json'
+				}
+			};
+
+			await axios.post("http://13.125.53.84:8080/api/authenticate/login/trainer" ,
+				JSON.stringify(loginInfo), requestOption )
+
+				.then(res =>{
+					const accessToken = JSON.parse(JSON.stringify(res.data));
+
+					const myObject = {
+						token : accessToken.token,
+						trainer_id : loginInfo.trainer_id
+					};
+					localStorage.setItem('access-info', JSON.stringify(myObject));
+					// console.log(localStorage.getItem('access-info'));
+					// API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
+					// axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+
+					console.log(localStorage.getItem('access-info'));
+					window.location.replace('/schedule/member');
+					// window.location.reload(false);
+					// this.props.location.href;
+				})
+				.catch(ex=>{
+					console.log("login requset fail : " + ex);
+					alert('로그인 정보를 확인해주세요.')
+				})
+				.finally(()=>{console.log("login request end")});
+		}catch(e){
+			console.log(e);
+		}
+	}
 }
-export default AdminLogin;
+// export default AdminLogin;
+export default withRouter(AdminLogin);
