@@ -3,7 +3,7 @@ import $ from "jquery";
 import {Icon} from "../asset/js/icon";
 import {DayPilot, DayPilotCalendar, DayPilotNavigator} from "@daypilot/daypilot-lite-react";
 import {getAuthToken, getAuthTrainerId} from '../Util/Authentication';
-import {dateFormatResetWithTime, dateFormatReset, dateFormatGetTime} from '../Util/DateFormat';
+import {dateFormatResetWithTime, dateFormatReset, dateFormatGetTime, dateFormatWithTime} from '../Util/DateFormat';
 import axios from "axios";
 
 const palette = [];
@@ -264,12 +264,15 @@ class CalendarWeekday extends React.Component {
 		}
 	}
 
-	setUserReservationUpdateApi = async (value, start, end) => { // 특정 사용자 일정
+	setUserReservationUpdateApi = async (value, start, end) => { // 일정 수정
 		try{
 			const param = JSON.parse(JSON.stringify({
-				...value.reservation,
-				start_time: start,
-				end_time: end,
+				description: value.reservation.description,
+				end_time: dateFormatWithTime(end),
+				reservation_id: value.reservation.reservation_id,
+				start_time: dateFormatWithTime(start),
+				usage_state: -1,
+				user_phone: value.reservation.user_phone,
 			}));
 			console.log(param);
 			const requestOption ={
@@ -286,7 +289,7 @@ class CalendarWeekday extends React.Component {
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
-					this.makeTaskList(resData.data);
+					console.log(resData.data);
 				})
 				.catch(ex=>{
 					console.log("login requset fail : " + ex);

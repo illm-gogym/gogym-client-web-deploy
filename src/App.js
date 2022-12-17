@@ -10,10 +10,10 @@ import ManageClass from "./routes/admin/ManageClass";
 import ManageRegister from "./routes/admin/ManageRegister";
 import ScheduleMember from "./routes/admin/ScheduleMember";
 import ScheduleTrainer from "./routes/admin/ScheduleTrainer";
-import AdminLogin from "./routes/admin/AdminLogin";
+import AdminLogin from "./routes/login/AdminLogin";
 
 import User from "./routes/user/User";
-import UserLogin from "./routes/user/UserLogin";
+import UserLogin from "./routes/login/UserLogin";
 import UserSchedule from "./routes/user/Schedule";
 import Login from "./routes/Login";
 import Navigation from "./components/Navigation";

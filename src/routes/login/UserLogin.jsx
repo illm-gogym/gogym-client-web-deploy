@@ -91,7 +91,7 @@ class UserLogin extends React.Component {
 						user_name : accessToken.user.name,
 					};
 					localStorage.setItem('access-info', JSON.stringify(myObject));
-					// window.location.reload('/user');
+					window.location.replace('/user');
 				})
 				.catch(ex=>{
 					console.log("login requset fail : " + ex);
