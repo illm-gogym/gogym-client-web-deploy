@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "https://illm-gogym.github.io/gogym-client-web-deploy/static/css/main.06f8bf17.css",
-    "main.js": "https://illm-gogym.github.io/gogym-client-web-deploy/static/js/main.3395b385.js",
+    "main.css": "https://illm-gogym.github.io/gogym-client-web-deploy/static/css/main.61921673.css",
+    "main.js": "https://illm-gogym.github.io/gogym-client-web-deploy/static/js/main.001c7019.js",
     "static/js/787.6ced20fd.chunk.js": "https://illm-gogym.github.io/gogym-client-web-deploy/static/js/787.6ced20fd.chunk.js",
     "static/media/logo_small_admin.svg": "https://illm-gogym.github.io/gogym-client-web-deploy/static/media/logo_small_admin.153e4fb3b071c6d714e4ad3f49aff78b.svg",
     "static/media/logo_admin.svg": "https://illm-gogym.github.io/gogym-client-web-deploy/static/media/logo_admin.3febd82cbc3a45853bee9c6c66740b0e.svg",
@@ -27,12 +27,12 @@
     "static/media/ic24-bullet-arrow-left-333.svg": "https://illm-gogym.github.io/gogym-client-web-deploy/static/media/ic24-bullet-arrow-left-333.c1aadbe2fb7595e0b4ab858df3a8e180.svg",
     "static/media/ic24_bullet_arrow_right.svg": "https://illm-gogym.github.io/gogym-client-web-deploy/static/media/ic24_bullet_arrow_right.a518613cbd7c038415ed2051a1ecf778.svg",
     "static/media/ic24-plus.svg": "https://illm-gogym.github.io/gogym-client-web-deploy/static/media/ic24-plus.db0d34d8e0dd012743ce45b215c6a737.svg",
-    "main.06f8bf17.css.map": "https://illm-gogym.github.io/gogym-client-web-deploy/static/css/main.06f8bf17.css.map",
-    "main.3395b385.js.map": "https://illm-gogym.github.io/gogym-client-web-deploy/static/js/main.3395b385.js.map",
+    "main.61921673.css.map": "https://illm-gogym.github.io/gogym-client-web-deploy/static/css/main.61921673.css.map",
+    "main.001c7019.js.map": "https://illm-gogym.github.io/gogym-client-web-deploy/static/js/main.001c7019.js.map",
     "787.6ced20fd.chunk.js.map": "https://illm-gogym.github.io/gogym-client-web-deploy/static/js/787.6ced20fd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.06f8bf17.css",
-    "static/js/main.3395b385.js"
+    "static/css/main.61921673.css",
+    "static/js/main.001c7019.js"
   ]
 }
