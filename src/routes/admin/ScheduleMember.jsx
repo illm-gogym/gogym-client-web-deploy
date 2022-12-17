@@ -1,5 +1,3 @@
-// 미사용 파일!!!
-
 import React from "react";
 import classNames from 'classnames';
 import {NavLink, withRouter, Link, Redirect} from "react-router-dom";
@@ -14,7 +12,7 @@ import {CheckBox} from "../../components/CheckBox";
 import CalenderWeekday from "../../components/CalenderWeekday";
 import {getAuthToken, getAuthTrainerId} from "../../Util/Authentication";
 
-class Schedule extends React.Component {
+class ScheduleMember extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -45,8 +43,6 @@ class Schedule extends React.Component {
 			},
 			selectMember: 'all',
 			selectAllCheck: true,
-			selectTrainerMember: 'all',
-			selectTrainerAllCheck: false,
 			menuOpen: false,
 		};
 	}
@@ -271,12 +267,12 @@ class Schedule extends React.Component {
 		})
 	}
 
-	setPersonalType(type) { // 현재 페이지 trainer? member? 체크
-		this.setState({
-			personalType: type,
-		})
-		this.makeCheckMemberList();
-	}
+	// setPersonalType(type) { // 현재 페이지 trainer? member? 체크
+	// 	this.setState({
+	// 		personalType: type,
+	// 	})
+	// 	this.makeCheckMemberList();
+	// }
 
 	makeSendScheduleList = () => {
 		this.state.addScheduleList.map((value, index) => {
@@ -305,20 +301,11 @@ class Schedule extends React.Component {
 	}
 
 	componentDidMount() {
-		const path = this.props.location.pathname.substring(10);
-		this.setPersonalType(path);
-
-		this.unlisten = this.props.history.listen((location, action) => {
-			const path = location.pathname.substring(10);
-			this.setPersonalType(path);
-
-		});
-
 		this.getTrainerUserAllApi();
 	}
 
 	render() {
-		const {modalOpen, personalType, addScheduleList, memberList, trainerList, selectAllCheck, selectCard, addSchedule, selectCardIndex, menuOpen, selectMember, selectTrainerAllCheck} = this.state;
+		const {modalOpen, addScheduleList, memberList, selectAllCheck, selectCard, addSchedule, selectCardIndex, menuOpen, selectMember} = this.state;
 		const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
 
 		if(!getAuthToken()) {
@@ -333,63 +320,40 @@ class Schedule extends React.Component {
 				<div className={'section'}>
 					<div className={'tab_area'}>
 						<div className={'tab'}>
-							<strong className={'text'}>{personalType === 'member' ? '내 회원' : '트레이너'}</strong>
+							<strong className={'text'}>내 회원</strong>
 							<div className={'menu_area'}>
 								<button className={classNames('btn_menu', {'open': menuOpen})} onClick={this.onMenuOpen}><Icon.ic20BulletArrow/></button>
 								<div className={'ly_menu'}>
-									<NavLink to={'/schedule/trainer'} activeClassName={'active'} className={'menu'} onClick={this.onMenuOpen} >트레이너</NavLink>
 									<NavLink to={'/schedule/member'} activeClassName={'active'} className={'menu'} onClick={this.onMenuOpen}>내 회원</NavLink>
+									<NavLink to={'/schedule/trainer'} activeClassName={'active'} className={'menu'} onClick={this.onMenuOpen} >트레이너</NavLink>
 								</div>
 							</div>
 						</div>
 						<div className={'list_area'}>
 							<div className={'person_list'}>
-								{personalType === 'member' ?
-									<>
-										<li className={'item'}>
-											<input
-												type="checkbox"
-												onClick={this.handleAllChecked}
-												value="checkedall"
-												checked={selectAllCheck}
-												className={'input_check'}
-												id={'checkedall'}
-											/>
-											<label htmlFor="checkedall" className={'input_label'}>전체 보기</label>
-										</li>
-										{memberList.map((value, index) => {
-											return <CheckBox
-												handleCheckChildElement={this.handleCheckChildElement}
-												{...value}
-											/>
-										})}
-									</> :
-									<>
-										<li className={'item'}>
-											<input
-												type="checkbox"
-												onClick={this.handleAllChecked}
-												value="checkedall"
-												checked={selectTrainerAllCheck}
-												className={'input_check'}
-												id={'check_all'}
-											/>
-											<label htmlFor="check_all" className={'input_label'}>전체 보기</label>
-										</li>
-										{trainerList.map((value, index) => {
-											return <CheckBox
-												handleCheckChildElement={this.handleCheckChildElement}
-												{...value}
-											/>
-										})}
-									</>
-								}
+								<li className={'item'}>
+									<input
+										type="checkbox"
+										onClick={this.handleAllChecked}
+										value="checkedall"
+										checked={selectAllCheck}
+										className={'input_check'}
+										id={'checkedall'}
+									/>
+									<label htmlFor="checkedall" className={'input_label'}>전체 보기</label>
+								</li>
+								{memberList.map((value, index) => {
+									return <CheckBox
+										handleCheckChildElement={this.handleCheckChildElement}
+										{...value}
+									/>
+								})}
 							</div>
 						</div>
 					</div>
 
 					<div className={'calender_wrap'}>
-						{personalType === 'member' && <button type={'button'} className={'btn_add'} onClick={(e) => this.onAddSchedule(e)}><Icon.ic16AddSchedule/>일정 추가</button>}
+						 <button type={'button'} className={'btn_add'} onClick={(e) => this.onAddSchedule(e)}><Icon.ic16AddSchedule/>일정 추가</button>
 						<CalenderWeekday selectMember={selectMember}/>
 					</div>
 				</div>
@@ -512,6 +476,6 @@ class Schedule extends React.Component {
 	}
 };
 
-export default withRouter(Schedule);
+export default withRouter(ScheduleMember);
 // export default withParams(Schedule);
 // export default Schedule;

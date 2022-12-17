@@ -25,19 +25,19 @@ class Navigation extends React.Component {
 			},
 			manageList: [
 				{
-					title:'스케줄', icon: <Icon.ic24Schedule/>, router: '/schedule/member', active: true,
+					title:'스케줄', icon: <Icon.ic24Schedule/>, router: '/schedule/member',
 					subMenu: [
-						{title:'내 회원', router: '/schedule/member', active: false, visibility: true},
-						{title:'트레이너', router: '/schedule/trainer', active: false, visibility: true},
+						{title:'내 회원', router: '/schedule/member', visibility: true},
+						{title:'트레이너', router: '/schedule/trainer', visibility: true},
 					]
 				},
 				{
-					title:'회원 관리', icon: <Icon.ic24MemberManage/>, router: '/manage/list', active: false,
+					title:'회원 관리', icon: <Icon.ic24MemberManage/>, router: '/manage',
 					subMenu: [
-						{title:'회원 목록', router: '/manage/list', active: false, visibility: true},
-						{title:'회원 등록', router: '/manage/register', active: false, visibility: true},
-						{title:'수업 목록', router: '/manage/detail', active: false, visibility: false},
-						{title:'수업 상세', router: '/manage/class', active: false, visibility: false},
+						{title:'회원 목록', router: '/manage', visibility: false},
+						{title:'회원 등록', router: '/manage/register', visibility: false},
+						{title:'수업 목록', router: '/manage/detail', visibility: false},
+						{title:'수업 상세', router: '/manage/class', visibility: false},
 					]
 				},
 			],
@@ -45,17 +45,14 @@ class Navigation extends React.Component {
 
 	}
 
-	onLogout() {
+	onLogout = () => {
 		localStorage.clear();
-		window.location.replace('/');
+		window.location.reload(false);
 	}
 
 	render() {
 		const {centerName, userImage, manageList} = this.state;
 
-		if(!getAuthToken()) {
-			return null;
-		}
 		return (
 			<>
 				<div className={'aside'}>

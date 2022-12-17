@@ -30,8 +30,8 @@ class Login extends React.Component {
 					{ <Icon.logoGo/>}
 					{ <Icon.logoGym/>}
 				</div>
-				<NavLink to={'/admin/login'} className={'btn_type'}>관리자 로그인</NavLink>
-				<NavLink to={'/user/login'}  className={'btn_type'}>회원 로그인</NavLink>
+				<NavLink to={'/login/admin'} className={'btn_type'}>관리자 로그인</NavLink>
+				<NavLink to={'/login/user'}  className={'btn_type'}>회원 로그인</NavLink>
 			</div>
 		)
 	}

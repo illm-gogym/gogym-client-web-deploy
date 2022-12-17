@@ -95,7 +95,7 @@ class Schedule extends React.Component {
 	onLogout = () => {
 		this.onLoginMenuOpen();
 		localStorage.clear();
-		window.location.replace('/');
+		window.location.reload(false);
 	}
 
 	render() {
