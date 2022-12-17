@@ -6,10 +6,9 @@ export const CheckBox = props => {
 	return (
 		<li className={'item'}>
 			<input
-				// key={props.id}
 				onClick={(e) => props.handleCheckChildElement(e, props.user_phone)}
 				type="checkbox"
-				checked={props.isChecked}
+				defaultChecked={props.isChecked}
 				value={props.name}
 				className={'input_check'}
 				id={uId}

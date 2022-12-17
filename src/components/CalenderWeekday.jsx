@@ -53,8 +53,12 @@ class CalendarWeekday extends React.Component {
 					this.setChangeHeader();
 					var start = args.newStart.value,
 						end = args.newEnd.value;
-					console.log(start);
-					console.log(end);
+					// console.log(start);
+					// console.log(end);
+
+					// console.log(args.e.id());
+					// console.log(args.e)
+					this.setUserReservationUpdateApi(args.e.data, start, end);
 				},
 				onEventResize : args => {
 					if(!window.confirm("일정을 변경 하시겠습니까?")) {
@@ -69,11 +73,11 @@ class CalendarWeekday extends React.Component {
 					console.log(end);
 				},
 				onEventClicked : args => {
-					console.log(args);
 				}
 			},
 			periodStartDate: '',
-			periodEndDate: ''
+			periodEndDate: '',
+			scheduleList: [],
 		};
 	}
 
@@ -134,20 +138,21 @@ class CalendarWeekday extends React.Component {
 	}
 
 	makeTaskList = (dataList) => { // 일정 목록 배열 -> 캘린더 event용 배열로 커스텀
-		dataList.map((value, index) => {
-				value.id = value.reservation.reservation_id;
+		const eventList = dataList.map((value, index) => {
+				value.id = value.reservation.registration_id;
 				value.text = `${value.user.name}
 				 			(${dateFormatGetTime(value.reservation.start_time)}~${dateFormatGetTime(value.reservation.end_time)})`;
 				value.start = value.reservation.start_time;
 				value.end = value.reservation.end_time;
-				delete value.reservation;
-				delete value.user;
+				// delete value.reservation;
+				// delete value.user;
+				return value;
 			}
 		)
 		this.setState({
 			calenderOption: {
 				...this.state.calenderOption,
-				events: dataList
+				events: eventList
 			}
 		});
 	}
@@ -193,7 +198,7 @@ class CalendarWeekday extends React.Component {
 		);
 	}
 
-	getUserReservationApi = async () => {
+	getUserReservationApi = async () => { // 전제 사용자 일정
 		try{
 			const requestOption ={
 				// params : param,
@@ -208,7 +213,11 @@ class CalendarWeekday extends React.Component {
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken}`;
-					// console.log(resData.data);
+					// console.log(resData);
+
+					this.setState({
+						scheduleList: resData.data,
+					})
 					this.makeTaskList(resData.data);
 				})
 				.catch(ex=>{
@@ -221,7 +230,7 @@ class CalendarWeekday extends React.Component {
 		}
 	}
 
-	getUserNameReservationApi = async (value) => {
+	getUserNameReservationApi = async (value) => { // 특정 사용자 일정
 		console.log('name');
 		try{
 			// console.log(value);
@@ -254,6 +263,41 @@ class CalendarWeekday extends React.Component {
 			console.log(e.response);
 		}
 	}
+
+	setUserReservationUpdateApi = async (value, start, end) => { // 특정 사용자 일정
+		try{
+			const param = JSON.parse(JSON.stringify({
+				...value.reservation,
+				start_time: start,
+				end_time: end,
+			}));
+			console.log(param);
+			const requestOption ={
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Cache-Control': 'no-cache',
+					'Accept': 'application/json',
+					Authorization: `Bearer ${getAuthToken()}`,
+				},
+			};
+			await axios.post("http://13.125.53.84:8080/api/auth/reservation/update",
+				JSON.stringify(param), requestOption )
+				.then(res =>{
+					const resData = JSON.parse(JSON.stringify(res.data));
+					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
+					this.makeTaskList(resData.data);
+				})
+				.catch(ex=>{
+					console.log("login requset fail : " + ex);
+				})
+				.finally(()=>{console.log("login request end")});
+		}catch(e){
+			console.log(e.response);
+		}
+	}
+
+
 }
 
 export default CalendarWeekday;

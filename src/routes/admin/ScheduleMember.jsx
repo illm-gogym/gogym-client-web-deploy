@@ -6,7 +6,7 @@ import uuid from 'react-uuid';
 
 import Navigation from "../../components/Navigation";
 import {Icon} from "../../asset/js/icon";
-import {dateFormatYYYYMMDD, dateFormatWithTime, dateFormatGetMMDD} from '../../Util/DateFormat';
+import {dateFormatYYYYMMDD, dateFormatWithTime, dateFormatGetTime, dateFormatResetWithTime} from '../../Util/DateFormat';
 import Modal from "../../components/Modal";
 import {CheckBox} from "../../components/CheckBox";
 import CalenderWeekday from "../../components/CalenderWeekday";
@@ -33,12 +33,12 @@ class ScheduleMember extends React.Component {
 			],
 			addScheduleList: [],
 			addSchedule: {
-				name: null,
+				name: '',
 				date: dateFormatYYYYMMDD(new Date()),
-				start_time: null,
-				end_time: null,
+				start_time: '',
+				end_time: '',
 				description: '',
-				user_phone: null,
+				user_phone: '',
 				usage_state: -1
 			},
 			selectMember: 'all',
@@ -301,6 +301,10 @@ class ScheduleMember extends React.Component {
 		const {modalOpen, addScheduleList, memberList, selectAllCheck, selectCard, addSchedule, selectCardIndex, menuOpen, selectMember} = this.state;
 		const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
 
+		const modalAddSchedule = () => {
+
+		}
+
 		if(!getAuthToken()) {
 			return <Redirect to="/login/admin" />;
 		}
@@ -329,7 +333,7 @@ class ScheduleMember extends React.Component {
 										type="checkbox"
 										onClick={this.handleAllChecked}
 										value="checkedall"
-										checked={selectAllCheck}
+										defaultChecked={selectAllCheck}
 										className={'input_check'}
 										id={'checkedall'}
 									/>
@@ -339,6 +343,7 @@ class ScheduleMember extends React.Component {
 									return <CheckBox
 										handleCheckChildElement={this.handleCheckChildElement}
 										{...value}
+										key={uuid()}
 									/>
 								})}
 							</div>
@@ -383,10 +388,10 @@ class ScheduleMember extends React.Component {
 						<div className={'plus_input_area'}>
 							<label htmlFor="plus_member">회원</label>
 							{/*<input type="text" id={'plus_member'} className={'input'} onChange={(e) =>this.onInputChange(e)} name={'name'} value={addSchedule.name || ''}/>*/}
-							<select name="" id="plus_member" className={'input'} value={addSchedule.name || '회원선택'} name={'name'} onChange={(e) =>this.onInputChange(e)}>
+							<select name="" id="plus_member" className={'input'} value={addSchedule.name || '회원선택'} name={'name'} onChange={(e) =>this.onInputChange(e)} >
 								<option disabled>회원선택</option>
 								{memberList.map((value, index) =>
-									<option className={'item'} key={uuid()} value={value.name} >
+									<option className={'item'} value={value.name} key={uuid()} >
 										{value.name}
 									</option>
 								)}

@@ -1,18 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import classNames from 'classnames';
+import uuid from 'react-uuid';
 
 import {getAuthToken, getAuthTrainerId} from "../Util/Authentication";
 import {Icon} from "../asset/js/icon";
-
-const activeStyle = {
-	color: "#09D3AC",
-};
-
-const defaultStyle = {
-	textDecoration: "none",
-	color: "black",
-};
 
 class Navigation extends React.Component {
 	constructor(props) {
@@ -91,14 +83,14 @@ class Navigation extends React.Component {
 						</div>
 					</div>
 					<div className={'aside_content'}>
-						<ul className={'menage_list'}>
+						<ul className={'menage_list'} key={uuid()}>
 							{manageList.map((value, index) =>
 								<li key={`manage-${value.router}`} className={'item'}>
 									<div className="navigation">
 										{ value.subMenu &&
 										<>
 											{value.subMenu.map((value, index) =>
-												<NavLink to={value.router} className={classNames('sub_link', {'hidden': !value.visibility})}>
+												<NavLink to={value.router} className={classNames('sub_link', {'hidden': !value.visibility})} key={uuid()}>
 													{value.title}
 												</NavLink>
 											)}

@@ -41,9 +41,9 @@ class App  extends React.Component {
 						<Route path='/login/:path?'>
 							<User>
 								<Switch>
-									<Route path='/login' exact component={Login} />
-									<Route path='/login/user' component={UserLogin} />
+									<Route path='/login' exact component={AdminLogin} />
 									<Route path='/login/admin' component={AdminLogin} />
+									<Route path='/login/user' component={UserLogin} />
 								</Switch>
 							</User>
 						</Route>
@@ -76,6 +76,8 @@ class App  extends React.Component {
 								</Switch>
 							</User>
 						</Route>
+
+						<Route component={Login}/>
 					</Switch>
 				</Router>
 			</div>

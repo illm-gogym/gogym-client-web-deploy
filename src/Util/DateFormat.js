@@ -68,10 +68,10 @@ export function dateFormatResetWithTime(date, splice='-') {
 	return date.getFullYear() + splice + month + splice + day + 'T' + hour + ':' + minute;
 }
 
-export function dateFormatGetTime(date) {
+export function dateFormatGetTime(date, plusHour=0, plusMin=0) {
 	date = new Date(date);
-	let hour = date.getHours();
-	let minute = date.getMinutes();
+	let hour = date.getHours() + plusHour;
+	let minute = date.getMinutes() + plusMin;
 
 	hour = hour >= 10 ? hour : '0' + hour;
 	minute = minute >= 10 ? minute : '0' + minute;
@@ -89,6 +89,7 @@ export function dateFormatGetMMDD(date, splice='-') {
 
 	return month + splice + day;
 }
+
 
 
 // export

@@ -158,7 +158,7 @@ class ScheduleTrainer extends React.Component {
 										type="checkbox"
 										onClick={this.handleAllChecked}
 										value="checkedall"
-										checked={selectAllCheck}
+										defaultChecked={selectAllCheck}
 										className={'input_check'}
 										id={'checkedall'}
 									/>
@@ -168,6 +168,7 @@ class ScheduleTrainer extends React.Component {
 									return <CheckBox
 										handleCheckChildElement={this.handleCheckChildElement}
 										{...value}
+										key={uuid()}
 									/>
 								})}
 							</div>
