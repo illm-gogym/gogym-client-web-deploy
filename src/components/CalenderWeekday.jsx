@@ -6,8 +6,6 @@ import {getAuthToken, getAuthTrainerId} from '../Util/Authentication';
 import {dateFormatResetWithTime, dateFormatReset, dateFormatGetTime, dateFormatWithTime} from '../Util/DateFormat';
 import axios from "axios";
 
-const palette = [];
-
 class CalendarWeekday extends React.Component {
 
 	constructor(props) {

@@ -8,6 +8,8 @@ import Navigation from '../../components/Navigation';
 import {useParams, useLocation, Link, withRouter} from "react-router-dom";
 import axios from "axios";
 import uuid from 'react-uuid';
+import {CheckBox} from "../../components/CheckBox";
+import {RadioButton} from "../../components/RadioButton";
 
 function withParams(Component) {
 	return props => <Component {...props} params={useParams()} location={useLocation()}/>;
@@ -23,6 +25,11 @@ class ManageDetail extends React.Component {
 				name: "",
 				user_phone: "",
 			},
+			scheduleStateList: [
+				{name: '전체', group: 'sort', isChecked: true, user_state: 0},
+				{name: '완료', group: 'sort', isChecked: false, user_state: 1},
+				{name: '예정', group: 'sort', isChecked: false, user_state: -1},
+			],
 			personalList: [],
 			isLoadDate: false,
 		}
@@ -32,42 +39,22 @@ class ManageDetail extends React.Component {
 		this.props.history.goBack();
 	}
 
-	getUserNameReservationApi = async (value) => {
-		try{
-			// console.log(value);
-			const param = JSON.parse(JSON.stringify({
-				user_phone: value
-			}));
-			const requestOption ={
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'Cache-Control': 'no-cache',
-					'Accept': 'application/json',
-					Authorization: `Bearer ${getAuthToken()}`,
-				},
-			};
-			await axios.post("http://13.125.53.84:8080/api/auth/reservation/all/user",
-				JSON.stringify(param), requestOption )
-				.then(res =>{
-					const resData = JSON.parse(JSON.stringify(res.data));
-					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
-					// console.log(resData.data);
-					this.setState({
-						personalList : [
-							...resData.data
-						]
-					})
-				})
-				.catch(ex=>{
-					console.log("login requset fail : " + ex);
-					// console.log(ex.response.status);
-				})
-				.finally(()=>{console.log("login request end")});
-		}catch(e){
-			console.log(e.response);
+	handleCheckChildElement = (event, value) => { // 라이도버튼 개별제어
+		let scheduleStateList = this.state.scheduleStateList;
+		scheduleStateList.forEach(status => {
+			if (status.name === value)
+				status.isChecked = true;
+			else
+				status.isChecked = false;
+		});
+		this.setState({
+			scheduleStateList: scheduleStateList,
+		});
+
+		if(event.target.checked) {
+
 		}
-	}
+	};
 
 	componentDidUpdate(prevProps, prevState) {
 		if (this.state.personalList.length !== prevState.personalList.length) {
@@ -88,7 +75,7 @@ class ManageDetail extends React.Component {
 	}
 
 	render() {
-		const { personal, personalList, isLoadDate } = this.state;
+		const { personal, personalList, isLoadDate, scheduleStateList } = this.state;
 
 		const getPersonalList = personalList.map((value, index) =>
 			<li className={'item'} key={uuid()}>
@@ -132,18 +119,13 @@ class ManageDetail extends React.Component {
 							</div>
 
 							<ul className={'sort_list'}>
-								<li className={'item'}>
-									<input id={'sort_all'} type="radio" name={'sort'} />
-									<label htmlFor="sort_all">전체</label>
-								</li>
-								<li className={'item'}>
-									<input id={'sort_planned'} type="radio" name={'sort'}/>
-									<label htmlFor="sort_planned">예정</label>
-								</li>
-								<li className={'item'}>
-									<input id={'sort_finish'} type="radio" name={'sort'}/>
-									<label htmlFor="sort_finish">완료</label>
-								</li>
+								{scheduleStateList.map((value, index) => {
+									return <RadioButton
+										handleCheckChildElement={this.handleCheckChildElement}
+										{...value}
+										key={uuid()}
+									/>
+								})}
 							</ul>
 						</div>
 
@@ -156,6 +138,43 @@ class ManageDetail extends React.Component {
 				</div>
 			</div>
 		);
+	}
+
+	getUserNameReservationApi = async (value) => {
+		try{
+			// console.log(value);
+			const param = JSON.parse(JSON.stringify({
+				user_phone: value
+			}));
+			const requestOption ={
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Cache-Control': 'no-cache',
+					'Accept': 'application/json',
+					Authorization: `Bearer ${getAuthToken()}`,
+				},
+			};
+			await axios.post("http://13.125.53.84:8080/api/auth/reservation/all",
+				JSON.stringify(param), requestOption )
+				.then(res =>{
+					const resData = JSON.parse(JSON.stringify(res.data));
+					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
+					// console.log(resData.data);
+					this.setState({
+						personalList : [
+							...resData.data
+						]
+					})
+				})
+				.catch(ex=>{
+					console.log("login requset fail : " + ex);
+					// console.log(ex.response.status);
+				})
+				.finally(()=>{console.log("login request end")});
+		}catch(e){
+			console.log(e.response);
+		}
 	}
 }
 

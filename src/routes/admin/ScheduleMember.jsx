@@ -21,9 +21,6 @@ class ScheduleMember extends React.Component {
 			modalOpen: false,
 			selectCard: false,
 			selectCardIndex: -1,
-			trainerList: [
-				{name: getAuthTrainerId(), isChecked: true, user_phone: '01011112222'},
-			],
 			memberList: [],
 			originTaskList: [
 				// {'date': '2022. 11. 21 09:00', 'name': '한예슬'},
@@ -83,7 +80,7 @@ class ScheduleMember extends React.Component {
 			const time = e.target.value;
 			let now = new Date();
 			let date = new Date(`${now.getFullYear()} ${now.getMonth()} ${now.getDate()} ${time}`);
-			let endTime = `${date.getHours() < 10? `0${date.getHours() + 1}`: date.getHours() + 1}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`;
+			let endTime = `${date.getHours() + 1 < 10? `0${date.getHours() + 1}`: date.getHours() + 1}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`;
 			console.log(endTime);
 
 			this.setState({
@@ -446,7 +443,6 @@ class ScheduleMember extends React.Component {
 			this.makeSendScheduleList();
 			const obj = { reservations : this.state.addScheduleList };
 			const scheduleList = JSON.parse(JSON.stringify(obj));
-			console.log(scheduleList);
 			const requestOption ={
 				method: 'POST',
 				headers: {
@@ -462,6 +458,8 @@ class ScheduleMember extends React.Component {
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
 					// console.log(resData);
+					window.location.replace('/schedule/member');
+					window.location.reload(false);
 				})
 				.catch(ex=>{
 					console.log("login requset fail : " + ex);

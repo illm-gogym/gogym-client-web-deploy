@@ -18,7 +18,7 @@ class ScheduleTrainer extends React.Component {
 
 		this.state = {
 			memberList: [
-				{name: getAuthTrainerId(), isChecked: true, user_phone: '01011112222'},
+				// {name: getAuthTrainerId(), isChecked: true, user_phone: '01011112222'},
 			],
 			taskList: [
 				// {'date': '2022. 11. 21 09:00', 'name': '한예슬'},
@@ -82,34 +82,14 @@ class ScheduleTrainer extends React.Component {
 
 	makeCheckMemberList = () => { // checkbox 컴포넌트 제어 isChecked 추가
 		const list = this.state.memberList.map((value, index) => {
-				value.isChecked = true;
-				return value;});
+			value.isChecked = value.trainer_id === getAuthTrainerId() ? true : false;
+			return value;});
 
 		this.setState({
 			memberList : list
 		})
 	}
 
-	// setPersonalType(type) { // 현재 페이지 trainer? member? 체크
-	// 	this.setState({
-	// 		personalType: type,
-	// 	})
-	// 	this.makeCheckMemberList();
-	// }
-
-	makeSendScheduleList = () => {
-		this.state.addScheduleList.map((value, index) => {
-				let startDate = new Date(`${value.date} ${value.start_time}`);
-				let endDate= new Date(`${value.date} ${value.end_time}`);
-				value.start_time = dateFormatWithTime(startDate);
-				value.end_time = dateFormatWithTime(endDate);
-				value.user_phone = this.getUserPhone(value.name);
-				value.usage_state = '-1';
-				delete value.date;
-				delete value.name;
-			}
-		)
-	}
 
 	onMenuOpen = () => {
 		this.setState({
@@ -124,6 +104,7 @@ class ScheduleTrainer extends React.Component {
 	}
 
 	componentDidMount() {
+		this.getTrainerListApi();
 	}
 
 	render() {
@@ -182,6 +163,67 @@ class ScheduleTrainer extends React.Component {
 				</div>
 			</div>
 		);
+	}
+
+	getTrainerListApi = async () => {
+		try{
+			const requestOption ={
+				headers: {
+					'Content-Type': 'application/json',
+					'Cache-Control': 'no-cache',
+					'Accept': 'application/json',
+					Authorization: `Bearer ${getAuthToken()}`,
+				},
+			};
+			const result = await axios.get("http://13.125.53.84:8080/api/auth/trainer/all", requestOption )
+				.then(res =>{
+					const resData = JSON.parse(JSON.stringify(res.data));
+					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
+					this.setState({
+						memberList : [
+							...resData.data
+						]
+					});
+					console.log(resData.data);
+				})
+				.catch(ex=>{
+					console.log("login requset fail : " + ex);
+				})
+				.finally(()=>{console.log("login request end")});
+			return result;
+		}catch(e){
+			console.log(e);
+		}
+	}
+
+	getOtherTrainerReservationApi = async () => {
+		try{
+			const obj = { reservations : this.state.addScheduleList };
+			const scheduleList = JSON.parse(JSON.stringify(obj));
+			console.log(scheduleList);
+			const requestOption ={
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Cache-Control': 'no-cache',
+					'Accept': 'application/json',
+					Authorization: `Bearer ${getAuthToken()}`,
+				}
+			};
+			await axios.post("http://13.125.53.84:8080/api/auth/reservation/add" ,
+				JSON.stringify(scheduleList), requestOption )
+				.then(res =>{
+					const resData = JSON.parse(JSON.stringify(res.data));
+					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
+					// console.log(resData);
+				})
+				.catch(ex=>{
+					console.log("login requset fail : " + ex);
+				})
+				.finally(()=>{console.log("login request end")});
+		}catch(e){
+			console.log(e);
+		}
 	}
 };
 
