@@ -38,7 +38,7 @@ class ScheduleMember extends React.Component {
 				user_phone: '',
 				usage_state: -1
 			},
-			selectMember: 'all',
+			selectMember: [],
 			selectAllCheck: true,
 			menuOpen: false,
 		};
@@ -210,15 +210,16 @@ class ScheduleMember extends React.Component {
 			memberList: memberList
 		});
 
-		if(event.target.checked) {
-			this.setState({
-				selectMember: false,
-			});
-		} else {
-			this.setState({
-				selectMember: 'none',
-			});
-		}
+		this.onSelectMember();
+		// if(event.target.checked) {
+		// 	this.setState({
+		// 		selectMember: false,
+		// 	});
+		// } else {
+		// 	this.setState({
+		// 		selectMember: 'none',
+		// 	});
+		// }
 	};
 
 	handleCheckChildElement = (event, value) => { // 체크박스 개별제어
@@ -229,28 +230,27 @@ class ScheduleMember extends React.Component {
 		});
 		this.setState({
 			memberList: memberList,
-			selectAllCheck: false,
 		});
 
-		if(event.target.checked) {
-			this.onSelectMember(value);
-		} else {
-
-		}
+		this.onSelectMember(value);
 	};
 
-	onSelectMember = (value) => {
+	onSelectMember = () => {
 		let memberList = this.state.memberList;
+		let selectList = [];
+		let selectCheckAll = true;
 		memberList.forEach(members => {
-			if (members.user_phone === value)
-				members.isChecked = true;
-			else
-				members.isChecked = false;
+			if (members.isChecked === true) {
+				selectList.push(members.user_phone);
+			} else {
+				selectCheckAll = false
+			}
 		});
+		console.log(selectCheckAll);
 		this.setState({
-			selectMember: value,
+			selectMember: selectList,
 			memberList: memberList,
-			selectAllCheck: false,
+			selectAllCheck: selectCheckAll,
 		});
 	}
 

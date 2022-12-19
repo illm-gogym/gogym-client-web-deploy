@@ -75,7 +75,7 @@
 		.input_check {
 			@include blind;
 
-			&:checked ~ .input_label {
+			&[checked] ~ .input_label {
 				//background-color: red;
 
 				&::before {
