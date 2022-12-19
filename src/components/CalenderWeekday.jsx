@@ -203,7 +203,7 @@ class CalendarWeekday extends React.Component {
 			let now = new Date();
 			let date = new Date(`${now.getFullYear()} ${now.getMonth()} ${now.getDate()} ${time}`);
 			let endTime = `${date.getHours() + 1 < 10? `0${date.getHours() + 1}`: date.getHours() + 1}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`;
-			console.log(endTime);
+
 
 			this.setState({
 				addSchedule : {
@@ -277,7 +277,7 @@ class CalendarWeekday extends React.Component {
 		}
 	}
 
-	componentDidUpdate(prevProps) {
+	componentDidUpdate(prevProps, prevState) {
 		this.setChangeHeader();
 
 		if(this.props.selectMember !== prevProps.selectMember && this.props.selectMember.length !== prevProps.selectMember.length) {
@@ -296,6 +296,7 @@ class CalendarWeekday extends React.Component {
 		else {
 			this.getTrainerReservationApi(this.props.selectMember);
 		}
+
 	}
 
 	render() {

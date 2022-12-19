@@ -5,11 +5,17 @@ const Modal = (props) => {
 	// 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
 	const { open, close, header, submit, hasFooter } = props;
 
+	const onDimmedClick = (e) => {
+		if(e.target.className.indexOf('openModal') === 0) {
+			close();
+		}
+	}
+
 	return (
 		// 모달이 열릴때 openModal 클래스가 생성된다.
 		<>
 			{open ? (
-				<div className={open ? 'openModal modal' : 'modal'}>
+				<div className={open ? 'openModal modal' : 'modal'} onClick={e => onDimmedClick(e)}>
 					<section className={'modal_section'}>
 						<header className={'header'}>
 							{header}
