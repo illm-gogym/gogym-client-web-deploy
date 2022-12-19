@@ -375,6 +375,10 @@
 
 			select {
 				@include apperanceNone;
+
+				&:disabled {
+					background-color: #E1E1E1;
+				}
 			}
 			input {
 				height: 36px;
@@ -405,6 +409,18 @@
 			border-radius: 2px;
 			border: 1px solid #25AAF5;
 			color: #25AAF5;
+		}
+
+		.sub_footer {
+			.btn_default {
+				width: 160px;
+				flex: 0 0 auto;
+				margin-right: 8px;
+			}
+
+			.btn_point {
+
+			}
 		}
 	}
 }

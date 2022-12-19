@@ -3,8 +3,16 @@ import $ from "jquery";
 import {Icon} from "../asset/js/icon";
 import {DayPilot, DayPilotCalendar, DayPilotNavigator} from "@daypilot/daypilot-lite-react";
 import {getAuthToken, getAuthTrainerId} from '../Util/Authentication';
-import {dateFormatResetWithTime, dateFormatReset, dateFormatGetTime, dateFormatWithTime} from '../Util/DateFormat';
+import {
+	dateFormatResetWithTime,
+	dateFormatReset,
+	dateFormatGetTime,
+	dateFormatWithTime,
+	dateFormatYYYYMMDD
+} from '../Util/DateFormat';
 import axios from "axios";
+import uuid from "react-uuid";
+import Modal from "./Modal";
 
 class CalendarWeekday extends React.Component {
 
@@ -71,11 +79,25 @@ class CalendarWeekday extends React.Component {
 					console.log(end);
 				},
 				onEventClicked : args => {
+					const data = args.e.data;
+					const start = data.start.value,
+						end = data.end.value;
+					this.onModifySchedule(data, start, end);
 				}
 			},
 			periodStartDate: '',
 			periodEndDate: '',
 			scheduleList: [],
+			modifyModalOpen: false,
+			addSchedule: {
+				name: '',
+				date: dateFormatYYYYMMDD(new Date()),
+				start_time: '',
+				end_time: '',
+				description: '',
+				user_phone: '',
+				usage_state: -1
+			},
 		};
 	}
 
@@ -163,6 +185,84 @@ class CalendarWeekday extends React.Component {
 		}
 	}
 
+	onInputChange = (e) => {
+		var target = e.target;
+
+		if(target.name === 'start_time') {
+			const time = e.target.value;
+			let now = new Date();
+			let date = new Date(`${now.getFullYear()} ${now.getMonth()} ${now.getDate()} ${time}`);
+			let endTime = `${date.getHours() + 1 < 10? `0${date.getHours() + 1}`: date.getHours() + 1}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`;
+			console.log(endTime);
+
+			this.setState({
+				addSchedule : {
+					...this.state.addSchedule,
+					[target.name]: target.value,
+					end_time: endTime,
+				}
+			})
+		} else if (target.name === 'name') {
+			const phone = this.getUserPhone(target.value);
+			this.setState({
+				addSchedule : {
+					...this.state.addSchedule,
+					[target.name]: target.value,
+					user_phone: phone,
+				}
+			})
+		} else {
+			this.setState({
+				addSchedule : {
+					...this.state.addSchedule,
+					[target.name]: target.value,
+				}
+			})
+		}
+	}
+
+	openModifyModal = () => {
+		this.setState({
+			modifyModalOpen: true,
+		});
+	};
+
+	closeModifyModal = () => {
+		this.setState({
+			modifyModalOpen: false,
+		});
+	};
+
+	onModifySchedule = (value, start, end) => {
+		console.log(value);
+		this.setState({
+			addSchedule: {
+				name: value.user.name,
+				date: dateFormatYYYYMMDD(value.start),
+				start_time: dateFormatGetTime(start),
+				end_time: dateFormatGetTime(end),
+				description: value.reservation.description,
+				user_phone: value.reservation.user_phone,
+				usage_state:  value.reservation.usage_state,
+				reservation: value.reservation,
+			},
+		});
+		this.openModifyModal();
+	}
+
+	onSubmit = () => {
+		const start = dateFormatWithTime(new Date(`${this.state.addSchedule.date} ${this.state.addSchedule.start_time}`)),
+			end = dateFormatWithTime(new Date(`${this.state.addSchedule.date} ${this.state.addSchedule.end_time}`));
+		this.setUserReservationUpdateApi(this.state.addSchedule, start, end);
+
+		window.location.reload(false);
+		window.location.replace('/schedule/member');
+	}
+
+	onDelete = () => {
+		console.log('delete');
+	}
+
 	componentDidUpdate(prevProps) {
 		this.setChangeHeader();
 
@@ -181,6 +281,7 @@ class CalendarWeekday extends React.Component {
 	}
 
 	render() {
+		const {modifyModalOpen, addSchedule} = this.state;
 		return (
 			<div className={'calender_weekday_wrap'}>
 				<div className={'period_header'}>
@@ -192,6 +293,34 @@ class CalendarWeekday extends React.Component {
 					{...this.state.calenderOption}
 					ref={this.calendarRef}
 				/>
+
+				<Modal open={modifyModalOpen} close={this.closeModifyModal} header="일정 수정하기" hasFooter={false}>
+					<div className={'schedule_add_area'}>
+						<div className={'plus_input_area'}>
+							<label htmlFor="plus_date">날짜</label> <input type="date" id={'plus_date'} onChange={(e) =>this.onInputChange(e)} className={'input'} name={'date'} value={addSchedule.date || ''}/>
+						</div>
+						<div className={'plus_input_area'}>
+							<label htmlFor="plus_start_time">시간</label>
+							<input type="time" id={'plus_start_time'} className={'input'} onChange={(e) =>this.onInputChange(e)} name={'start_time'} value={addSchedule.start_time || ''}/>
+							<span className={'dash'}>-</span>
+							<input type="time" id={'plus_end_time'} className={'input'} onChange={(e) =>this.onInputChange(e)} name={'end_time'} value={addSchedule.end_time || ''}/>
+						</div>
+						<div className={'plus_input_area'}>
+							<label htmlFor="plus_member">회원</label>
+							{/*<input type="text" id={'plus_member'} className={'input'} onChange={(e) =>this.onInputChange(e)} name={'name'} value={addSchedule.name || ''}/>*/}
+							<select name="" id="plus_member" className={'input'} value={addSchedule.name || '회원선택'} name={'name'} disabled={true} >
+								<option>{addSchedule.name}</option>
+							</select>
+						</div>
+						<div className={'plus_input_area'}>
+							<label htmlFor="plus_description">설명</label> <textarea id={'plus_description'} className={'input'} rows={'4'} onChange={(e) =>this.onInputChange(e)} name={'description'} value={addSchedule.description || ''}/>
+						</div>
+						<div className={'sub_footer'}>
+							<button className={'btn_default'} type={'button'} onClick={this.onDelete}>삭제하기</button>
+							<button className={'btn_point'} type={'button'} onClick={this.onSubmit} >수정하기</button>
+						</div>
+					</div>
+				</Modal>
 			</div>
 		);
 	}
@@ -263,16 +392,17 @@ class CalendarWeekday extends React.Component {
 	}
 
 	setUserReservationUpdateApi = async (value, start, end) => { // 일정 수정
+		console.log(value);
+		const param = JSON.parse(JSON.stringify({
+			description: value.reservation.description,
+			end_time: dateFormatWithTime(end),
+			reservation_id: value.reservation.reservation_id,
+			start_time: dateFormatWithTime(start),
+			usage_state: value.reservation.usage_state,
+			user_phone: value.reservation.user_phone,
+		}));
+		console.log(param);
 		try{
-			const param = JSON.parse(JSON.stringify({
-				description: value.reservation.description,
-				end_time: dateFormatWithTime(end),
-				reservation_id: value.reservation.reservation_id,
-				start_time: dateFormatWithTime(start),
-				usage_state: -1,
-				user_phone: value.reservation.user_phone,
-			}));
-			console.log(param);
 			const requestOption ={
 				method: 'POST',
 				headers: {

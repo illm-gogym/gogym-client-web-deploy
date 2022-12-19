@@ -295,7 +295,7 @@ class ScheduleMember extends React.Component {
 	}
 
 	render() {
-		const {modalOpen, addScheduleList, memberList, selectAllCheck, selectCard, addSchedule, selectCardIndex, menuOpen, selectMember} = this.state;
+		const {modalOpen, addScheduleList, memberList, selectAllCheck, selectCard, addSchedule, selectCardIndex, menuOpen, menuModifyOpen, selectMember} = this.state;
 		const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
 
 		const modalAddSchedule = () => {
@@ -403,7 +403,6 @@ class ScheduleMember extends React.Component {
 						}
 					</div>
 				</Modal>
-
 			</div>
 		);
 	}

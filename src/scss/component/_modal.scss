@@ -51,4 +51,32 @@
 			color: #fff;
 		}
 	}
+
+	.sub_footer {
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+
+		margin-top: 20px;
+		padding: 8px 0;
+		box-sizing: border-box;
+
+		.btn_default {
+			flex: 1 1 auto;
+			height: 44px;
+			border: 1px solid #d9d9d9;
+			color: #333;
+		}
+
+		.btn_point {
+			flex: 1 1 auto;
+			height: 44px;
+			background-color: #25AAF5;
+			color: #fff;
+
+			&:disabled {
+				background-color: #d9d9d9;
+			}
+		}
+	}
 }
