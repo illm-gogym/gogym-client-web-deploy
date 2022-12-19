@@ -32,6 +32,7 @@ class ManageDetail extends React.Component {
 			],
 			personalList: [],
 			isLoadDate: false,
+			selectState: 0,
 		}
 	}
 
@@ -40,6 +41,13 @@ class ManageDetail extends React.Component {
 	}
 
 	handleCheckChildElement = (event, value) => { // 라이도버튼 개별제어
+		// const state = ['전체', '완료', '예정'];
+		const state = {
+			'전체': 0,
+			"예정": -1,
+			"완료" : 1
+		};
+
 		let scheduleStateList = this.state.scheduleStateList;
 		scheduleStateList.forEach(status => {
 			if (status.name === value)
@@ -47,12 +55,13 @@ class ManageDetail extends React.Component {
 			else
 				status.isChecked = false;
 		});
+
 		this.setState({
 			scheduleStateList: scheduleStateList,
+			selectState: state[value],
 		});
 
 		if(event.target.checked) {
-
 		}
 	};
 
@@ -68,17 +77,18 @@ class ManageDetail extends React.Component {
 		const { match, location, history } = this.props;
 
 		const personal = this.props.location.state;
+		console.log(personal);
 		this.setState({
 			personal: personal,
 		});
-		this.getUserNameReservationApi(personal.user_phone);
+		this.getUserNameReservationApi([personal.user_phone]);
 	}
 
 	render() {
-		const { personal, personalList, isLoadDate, scheduleStateList } = this.state;
+		const { personal, personalList, isLoadDate, scheduleStateList, selectState } = this.state;
 
 		const getPersonalList = personalList.map((value, index) =>
-			<li className={'item'} key={uuid()}>
+			(value.reservation.usage_state === selectState || selectState === 0) && <li className={'item'} key={uuid()}>
 				<span className={classNames('index')}>
 					{personalList.length - index}
 				</span>
@@ -142,7 +152,6 @@ class ManageDetail extends React.Component {
 
 	getUserNameReservationApi = async (value) => {
 		try{
-			// console.log(value);
 			const param = JSON.parse(JSON.stringify({
 				user_phone: value
 			}));
@@ -155,17 +164,17 @@ class ManageDetail extends React.Component {
 					Authorization: `Bearer ${getAuthToken()}`,
 				},
 			};
-			await axios.post("http://13.125.53.84:8080/api/auth/reservation/all",
+			await axios.post("http://13.125.53.84:8080/api/auth/reservation/all/user",
 				JSON.stringify(param), requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
-					// console.log(resData.data);
 					this.setState({
 						personalList : [
 							...resData.data
 						]
 					})
+					console.log(resData.data)
 				})
 				.catch(ex=>{
 					console.log("login requset fail : " + ex);

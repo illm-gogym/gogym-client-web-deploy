@@ -179,11 +179,7 @@ class CalendarWeekday extends React.Component {
 
 	setChangeReservation = (value) => {
 		if(this.props.role !== 'admin') {
-			if(!value) {
-				this.getUserReservationApi();
-			} else {
-				this.getUserNameReservationApi(value);
-			}
+			this.getUserNameReservationApi(value);
 		}  else {
 			this.getTrainerReservationApi(value);
 		}
@@ -278,12 +274,12 @@ class CalendarWeekday extends React.Component {
 	}
 
 	componentDidMount() {
-		// console.log(this.props.selectMember);
+		console.log(this.props.selectMember);
 		this.setChangeHeader();
 		this.setInitPeriod();
 
 		if(this.props.role !== 'admin')
-			this.getUserReservationApi();
+			this.getUserNameReservationApi(this.props.selectMember);
 		else {
 			this.getTrainerReservationApi(this.props.selectMember);
 		}
@@ -334,37 +330,8 @@ class CalendarWeekday extends React.Component {
 		);
 	}
 
-	getUserReservationApi = async () => { // 전제 사용자 일정
-		try{
-			const requestOption ={
-				// params : param,
-				headers: {
-					'Content-Type': 'application/json',
-					'Cache-Control': 'no-cache',
-					'Accept': 'application/json',
-					Authorization: `Bearer ${getAuthToken()}`,
-				},
-			};
-			await axios.get("http://13.125.53.84:8080/api/auth/reservation/all", requestOption )
-				.then(res =>{
-					const resData = JSON.parse(JSON.stringify(res.data));
-					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken}`;
-					this.setState({
-						scheduleList: resData.data,
-					})
-					this.makeTaskList(resData.data);
-				})
-				.catch(ex=>{
-					console.log("login requset fail : " + ex);
-					// console.log(ex.response.status);
-				})
-				.finally(()=>{console.log("login request end")});
-		}catch(e){
-			console.log(e.response);
-		}
-	}
-
-	getUserNameReservationApi = async (value) => { // 특정 사용자 일정
+	// 특정 사용자 일정
+	getUserNameReservationApi = async (value) => {
 		try{
 			const param = JSON.parse(JSON.stringify({
 				user_phone: value
@@ -397,7 +364,8 @@ class CalendarWeekday extends React.Component {
 		}
 	}
 
-	setUserReservationUpdateApi = async (value, start, end) => { // 일정 수정
+	// 회원 일정 수정
+	setUserReservationUpdateApi = async (value, start, end) => {
 		console.log(value);
 		const param = JSON.parse(JSON.stringify({
 			description: value.reservation.description,
@@ -434,7 +402,8 @@ class CalendarWeekday extends React.Component {
 		}
 	}
 
-	getTrainerReservationApi = async (value) => { // 특정 트레이너 일정
+	// 특정 트레이너 일정
+	getTrainerReservationApi = async (value) => {
 		try{
 			console.log(value);
 			const param = JSON.parse(JSON.stringify({

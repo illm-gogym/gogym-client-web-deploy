@@ -236,6 +236,16 @@ class ScheduleMember extends React.Component {
 		this.onSelectMember();
 	};
 
+	initUser = (list) => {
+		let selectList = [];
+		list.forEach(members => {
+			selectList.push(members.user_phone);
+		});
+		this.setState({
+			selectMember: selectList,
+		});
+	}
+
 	onSelectMember = () => {
 		let memberList = this.state.memberList;
 		let selectList = [];
@@ -426,6 +436,7 @@ class ScheduleMember extends React.Component {
 							...resData.data
 						]
 					});
+					this.initUser(resData.data);
 				})
 				.catch(ex=>{
 					console.log("login requset fail : " + ex);
