@@ -48,7 +48,8 @@ class CalendarWeekday extends React.Component {
 					// args.data.html= `<div>ttt</div>`
 				},
 				onTimeRangeSelected : args => {
-					console.log(args);
+					// console.log(args);
+					this.props.onAddSchedule('', args);
 					// this.calendar.message("Selected range: " + args.start.toString("hh:mm tt") + " - " + args.end.toString("hh:mm tt"));
 				},
 				afterRender : args => {

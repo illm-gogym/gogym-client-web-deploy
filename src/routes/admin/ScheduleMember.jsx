@@ -58,7 +58,20 @@ class ScheduleMember extends React.Component {
 		});
 	};
 
-	onAddSchedule = (e) => {
+	onAddSchedule = (e, calenderData = {}) => {
+		if(calenderData) {
+			let startTime = new Date(calenderData.start.value);
+			let endTime = `${startTime.getHours() + 1 < 10? `0${startTime.getHours() + 1}`: startTime.getHours() + 1}:${startTime.getMinutes() < 10 ? `0${startTime.getMinutes()}` : startTime.getMinutes()}`;
+			this.setState({
+				addSchedule : {
+					...this.state.addSchedule,
+					date: dateFormatYYYYMMDD(startTime),
+					start_time: dateFormatGetTime(startTime),
+					end_time: endTime,
+				}
+			})
+		}
+
 		this.openModal();
 	}
 
@@ -371,7 +384,7 @@ class ScheduleMember extends React.Component {
 
 					<div className={'calender_wrap'}>
 						 <button type={'button'} className={'btn_add'} onClick={(e) => this.onAddSchedule(e)}><Icon.ic16AddSchedule/>일정 추가</button>
-						<CalenderWeekday selectMember={selectMember}/>
+						<CalenderWeekday selectMember={selectMember} onAddSchedule={this.onAddSchedule}/>
 					</div>
 				</div>
 
