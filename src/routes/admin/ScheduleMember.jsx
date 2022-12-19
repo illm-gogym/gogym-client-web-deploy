@@ -223,16 +223,17 @@ class ScheduleMember extends React.Component {
 	};
 
 	handleCheckChildElement = (event, value) => { // 체크박스 개별제어
+		console.log(value);
 		let memberList = this.state.memberList;
 		memberList.forEach(members => {
-			if (members.user_phone === value)
+			if (members.user_phone === value.user_phone)
 				members.isChecked = event.target.checked;
 		});
 		this.setState({
 			memberList: memberList,
 		});
 
-		this.onSelectMember(value);
+		this.onSelectMember();
 	};
 
 	onSelectMember = () => {
@@ -246,7 +247,6 @@ class ScheduleMember extends React.Component {
 				selectCheckAll = false
 			}
 		});
-		console.log(selectCheckAll);
 		this.setState({
 			selectMember: selectList,
 			memberList: memberList,

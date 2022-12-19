@@ -6,7 +6,7 @@ import uuid from 'react-uuid';
 
 import Navigation from "../../components/Navigation";
 import {Icon} from "../../asset/js/icon";
-import {dateFormatYYYYMMDD, dateFormatWithTime, dateFormatGetMMDD} from '../../Util/DateFormat';
+import {dateFormatYYYYMMDD, dateFormatWithTime, dateFormatGetTime, dateFormatResetWithTime} from '../../Util/DateFormat';
 import Modal from "../../components/Modal";
 import {CheckBox} from "../../components/CheckBox";
 import CalenderWeekday from "../../components/CalenderWeekday";
@@ -17,14 +17,28 @@ class ScheduleTrainer extends React.Component {
 		super(props);
 
 		this.state = {
-			memberList: [
-				// {name: getAuthTrainerId(), isChecked: true, user_phone: '01011112222'},
+			personalType: 'member',
+			modalOpen: false,
+			memberList: [],
+			originTaskList: [
+				// {'date': '2022. 11. 21 09:00', 'name': '한예슬'},
 			],
 			taskList: [
 				// {'date': '2022. 11. 21 09:00', 'name': '한예슬'},
 			],
-			selectMember: 'all',
+			addScheduleList: [],
+			addSchedule: {
+				name: '',
+				date: dateFormatYYYYMMDD(new Date()),
+				start_time: '',
+				end_time: '',
+				description: '',
+				user_phone: '',
+				usage_state: -1
+			},
+			selectMember: [],
 			selectAllCheck: false,
+			menuOpen: false,
 		};
 	}
 
@@ -36,60 +50,66 @@ class ScheduleTrainer extends React.Component {
 			memberList: memberList
 		});
 
-		if(event.target.checked) {
-			this.setState({
-				selectMember: false,
-			});
-		} else {
-			this.setState({
-				selectMember: 'none',
-			});
-		}
+		this.onSelectMember();
 	};
 
 	handleCheckChildElement = (event, value) => { // 체크박스 개별제어
 		let memberList = this.state.memberList;
 		memberList.forEach(members => {
-			if (members.user_phone === value)
+			if (members.trainer_id === value.trainer_id)
 				members.isChecked = event.target.checked;
 		});
 		this.setState({
 			memberList: memberList,
-			selectAllCheck: false,
 		});
 
-		if(event.target.checked) {
-			this.onSelectMember(value);
-		} else {
-
-		}
+		this.onSelectMember(value);
 	};
 
-	onSelectMember = (value) => {
-		let memberList = this.state.memberList;
-		memberList.forEach(members => {
-			if (members.user_phone === value)
-				members.isChecked = true;
-			else
-				members.isChecked = false;
+	initTrainerMine = (list) => {
+		let selectList = [];
+		list.forEach(members => {
+			if (members.trainer_id === getAuthTrainerId()) {
+				selectList.push(members.trainer_id);
+			}
 		});
 		this.setState({
-			selectMember: value,
+			selectMember: selectList,
+		});
+	}
+
+	onSelectMember = () => {
+		let memberList = this.state.memberList;
+		let selectList = [];
+		let selectCheckAll = true;
+		memberList.forEach(members => {
+			if (members.isChecked === true) {
+				selectList.push(members.trainer_id);
+			} else {
+				selectCheckAll = false
+			}
+		});
+		console.log(memberList);
+		this.setState({
+			selectMember: selectList,
 			memberList: memberList,
-			selectAllCheck: false,
+			selectAllCheck: selectCheckAll,
 		});
 	}
 
 	makeCheckMemberList = () => { // checkbox 컴포넌트 제어 isChecked 추가
-		const list = this.state.memberList.map((value, index) => {
-			value.isChecked = value.trainer_id === getAuthTrainerId() ? true : false;
-			return value;});
+		const list = this.state.memberList.map((members, index) => {
+			if(members.trainer_id === getAuthTrainerId())
+				members.isChecked = true;
+			else
+				members.isChecked = false;
+			return members;
+		});
 
 		this.setState({
 			memberList : list
 		})
 	}
-
 
 	onMenuOpen = () => {
 		this.setState({
@@ -104,12 +124,11 @@ class ScheduleTrainer extends React.Component {
 	}
 
 	componentDidMount() {
-		this.getTrainerListApi();
+		this.getTrainerAllApi();
 	}
 
 	render() {
-		const {modalOpen, personalType, addScheduleList, memberList, trainerList, selectAllCheck, selectCard, addSchedule, selectCardIndex, menuOpen, selectMember, selectTrainerAllCheck} = this.state;
-		const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
+		const { memberList, selectAllCheck,  menuOpen, selectMember} = this.state;
 
 		if(!getAuthToken()) {
 			return <Redirect to="/login/admin" />;
@@ -157,15 +176,14 @@ class ScheduleTrainer extends React.Component {
 					</div>
 
 					<div className={'calender_wrap'}>
-						 <button type={'button'} className={'btn_add'} onClick={(e) => this.onAddSchedule(e)}><Icon.ic16AddSchedule/>일정 추가</button>
-						<CalenderWeekday selectMember={selectMember}/>
+						<CalenderWeekday selectMember={selectMember} role={'admin'}/>
 					</div>
 				</div>
 			</div>
 		);
 	}
 
-	getTrainerListApi = async () => {
+	getTrainerAllApi = async () => {
 		try{
 			const requestOption ={
 				headers: {
@@ -179,12 +197,14 @@ class ScheduleTrainer extends React.Component {
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
+					// console.log(resData.data);
 					this.setState({
 						memberList : [
 							...resData.data
 						]
 					});
-					console.log(resData.data);
+
+					this.initTrainerMine(resData.data);
 				})
 				.catch(ex=>{
 					console.log("login requset fail : " + ex);
@@ -196,35 +216,6 @@ class ScheduleTrainer extends React.Component {
 		}
 	}
 
-	getOtherTrainerReservationApi = async () => {
-		try{
-			const obj = { reservations : this.state.addScheduleList };
-			const scheduleList = JSON.parse(JSON.stringify(obj));
-			console.log(scheduleList);
-			const requestOption ={
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'Cache-Control': 'no-cache',
-					'Accept': 'application/json',
-					Authorization: `Bearer ${getAuthToken()}`,
-				}
-			};
-			await axios.post("http://13.125.53.84:8080/api/auth/reservation/add" ,
-				JSON.stringify(scheduleList), requestOption )
-				.then(res =>{
-					const resData = JSON.parse(JSON.stringify(res.data));
-					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
-					// console.log(resData);
-				})
-				.catch(ex=>{
-					console.log("login requset fail : " + ex);
-				})
-				.finally(()=>{console.log("login request end")});
-		}catch(e){
-			console.log(e);
-		}
-	}
 };
 
 export default withRouter(ScheduleTrainer);

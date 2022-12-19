@@ -6,7 +6,7 @@ export const CheckBox = props => {
 	return (
 		<li className={'item'}>
 			<input
-				onClick={(e) => props.handleCheckChildElement(e, props.user_phone)}
+				onClick={(e) => props.handleCheckChildElement(e, props)}
 				type="checkbox"
 				defaultChecked={props.isChecked}
 				value={props.name}

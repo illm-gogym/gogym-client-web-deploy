@@ -85,8 +85,8 @@ class CalendarWeekday extends React.Component {
 					this.onModifySchedule(data, start, end);
 				}
 			},
-			periodStartDate: '',
-			periodEndDate: '',
+			periodStartDate: new Date(),
+			periodEndDate: new Date(),
 			scheduleList: [],
 			modifyModalOpen: false,
 			addSchedule: {
@@ -178,10 +178,14 @@ class CalendarWeekday extends React.Component {
 	}
 
 	setChangeReservation = (value) => {
-		if(!value) {
-			this.getUserReservationApi();
-		} else {
-			this.getUserNameReservationApi(value);
+		if(this.props.role !== 'admin') {
+			if(!value) {
+				this.getUserReservationApi();
+			} else {
+				this.getUserNameReservationApi(value);
+			}
+		}  else {
+			this.getTrainerReservationApi(value);
 		}
 	}
 
@@ -266,7 +270,7 @@ class CalendarWeekday extends React.Component {
 	componentDidUpdate(prevProps) {
 		this.setChangeHeader();
 
-		if(this.props.selectMember !== prevProps.selectMember && this.props.selectMember !== 'all') {
+		if(this.props.selectMember !== prevProps.selectMember && this.props.selectMember.length !== prevProps.selectMember.length) {
 			this.setChangeReservation(this.props.selectMember);
 		} else if(this.props.selectMember !== prevProps.selectMember && this.props.selectMember === 'none') {
 			//
@@ -277,7 +281,12 @@ class CalendarWeekday extends React.Component {
 		// console.log(this.props.selectMember);
 		this.setChangeHeader();
 		this.setInitPeriod();
-		this.getUserReservationApi();
+
+		if(this.props.role !== 'admin')
+			this.getUserReservationApi();
+		else {
+			this.getTrainerReservationApi(this.props.selectMember);
+		}
 	}
 
 	render() {
@@ -340,8 +349,6 @@ class CalendarWeekday extends React.Component {
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken}`;
-					// console.log(resData);
-
 					this.setState({
 						scheduleList: resData.data,
 					})
@@ -358,9 +365,7 @@ class CalendarWeekday extends React.Component {
 	}
 
 	getUserNameReservationApi = async (value) => { // 특정 사용자 일정
-		console.log('name');
 		try{
-			// console.log(value);
 			const param = JSON.parse(JSON.stringify({
 				user_phone: value
 			}));
@@ -380,6 +385,7 @@ class CalendarWeekday extends React.Component {
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
 					this.makeTaskList(resData.data);
+					console.log(resData);
 				})
 				.catch(ex=>{
 					console.log("login requset fail : " + ex);
@@ -428,7 +434,44 @@ class CalendarWeekday extends React.Component {
 		}
 	}
 
-
+	getTrainerReservationApi = async (value) => { // 특정 트레이너 일정
+		try{
+			console.log(value);
+			const param = JSON.parse(JSON.stringify({
+				trainer_id: value,
+				start_time: dateFormatResetWithTime(this.state.periodStartDate),
+				end_time: dateFormatResetWithTime(this.state.periodEndDate),
+			}));
+			console.log(param);
+			const requestOption ={
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Cache-Control': 'no-cache',
+					'Accept': 'application/json',
+					Authorization: `Bearer ${getAuthToken()}`,
+				},
+			};
+			await axios.post("http://13.125.53.84:8080/api/auth/reservation/all/trainertime",
+				JSON.stringify(param), requestOption )
+				.then(res =>{
+					const resData = JSON.parse(JSON.stringify(res.data));
+					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
+					console.log(resData);
+					this.setState({
+						scheduleList: resData.data,
+					})
+					this.makeTaskList(resData.data);
+				})
+				.catch(ex=>{
+					console.log("login requset fail : " + ex);
+					// console.log(ex.response.status);
+				})
+				.finally(()=>{console.log("login request end")});
+		}catch(e){
+			console.log(e.response);
+		}
+	}
 }
 
 export default CalendarWeekday;
