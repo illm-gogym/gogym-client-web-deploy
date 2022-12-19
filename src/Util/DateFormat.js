@@ -79,7 +79,7 @@ export function dateFormatGetTime(date, plusHour=0, plusMin=0) {
 	return hour + ':' + minute;
 }
 
-export function dateFormatGetMMDD(date, splice='-') {
+export function dateFormatGetMMDD(date, splice='-', type='default') {
 	date = new Date(date);
 	let month = date.getMonth() + 1;
 	let day = date.getDate();
@@ -87,7 +87,15 @@ export function dateFormatGetMMDD(date, splice='-') {
 	month = month >= 10 ? month : '0' + month;
 	day = day >= 10 ? day : '0' + day;
 
-	return month + splice + day;
+
+	if(type === 'day') {
+		const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
+		let week = WEEKDAY[date.getDay()];
+		return month + splice + day + ' (' + week + ')';
+	} else {
+		return month + splice + day;
+	}
+
 }
 
 

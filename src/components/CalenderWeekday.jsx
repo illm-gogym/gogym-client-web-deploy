@@ -8,7 +8,8 @@ import {
 	dateFormatReset,
 	dateFormatGetTime,
 	dateFormatWithTime,
-	dateFormatYYYYMMDD
+	dateFormatYYYYMMDD,
+	dateFormatGetMMDD
 } from '../Util/DateFormat';
 import axios from "axios";
 import uuid from "react-uuid";
@@ -47,15 +48,16 @@ class CalendarWeekday extends React.Component {
 					// args.data.html= `<div>ttt</div>`
 				},
 				onTimeRangeSelected : args => {
+					console.log(args);
 					// this.calendar.message("Selected range: " + args.start.toString("hh:mm tt") + " - " + args.end.toString("hh:mm tt"));
-					// console.log(args.start);
-					// console.log(args.end);
 				},
 				afterRender : args => {
 					// console.log(args);
 				},
 				onEventMove : args => {
-					if(!window.confirm("일정을 변경 하시겠습니까?")) {
+					var start = dateFormatGetTime(args.newStart.value),
+						end =  dateFormatGetTime(args.newEnd.value);
+					if(!window.confirm(`${dateFormatGetMMDD(args.newStart.value, '.', 'day')} ${start} 로 일정을 변경 하시겠습니까?`)) {
 						args.preventDefault();
 					}
 				},
@@ -67,7 +69,7 @@ class CalendarWeekday extends React.Component {
 					// console.log(end);
 
 					// console.log(args.e.id());
-					// console.log(args.e)
+					// console.log(args.e).
 					this.setUserReservationUpdateApi(args.e.data, start, end);
 				},
 				// onEventResize : args => {

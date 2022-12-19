@@ -47,10 +47,20 @@
 			}
 		}
 
-		[class*='_inner'] {
+		.calendar_default_colheader_inner,
+		.calendar_default_corner_inner,
+		.calendar_default_rowheader_inner,
+		.calendar_default_cell_inner {
 			//border-width: 0 0 1px 0;
 			background-color: transparent;
 			border-color: #E1E1E1;
+		}
+
+		.calendar_default_shadow {
+			[class*='inner'] {
+				margin: 0 2px 2px 0;
+				background-color: #E1E1E1;
+			}
 		}
 
 		.calendar_default_rowheader_inner {
@@ -115,7 +125,7 @@
 
 
 		.calendar_default_event_bar {
-			display: none;
+			//display: none;
 		}
 
 		.calendar_default_event {
