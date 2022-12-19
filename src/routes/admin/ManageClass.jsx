@@ -43,7 +43,6 @@ class ManageClass extends React.Component {
 	}
 
 	onModify = () => {
-		console.log('ttt');
 		this.setUserReservationUpdateApi(this.state.personal, this.state.personal.reservation.start_time, this.state.personal.reservation.end_time);
 	}
 
@@ -54,8 +53,6 @@ class ManageClass extends React.Component {
 			personal: personal,
 			isLoadDate: true,
 		});
-
-		console.log(personal);
 	}
 
 	render() {
@@ -95,7 +92,6 @@ class ManageClass extends React.Component {
 	}
 
 	setUserReservationUpdateApi = async (value, start, end) => {
-		console.log(value);
 		const param = JSON.parse(JSON.stringify({
 			description: value.reservation.description,
 			end_time: dateFormatWithTime(end),
@@ -104,7 +100,7 @@ class ManageClass extends React.Component {
 			usage_state: value.reservation.usage_state,
 			user_phone: value.reservation.user_phone,
 		}));
-		console.log(param);
+		// console.log(param);
 		try{
 			const requestOption ={
 				method: 'POST',
@@ -120,7 +116,6 @@ class ManageClass extends React.Component {
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
-					console.log(resData.data);
 					this.props.history.goBack();
 				})
 				.catch(ex=>{

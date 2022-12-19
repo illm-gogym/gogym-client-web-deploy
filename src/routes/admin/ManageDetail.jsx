@@ -77,7 +77,6 @@ class ManageDetail extends React.Component {
 		const { match, location, history } = this.props;
 
 		const personal = this.props.location.state;
-		console.log(personal);
 		this.setState({
 			personal: personal,
 		});
@@ -174,7 +173,6 @@ class ManageDetail extends React.Component {
 							...resData.data
 						]
 					})
-					console.log(resData.data)
 				})
 				.catch(ex=>{
 					console.log("login requset fail : " + ex);

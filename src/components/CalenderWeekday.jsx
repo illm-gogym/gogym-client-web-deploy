@@ -354,7 +354,7 @@ class CalendarWeekday extends React.Component {
 			const param = JSON.parse(JSON.stringify({
 				user_phone: value
 			}));
-			console.log(param);
+			// console.log(param);
 			const requestOption ={
 				method: 'POST',
 				headers: {
@@ -370,7 +370,7 @@ class CalendarWeekday extends React.Component {
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
 					this.makeTaskList(resData.data);
-					console.log(resData);
+					// console.log(resData);
 				})
 				.catch(ex=>{
 					console.log("login requset fail : " + ex);
@@ -384,7 +384,6 @@ class CalendarWeekday extends React.Component {
 
 	// 회원 일정 수정
 	setUserReservationUpdateApi = async (value, start, end) => {
-		console.log(value);
 		const param = JSON.parse(JSON.stringify({
 			description: value.reservation.description,
 			end_time: dateFormatWithTime(end),
@@ -393,7 +392,7 @@ class CalendarWeekday extends React.Component {
 			usage_state: value.reservation.usage_state,
 			user_phone: value.reservation.user_phone,
 		}));
-		console.log(param);
+		// console.log(param);
 		try{
 			const requestOption ={
 				method: 'POST',
@@ -409,7 +408,6 @@ class CalendarWeekday extends React.Component {
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
-					console.log(resData.data);
 					this.onRefreshCalender();
 				})
 				.catch(ex=>{
@@ -423,11 +421,10 @@ class CalendarWeekday extends React.Component {
 
 	// 사용자 일정 삭제
 	setUserReservationDeleteApi = async (value) => {
-		console.log(value);
 		const param = JSON.parse(JSON.stringify({
 			reservation_id: value
 		}));
-		console.log(param);
+		// console.log(param);
 		try{
 			const requestOption ={
 				method: 'POST',
@@ -443,7 +440,6 @@ class CalendarWeekday extends React.Component {
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
-					console.log(resData.data);
 					this.onRefreshCalender();
 				})
 				.catch(ex=>{
@@ -458,13 +454,12 @@ class CalendarWeekday extends React.Component {
 	// 특정 트레이너 일정
 	getTrainerReservationApi = async (value) => {
 		try{
-			console.log(value);
 			const param = JSON.parse(JSON.stringify({
 				trainer_id: value,
 				start_time: dateFormatResetWithTime(this.state.periodStartDate),
 				end_time: dateFormatResetWithTime(this.state.periodEndDate),
 			}));
-			console.log(param);
+			// console.log(param);
 			const requestOption ={
 				method: 'POST',
 				headers: {
@@ -479,7 +474,6 @@ class CalendarWeekday extends React.Component {
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
-					console.log(resData);
 					this.setState({
 						scheduleList: resData.data,
 					})

@@ -236,7 +236,6 @@ class ScheduleMember extends React.Component {
 	};
 
 	handleCheckChildElement = (event, value) => { // 체크박스 개별제어
-		console.log(value);
 		let memberList = this.state.memberList;
 		memberList.forEach(members => {
 			if (members.user_phone === value.user_phone)
