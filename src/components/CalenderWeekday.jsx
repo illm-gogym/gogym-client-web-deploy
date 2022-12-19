@@ -25,7 +25,7 @@ class CalendarWeekday extends React.Component {
 				headerDateFormat: `yyyy-MM-d`, //dddd_d
 				headerHeight: '60',
 				durationBarVisible: false,
-				cellHeight: '15',
+				cellHeight: '20',
 				startDate: this.makeNewDate(new Date()),
 				events: [
 					// {
@@ -66,17 +66,20 @@ class CalendarWeekday extends React.Component {
 					// console.log(args.e)
 					this.setUserReservationUpdateApi(args.e.data, start, end);
 				},
+				// onEventResize : args => {
+				// 	if(!window.confirm("일정을 변경 하시겠습니까?")) {
+				// 		args.preventDefault();
+				// 	}
+				// },
+				// onEventResized :  args => {
+				// 	this.setChangeHeader();
+				// 	var start = args.newStart.value,
+				// 		end = args.newEnd.value;
+				// 	console.log(start);
+				// 	console.log(end);
+				// },
 				onEventResize : args => {
-					if(!window.confirm("일정을 변경 하시겠습니까?")) {
-						args.preventDefault();
-					}
-				},
-				onEventResized :  args => {
-					this.setChangeHeader();
-					var start = args.newStart.value,
-						end = args.newEnd.value;
-					console.log(start);
-					console.log(end);
+					args.preventDefault();
 				},
 				onEventClicked : args => {
 					const data = args.e.data;
@@ -159,7 +162,7 @@ class CalendarWeekday extends React.Component {
 
 	makeTaskList = (dataList) => { // 일정 목록 배열 -> 캘린더 event용 배열로 커스텀
 		const eventList = dataList.map((value, index) => {
-				value.id = value.reservation.registration_id;
+				value.id = value.reservation.reservation_id;
 				value.text = `${value.user.name}
 				 			(${dateFormatGetTime(value.reservation.start_time)}~${dateFormatGetTime(value.reservation.end_time)})`;
 				value.start = value.reservation.start_time;
@@ -183,6 +186,13 @@ class CalendarWeekday extends React.Component {
 		}  else {
 			this.getTrainerReservationApi(value);
 		}
+	}
+
+	onRefreshCalender = () => {
+		window.location.reload(false);
+		// this.calendar.Scheduler.update();
+		// console.log(this.calendar.events.find('4'))
+		// console.log(this.calendarRef.current.updater.enqueueForceUpdate());
 	}
 
 	onInputChange = (e) => {
@@ -234,7 +244,6 @@ class CalendarWeekday extends React.Component {
 	};
 
 	onModifySchedule = (value, start, end) => {
-		console.log(value);
 		this.setState({
 			addSchedule: {
 				name: value.user.name,
@@ -255,12 +264,17 @@ class CalendarWeekday extends React.Component {
 			end = dateFormatWithTime(new Date(`${this.state.addSchedule.date} ${this.state.addSchedule.end_time}`));
 		this.setUserReservationUpdateApi(this.state.addSchedule, start, end);
 
-		window.location.reload(false);
-		window.location.replace('/schedule/member');
+		// window.location.reload();
+		// this.calendar.update(this.state.scheduleList);
+		// window.location.replace('/schedule/member');
 	}
 
-	onDelete = () => {
-		console.log('delete');
+	onDelete = (e, reservation) => {
+		if(window.confirm("일정을 삭제 하시겠습니까?")) {
+			this.setUserReservationDeleteApi(reservation.reservation_id);
+		} else {
+			// this.closeModifyModal();
+		}
 	}
 
 	componentDidUpdate(prevProps) {
@@ -274,7 +288,6 @@ class CalendarWeekday extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log(this.props.selectMember);
 		this.setChangeHeader();
 		this.setInitPeriod();
 
@@ -321,7 +334,7 @@ class CalendarWeekday extends React.Component {
 							<label htmlFor="plus_description">설명</label> <textarea id={'plus_description'} className={'input'} rows={'4'} onChange={(e) =>this.onInputChange(e)} name={'description'} value={addSchedule.description || ''}/>
 						</div>
 						<div className={'sub_footer'}>
-							<button className={'btn_default'} type={'button'} onClick={this.onDelete}>삭제하기</button>
+							<button className={'btn_default'} type={'button'} onClick={(e) => this.onDelete(e, addSchedule.reservation)}>삭제하기</button>
 							<button className={'btn_point'} type={'button'} onClick={this.onSubmit} >수정하기</button>
 						</div>
 					</div>
@@ -392,6 +405,41 @@ class CalendarWeekday extends React.Component {
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
 					console.log(resData.data);
+					this.onRefreshCalender();
+				})
+				.catch(ex=>{
+					console.log("login requset fail : " + ex);
+				})
+				.finally(()=>{console.log("login request end")});
+		}catch(e){
+			console.log(e.response);
+		}
+	}
+
+	// 일정 삭제
+	setUserReservationDeleteApi = async (value) => {
+		console.log(value);
+		const param = JSON.parse(JSON.stringify({
+			reservation_id: value
+		}));
+		console.log(param);
+		try{
+			const requestOption ={
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Cache-Control': 'no-cache',
+					'Accept': 'application/json',
+					Authorization: `Bearer ${getAuthToken()}`,
+				},
+			};
+			await axios.post(`http://13.125.53.84:8080/api/auth/reservation/delete/${value}`, {},
+				requestOption )
+				.then(res =>{
+					const resData = JSON.parse(JSON.stringify(res.data));
+					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
+					console.log(resData.data);
+					this.onRefreshCalender();
 				})
 				.catch(ex=>{
 					console.log("login requset fail : " + ex);

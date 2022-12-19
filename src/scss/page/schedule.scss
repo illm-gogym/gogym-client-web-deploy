@@ -1,6 +1,8 @@
 .schedule_wrap {
-	.tab_area {
-
+	&.type_trainer {
+		.calendar_default_event {
+			pointer-events: none !important;
+		}
 	}
 
 	.tab {
@@ -155,108 +157,6 @@
 		svg {
 			margin-right: 6px;
 			vertical-align: -4px;
-		}
-	}
-}
-
-.calendar-container {
-	.task_calendar {
-		width: 100%;
-		border: 0;
-
-		abbr {
-			text-decoration: none;
-		}
-
-		.react-calendar__navigation__label {
-			font-size: 20px;
-			font-weight: 700;
-		}
-
-		.react-calendar__viewContainer {
-			margin-right: -6px;
-		}
-
-		.react-calendar__month-view__weekdays__weekday {
-			margin: 0 -1px -1px 0;
-			border: 1px solid #e1e1e1;
-			padding: 0;
-			height: 36px;
-			line-height: 36px;
-
-			abbr {
-				font-size: 12px;
-				font-weight: 400;
-				color: #666;
-			}
-		}
-
-		[class*='--now'] { // 오늘
-			background-color: #E9F7FE;
-
-			&:hover,
-			&:focus,
-			&.active {
-				background-color: #D3EEFD !important;
-			}
-		}
-
-		[class*='--active'] { // 활성화
-			background-color: #EDEFFA;
-
-			&:hover,
-			&:focus,
-			&.active {
-				background-color: #EDEFFA;
-			}
-		}
-
-		.task_calender_tile {
-			position: relative;
-			margin: 0 -1px -1px 0;
-			padding: 20px 6px 6px;
-			border: 1px solid #e1e1e1;
-			height: 105px;
-			color: #666 !important;
-
-			&:hover {
-				background-color: #EDEFFA;
-			}
-
-			abbr {
-				position: absolute;
-				top: 6px;
-				left: 6px;
-				font-weight: 400;
-				font-size: 12px;
-				line-height: 14px;
-				color: #666;
-			}
-
-			.task_area {
-				display: block;
-				overflow-y: auto;
-				height: 100%;
-				//@include scrollHide;
-			}
-
-			.task {
-				display: block;
-				font-size: 10px;
-				line-height: 16px;
-				text-align: left;
-
-				&::before {
-					content: '';
-					display: inline-block;
-					width: 10px;
-					height: 10px;
-					margin-right: 4px;
-					border-radius: 50%;
-					background-color: #5784FC;
-					vertical-align: -2px;
-				}
-			}
 		}
 	}
 }

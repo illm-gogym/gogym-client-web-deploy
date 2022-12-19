@@ -134,7 +134,7 @@ class ScheduleTrainer extends React.Component {
 			return <Redirect to="/login/admin" />;
 		}
 		return (
-			<div className={classNames('schedule_wrap')}>
+			<div className={classNames('schedule_wrap', 'type_trainer')}>
 				<div className={'notify_area'}>
 					<h2>스케줄 관리</h2>
 				</div>

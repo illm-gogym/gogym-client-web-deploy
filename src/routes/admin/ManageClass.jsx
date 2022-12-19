@@ -4,7 +4,7 @@ import ContentEditable from "react-contenteditable";
 import {Icon} from "../../asset/js/icon";
 
 import {getAuthToken, getAuthTrainerId} from '../../Util/Authentication';
-import {dateFormatYYYYMMDD, dateFormatGetTime} from '../../Util/DateFormat';
+import {dateFormatYYYYMMDD, dateFormatGetTime, dateFormatWithTime} from '../../Util/DateFormat';
 import {useParams, useLocation, Link, withRouter} from "react-router-dom";
 import axios from "axios";
 
@@ -40,6 +40,11 @@ class ManageClass extends React.Component {
 			},
 			isEdit: true,
 		})
+	}
+
+	onModify = () => {
+		console.log('ttt');
+		this.setUserReservationUpdateApi(this.state.personal, this.state.personal.reservation.start_time, this.state.personal.reservation.end_time);
 	}
 
 	componentDidMount() {
@@ -82,11 +87,49 @@ class ManageClass extends React.Component {
 						</>
 						}
 
-						<button type={'button'} className={'btn_modify'} disabled={!isEdit}>수정하기</button>
+						<button type={'button'} className={'btn_modify'} disabled={!isEdit} onClick={this.onModify}>수정하기</button>
 					</div>
 				</div>
 			</div>
 		);
+	}
+
+	setUserReservationUpdateApi = async (value, start, end) => {
+		console.log(value);
+		const param = JSON.parse(JSON.stringify({
+			description: value.reservation.description,
+			end_time: dateFormatWithTime(end),
+			reservation_id: value.reservation.reservation_id,
+			start_time: dateFormatWithTime(start),
+			usage_state: value.reservation.usage_state,
+			user_phone: value.reservation.user_phone,
+		}));
+		console.log(param);
+		try{
+			const requestOption ={
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Cache-Control': 'no-cache',
+					'Accept': 'application/json',
+					Authorization: `Bearer ${getAuthToken()}`,
+				},
+			};
+			await axios.post("http://13.125.53.84:8080/api/auth/reservation/update",
+				JSON.stringify(param), requestOption )
+				.then(res =>{
+					const resData = JSON.parse(JSON.stringify(res.data));
+					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
+					console.log(resData.data);
+					this.props.history.goBack();
+				})
+				.catch(ex=>{
+					console.log("login requset fail : " + ex);
+				})
+				.finally(()=>{console.log("login request end")});
+		}catch(e){
+			console.log(e.response);
+		}
 	}
 }
 
