@@ -4,6 +4,7 @@ import { withRouter} from "react-router-dom";
 
 import Modal from "../../components/Modal";
 import {dateFormatYYYYMMDD, dateFormatWithTime} from '../../Util/DateFormat';
+import {isPhone} from '../../Util/Validator';
 import {getAuthToken, getAuthTrainerId} from '../../Util/Authentication';
 
 import axios from 'axios';
@@ -143,18 +144,14 @@ class ManageRegister extends React.Component {
 							<label className={'form_label'}>이름</label>
 						</div>
 						<div className={'form_box'}>
-							<input type="text" className={'form_input'} placeholder={'생년월일을 입력해 주세요'} required={true} onChange={(e) =>this.onInputChange(e)} onKeyUp={this.validate} name={'birth'}/>
+							<input type="date" className={'form_input'} placeholder={'생년월일을 입력해 주세요'} required={true} onChange={(e) =>this.onInputChange(e)} onKeyUp={this.validate} name={'birth'}/>
 							<label className={'form_label'}>생년월일</label>
 							<p className={'form_detail'}>예) 1992-02-28</p>
 						</div>
 						<div className={'form_box'}>
 							<input type="number" className={'form_input'} placeholder={'01012345678'} required={true} onChange={(e) =>this.onInputChange(e)} onKeyUp={this.validate} name={'phone'}/>
 							<label className={'form_label'}>전화번호</label>
-							<p className={'form_detail'}>‘-’ 없이 입력해 주세요 </p>
-						</div>
-						<div className={'form_box'}>
-							<input type="text" className={'form_input'} placeholder={'주소를 입력해 주세요'} required={true} name={'address'}/>
-							<label className={'form_label'}>주소</label>
+							<p className={'form_detail'}>‘-’ 없이 숫자만 입력해 주세요 </p>
 						</div>
 						<div className={'form_box'}>
 							<input type="text" className={'form_input'} placeholder={'0'} required={true} onChange={(e) =>this.onInputChange(e)} onKeyUp={this.validate}  name={'total'}/>

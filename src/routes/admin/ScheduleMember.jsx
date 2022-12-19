@@ -167,13 +167,26 @@ class ScheduleMember extends React.Component {
 	}
 
 	onSubmit = () => {
-		this.setState({
-			addScheduleList: [
-				...this.state.addScheduleList,
-				this.state.addSchedule,
-			],
-		})
-		this.onCardReset();
+		// console.log(this.state.addSchedule);
+		let validate = true;
+		for(let value in this.state.addSchedule){
+			if(value !== 'description') {
+				if(this.state.addSchedule[value] === '') {
+					validate = false;
+				}
+			}
+		}
+		if(validate) {
+			this.setState({
+				addScheduleList: [
+					...this.state.addScheduleList,
+					this.state.addSchedule,
+				],
+			})
+			this.onCardReset();
+		} else {
+			alert('필수 값을 모두 입력해주세요.')
+		}
 	}
 
 	onModify = () => {
@@ -383,16 +396,16 @@ class ScheduleMember extends React.Component {
 								)}
 							</ul>
 						</div>
-						<div className={'plus_input_area'}>
-							<label htmlFor="plus_date">날짜</label> <input type="date" id={'plus_date'} onChange={(e) =>this.onInputChange(e)} className={'input'} name={'date'} value={addSchedule.date || ''}/>
+						<div className={classNames('plus_input_area', 'required')}>
+							<label htmlFor="plus_date">날짜</label> <input type="date" id={'plus_date'}  onChange={(e) =>this.onInputChange(e)} className={'input'} name={'date'} value={addSchedule.date || ''}/>
 						</div>
-						<div className={'plus_input_area'}>
+						<div className={classNames('plus_input_area', 'required')}>
 							<label htmlFor="plus_start_time">시간</label>
 							<input type="time" id={'plus_start_time'} className={'input'} onChange={(e) =>this.onInputChange(e)} name={'start_time'} value={addSchedule.start_time || ''}/>
 							<span className={'dash'}>-</span>
 							<input type="time" id={'plus_end_time'} className={'input'} onChange={(e) =>this.onInputChange(e)} name={'end_time'} value={addSchedule.end_time || ''}/>
 						</div>
-						<div className={'plus_input_area'}>
+						<div className={classNames('plus_input_area', 'required')}>
 							<label htmlFor="plus_member">회원</label>
 							{/*<input type="text" id={'plus_member'} className={'input'} onChange={(e) =>this.onInputChange(e)} name={'name'} value={addSchedule.name || ''}/>*/}
 							<select name="" id="plus_member" className={'input'} value={addSchedule.name || '회원선택'} name={'name'} onChange={(e) =>this.onInputChange(e)} >

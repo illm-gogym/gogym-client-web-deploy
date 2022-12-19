@@ -38,6 +38,10 @@ class CalendarWeekday extends React.Component {
 				],
 				onBeforeEventRender: args => {
 					// console.log(args.data);
+					args.data.html = `
+						<div class="name">${args.data.user.name}</div>
+						<div class="time">${dateFormatGetTime(args.data.reservation.start_time)}~${dateFormatGetTime(args.data.reservation.end_time)}</div>
+					`;
 					// args.data.backColor = "#93c47d";
 					// args.data.fontColor = "white";
 					// args.data.html= `<div>ttt</div>`
@@ -417,7 +421,7 @@ class CalendarWeekday extends React.Component {
 		}
 	}
 
-	// 일정 삭제
+	// 사용자 일정 삭제
 	setUserReservationDeleteApi = async (value) => {
 		console.log(value);
 		const param = JSON.parse(JSON.stringify({

@@ -7,5 +7,7 @@ export function isDate(date) {
 }
 
 export function isPhone(phone) {
+	// if(phone)
+	console.log(Number(phone));
 	return false;
 }
