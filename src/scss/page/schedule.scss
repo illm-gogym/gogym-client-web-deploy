@@ -78,8 +78,6 @@
 			@include blind;
 
 			&[checked] ~ .input_label {
-				//background-color: red;
-
 				&::before {
 					background: url("data:image/svg+xml,%3Csvg width='11' height='9' viewBox='0 0 11 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4.26667L4.19796 7.58307C4.40981 7.80277 4.76735 7.78306 4.95377 7.5414L10 1' stroke='white' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E%0A") no-repeat center;
 					background-color: currentColor;
@@ -88,7 +86,7 @@
 		}
 
 		.input_label {
-			color: #5784FC;
+			color: #999;
 
 			.text {
 				display: inline-block;

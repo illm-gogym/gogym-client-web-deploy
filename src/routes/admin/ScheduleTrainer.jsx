@@ -11,6 +11,7 @@ import Modal from "../../components/Modal";
 import {CheckBox} from "../../components/CheckBox";
 import CalenderWeekday from "../../components/CalenderWeekday";
 import {getAuthToken, getAuthTrainerId} from "../../Util/Authentication";
+import {getPalette} from "../../Util/Palette";
 
 class ScheduleTrainer extends React.Component {
 	constructor(props) {
@@ -39,6 +40,7 @@ class ScheduleTrainer extends React.Component {
 			selectMember: [],
 			selectAllCheck: false,
 			menuOpen: false,
+			paletteList: {},
 		};
 	}
 
@@ -67,14 +69,17 @@ class ScheduleTrainer extends React.Component {
 	};
 
 	initTrainerMine = (list) => {
-		let selectList = [];
-		list.forEach(members => {
+		let selectList = [], paletteList = {};
+		list.forEach((members, index) => {
 			if (members.trainer_id === getAuthTrainerId()) {
 				selectList.push(members.trainer_id);
 			}
+			const source = {[members.trainer_id] : getPalette(index) };
+			Object.assign(paletteList, source);
 		});
 		this.setState({
 			selectMember: selectList,
+			paletteList: paletteList,
 		});
 	}
 
@@ -128,7 +133,7 @@ class ScheduleTrainer extends React.Component {
 	}
 
 	render() {
-		const { memberList, selectAllCheck,  menuOpen, selectMember} = this.state;
+		const { memberList, selectAllCheck,  menuOpen, selectMember, paletteList} = this.state;
 
 		if(!getAuthToken()) {
 			return <Redirect to="/login/admin" />;
@@ -162,12 +167,13 @@ class ScheduleTrainer extends React.Component {
 										className={'input_check'}
 										id={'checkedall'}
 									/>
-									<label htmlFor="checkedall" className={'input_label'}>전체 보기</label>
+									<label htmlFor="checkedall" className={'input_label'}><span className={'text'}>전체 보기</span></label>
 								</li>
 								{memberList.map((value, index) => {
 									return <CheckBox
 										handleCheckChildElement={this.handleCheckChildElement}
 										{...value}
+										paletteList={this.state.paletteList}
 										key={uuid()}
 									/>
 								})}
@@ -176,7 +182,7 @@ class ScheduleTrainer extends React.Component {
 					</div>
 
 					<div className={'calender_wrap'}>
-						<CalenderWeekday selectMember={selectMember} role={'admin'}/>
+						<CalenderWeekday selectMember={selectMember} role={'admin'} paletteList={paletteList}/>
 					</div>
 				</div>
 			</div>

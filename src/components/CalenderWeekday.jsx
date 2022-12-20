@@ -1,8 +1,11 @@
 import React from 'react';
 import $ from "jquery";
+import axios from "axios";
+
 import {Icon} from "../asset/js/icon";
 import {DayPilot, DayPilotCalendar, DayPilotNavigator} from "@daypilot/daypilot-lite-react";
 import {getAuthToken, getAuthTrainerId} from '../Util/Authentication';
+import {Palette} from '../Util/Palette';
 import {
 	dateFormatResetWithTime,
 	dateFormatReset,
@@ -11,8 +14,6 @@ import {
 	dateFormatYYYYMMDD,
 	dateFormatGetMMDD
 } from '../Util/DateFormat';
-import axios from "axios";
-import uuid from "react-uuid";
 import Modal from "./Modal";
 
 class CalendarWeekday extends React.Component {
@@ -174,6 +175,8 @@ class CalendarWeekday extends React.Component {
 				 			(${dateFormatGetTime(value.reservation.start_time)}~${dateFormatGetTime(value.reservation.end_time)})`;
 				value.start = value.reservation.start_time;
 				value.end = value.reservation.end_time;
+				value.backColor = this.props.paletteList[value.user.userPhone === undefined? value.reservation.trainer_id : value.user.userPhone];
+
 				// delete value.reservation;
 				// delete value.user;
 				return value;

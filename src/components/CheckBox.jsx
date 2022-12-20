@@ -3,6 +3,7 @@ import uuid from 'react-uuid';
 
 export const CheckBox = props => {
 	const uId = uuid();
+	// console.log(props.paletteList);
 	return (
 		<li className={'item'}>
 			<input
@@ -13,7 +14,9 @@ export const CheckBox = props => {
 				className={'input_check'}
 				id={uId}
 			/>
-			<label htmlFor={uId} className={'input_label'}>{props.name}</label>
+			<label htmlFor={uId} className={'input_label'} style={{color: props.paletteList[props.user_phone === undefined? props.trainer_id : props.user_phone]}}>
+				<span className={'text'}>{props.name}</span>
+			</label>
 		</li>
 	);
 };

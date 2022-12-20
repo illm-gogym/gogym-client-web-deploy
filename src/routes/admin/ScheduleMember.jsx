@@ -11,6 +11,7 @@ import Modal from "../../components/Modal";
 import {CheckBox} from "../../components/CheckBox";
 import CalenderWeekday from "../../components/CalenderWeekday";
 import {getAuthToken, getAuthTrainerId} from "../../Util/Authentication";
+import {getPalette} from '../../Util/Palette';
 
 class ScheduleMember extends React.Component {
 	constructor(props) {
@@ -41,6 +42,7 @@ class ScheduleMember extends React.Component {
 			selectMember: [],
 			selectAllCheck: true,
 			menuOpen: false,
+			paletteList: {}
 		};
 	}
 
@@ -262,12 +264,16 @@ class ScheduleMember extends React.Component {
 	};
 
 	initUser = (list) => {
-		let selectList = [];
-		list.forEach(members => {
+		let selectList = [], paletteList = {};
+		list.forEach((members, index)=> {
 			selectList.push(members.user_phone);
+			const source = {[members.user_phone] : getPalette(index) };
+			Object.assign(paletteList, source)
 		});
+
 		this.setState({
 			selectMember: selectList,
+			paletteList: paletteList,
 		});
 	}
 
@@ -330,7 +336,7 @@ class ScheduleMember extends React.Component {
 	}
 
 	render() {
-		const {modalOpen, addScheduleList, memberList, selectAllCheck, selectCard, addSchedule, selectCardIndex, menuOpen, menuModifyOpen, selectMember} = this.state;
+		const {modalOpen, addScheduleList, memberList, selectAllCheck, selectCard, addSchedule, selectCardIndex, menuOpen, paletteList, selectMember} = this.state;
 		const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
 
 		const modalAddSchedule = () => {
@@ -369,12 +375,13 @@ class ScheduleMember extends React.Component {
 										className={'input_check'}
 										id={'checkedall'}
 									/>
-									<label htmlFor="checkedall" className={'input_label'}>전체 보기</label>
+									<label htmlFor="checkedall" className={'input_label'}><span className={'text'}>전체 보기</span></label>
 								</li>
 								{memberList.map((value, index) => {
 									return <CheckBox
 										handleCheckChildElement={this.handleCheckChildElement}
 										{...value}
+										paletteList={this.state.paletteList}
 										key={uuid()}
 									/>
 								})}
@@ -384,7 +391,7 @@ class ScheduleMember extends React.Component {
 
 					<div className={'calender_wrap'}>
 						 <button type={'button'} className={'btn_add'} onClick={(e) => this.onAddSchedule(e)}><Icon.ic16AddSchedule/>일정 추가</button>
-						<CalenderWeekday selectMember={selectMember} onAddSchedule={this.onAddSchedule}/>
+						<CalenderWeekday selectMember={selectMember} onAddSchedule={this.onAddSchedule} paletteList={paletteList}/>
 					</div>
 				</div>
 
