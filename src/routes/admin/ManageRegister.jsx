@@ -195,9 +195,7 @@ class ManageRegister extends React.Component {
 
 	setUserinfoApi = async () => {
 		try{
-			console.log(this.state.userInfo);
 			let userInfo = JSON.parse(JSON.stringify(this.state.userInfo));
-			console.log(userInfo);
 			const requestOption ={
 				method: 'POST',
 				headers: {
@@ -212,7 +210,6 @@ class ManageRegister extends React.Component {
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
-					console.log(resData);
 					this.openModal();
 				})
 				.catch(ex=>{

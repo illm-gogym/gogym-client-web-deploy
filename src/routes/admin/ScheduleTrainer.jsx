@@ -9,7 +9,7 @@ import {Icon} from "../../asset/js/icon";
 import {dateFormatYYYYMMDD, dateFormatWithTime, dateFormatGetTime, dateFormatResetWithTime} from '../../Util/DateFormat';
 import Modal from "../../components/Modal";
 import {CheckBox} from "../../components/CheckBox";
-import CalenderWeekday from "../../components/CalenderWeekday";
+import CalenderWeekAdmin from "../../components/CalenderWeekAdmin";
 import {getAuthToken, getAuthTrainerId} from "../../Util/Authentication";
 import {getPalette} from "../../Util/Palette";
 
@@ -77,6 +77,7 @@ class ScheduleTrainer extends React.Component {
 			const source = {[members.trainer_id] : getPalette(index) };
 			Object.assign(paletteList, source);
 		});
+
 		this.setState({
 			selectMember: selectList,
 			paletteList: paletteList,
@@ -94,7 +95,6 @@ class ScheduleTrainer extends React.Component {
 				selectCheckAll = false
 			}
 		});
-		console.log(memberList);
 		this.setState({
 			selectMember: selectList,
 			memberList: memberList,
@@ -182,7 +182,7 @@ class ScheduleTrainer extends React.Component {
 					</div>
 
 					<div className={'calender_wrap'}>
-						<CalenderWeekday selectMember={selectMember} role={'admin'} paletteList={paletteList}/>
+						<CalenderWeekAdmin selectMember={selectMember} role={'admin'} paletteList={paletteList}/>
 					</div>
 				</div>
 			</div>

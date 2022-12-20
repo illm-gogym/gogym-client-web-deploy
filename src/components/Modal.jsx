@@ -6,7 +6,7 @@ const Modal = (props) => {
 	const { open, close, header, submit, hasFooter } = props;
 
 	const onDimmedClick = (e) => {
-		if(e.target.className.indexOf('openModal') === 0) {
+		if(typeof e.target.className === 'string' && e.target.className.indexOf('openModal') === 0) {
 			close();
 		}
 	}

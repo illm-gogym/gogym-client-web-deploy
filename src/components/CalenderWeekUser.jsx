@@ -150,7 +150,7 @@ class CalendarWeekday extends React.Component {
 		const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
 		$('.calendar_default_colheader_inner').each(function (index, item) {
 			const text = $(item).text();
-			const date = new Date(text);
+			const date = new Date(dateFormatResetWithTime(text));
 			let today = new Date();
 			today = new Date(dateFormatResetWithTime(today));
 			let checkToday = date.getTime() === today.getTime() ? true: false;
@@ -169,14 +169,13 @@ class CalendarWeekday extends React.Component {
 	}
 
 	makeTaskList = (dataList) => { // 일정 목록 배열 -> 캘린더 event용 배열로 커스텀
-		console.log(this.props.paletteList);
 		const eventList = dataList.map((value, index) => {
 				value.id = value.reservation.reservation_id;
 				value.text = `${value.user.name}
 				 			(${dateFormatGetTime(value.reservation.start_time)}~${dateFormatGetTime(value.reservation.end_time)})`;
 				value.start = value.reservation.start_time;
 				value.end = value.reservation.end_time;
-				value.backColor = this.props.paletteList[value.user.userPhone === undefined? value.reservation.trainer_id : value.user.userPhone];
+				value.backColor = this.props.paletteList[value.user.userPhone];
 
 				// delete value.reservation;
 				// delete value.user;
@@ -192,11 +191,7 @@ class CalendarWeekday extends React.Component {
 	}
 
 	setChangeReservation = (value) => {
-		if(this.props.role !== 'admin') {
-			this.getUserNameReservationApi(value);
-		}  else {
-			this.getTrainerReservationApi(value);
-		}
+		this.getUserNameReservationApi(value);
 	}
 
 	onRefreshCalender = () => {
@@ -274,10 +269,6 @@ class CalendarWeekday extends React.Component {
 		const start = dateFormatWithTime(new Date(`${this.state.addSchedule.date} ${this.state.addSchedule.start_time}`)),
 			end = dateFormatWithTime(new Date(`${this.state.addSchedule.date} ${this.state.addSchedule.end_time}`));
 		this.setUserReservationUpdateApi(this.state.addSchedule, start, end);
-
-		// window.location.reload();
-		// this.calendar.update(this.state.scheduleList);
-		// window.location.replace('/schedule/member');
 	}
 
 	onDelete = (e, reservation) => {
@@ -301,14 +292,7 @@ class CalendarWeekday extends React.Component {
 	componentDidMount() {
 		this.setChangeHeader();
 		this.setInitPeriod();
-		console.log(this.props.paletteList);
-
-		if(this.props.role !== 'admin')
-			this.getUserNameReservationApi(this.props.selectMember);
-		else {
-			this.getTrainerReservationApi(this.props.selectMember);
-		}
-
+		this.getUserNameReservationApi(this.props.selectMember);
 	}
 
 	render() {
@@ -452,44 +436,6 @@ class CalendarWeekday extends React.Component {
 				})
 				.catch(ex=>{
 					console.log("login requset fail : " + ex);
-				})
-				.finally(()=>{console.log("login request end")});
-		}catch(e){
-			console.log(e.response);
-		}
-	}
-
-	// 특정 트레이너 일정
-	getTrainerReservationApi = async (value) => {
-		try{
-			const param = JSON.parse(JSON.stringify({
-				trainer_id: value,
-				start_time: dateFormatResetWithTime(this.state.periodStartDate),
-				end_time: dateFormatResetWithTime(this.state.periodEndDate),
-			}));
-			// console.log(param);
-			const requestOption ={
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'Cache-Control': 'no-cache',
-					'Accept': 'application/json',
-					Authorization: `Bearer ${getAuthToken()}`,
-				},
-			};
-			await axios.post("http://13.125.53.84:8080/api/auth/reservation/all/trainertime",
-				JSON.stringify(param), requestOption )
-				.then(res =>{
-					const resData = JSON.parse(JSON.stringify(res.data));
-					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
-					this.setState({
-						scheduleList: resData.data,
-					})
-					this.makeTaskList(resData.data);
-				})
-				.catch(ex=>{
-					console.log("login requset fail : " + ex);
-					// console.log(ex.response.status);
 				})
 				.finally(()=>{console.log("login request end")});
 		}catch(e){

@@ -1,7 +1,13 @@
 .schedule_wrap {
 	&.type_trainer {
-		.calendar_default_event {
+		.calendar_default_event,
+		.calendar_default_cell,
+		.calendar_default_cell_inner {
 			pointer-events: none !important;
+		}
+
+		.calendar_default_shadow_inner {
+			background-color: transparent !important;
 		}
 	}
 

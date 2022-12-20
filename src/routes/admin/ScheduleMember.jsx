@@ -9,7 +9,7 @@ import {Icon} from "../../asset/js/icon";
 import {dateFormatYYYYMMDD, dateFormatWithTime, dateFormatGetTime, dateFormatResetWithTime} from '../../Util/DateFormat';
 import Modal from "../../components/Modal";
 import {CheckBox} from "../../components/CheckBox";
-import CalenderWeekday from "../../components/CalenderWeekday";
+import CalenderWeekUser from "../../components/CalenderWeekUser";
 import {getAuthToken, getAuthTrainerId} from "../../Util/Authentication";
 import {getPalette} from '../../Util/Palette';
 
@@ -61,7 +61,7 @@ class ScheduleMember extends React.Component {
 	};
 
 	onAddSchedule = (e, calenderData = {}) => {
-		if(calenderData) {
+		if(Object.keys(calenderData).length !== 0) {
 			let startTime = new Date(calenderData.start.value);
 			let endTime = `${startTime.getHours() + 1 < 10? `0${startTime.getHours() + 1}`: startTime.getHours() + 1}:${startTime.getMinutes() < 10 ? `0${startTime.getMinutes()}` : startTime.getMinutes()}`;
 			this.setState({
@@ -339,10 +339,6 @@ class ScheduleMember extends React.Component {
 		const {modalOpen, addScheduleList, memberList, selectAllCheck, selectCard, addSchedule, selectCardIndex, menuOpen, paletteList, selectMember} = this.state;
 		const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
 
-		const modalAddSchedule = () => {
-
-		}
-
 		if(!getAuthToken()) {
 			return <Redirect to="/login/admin" />;
 		}
@@ -391,7 +387,7 @@ class ScheduleMember extends React.Component {
 
 					<div className={'calender_wrap'}>
 						 <button type={'button'} className={'btn_add'} onClick={(e) => this.onAddSchedule(e)}><Icon.ic16AddSchedule/>일정 추가</button>
-						<CalenderWeekday selectMember={selectMember} onAddSchedule={this.onAddSchedule} paletteList={paletteList}/>
+						<CalenderWeekUser selectMember={selectMember} onAddSchedule={this.onAddSchedule} paletteList={paletteList}/>
 					</div>
 				</div>
 

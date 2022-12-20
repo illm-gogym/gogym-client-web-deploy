@@ -144,13 +144,19 @@
 			color: #fff;
 			white-space: normal;
 			justify-content: center;
-			border-radius: 2px;
-			box-shadow: 2px 3px 5px 3px rgba(0,0,0,0.12);
+			border-radius: 4px;
+			box-shadow: 2px 3px 5px 3px rgba(0,0,0,0.15);
 
 			.name {
 				font-weight: 700;
 				font-size: 12px;
 				line-height: 14px;
+				//-webkit-text-stroke: 1px rgba(0, 0, 0, 0.2);
+				text-shadow: 1px 1px 2px #000
+			}
+
+			.time {
+				text-shadow: 1px 1px 2px #000;
 			}
 		}
 	}
