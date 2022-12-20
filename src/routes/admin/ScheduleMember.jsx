@@ -2,6 +2,7 @@ import React from "react";
 import classNames from 'classnames';
 import {NavLink, withRouter, Link, Redirect} from "react-router-dom";
 import axios from "axios";
+import 'rc-time-picker/assets/index.css';
 import uuid from 'react-uuid';
 
 import Navigation from "../../components/Navigation";
@@ -12,6 +13,8 @@ import {CheckBox} from "../../components/CheckBox";
 import CalenderWeekUser from "../../components/CalenderWeekUser";
 import {getAuthToken, getAuthTrainerId} from "../../Util/Authentication";
 import {getPalette} from '../../Util/Palette';
+import moment from "moment";
+import TimePicker from "rc-time-picker";
 
 class ScheduleMember extends React.Component {
 	constructor(props) {
@@ -86,6 +89,30 @@ class ScheduleMember extends React.Component {
 		});
 
 		return phone;
+	}
+
+	onTimePickerChange = (value, type) => {
+		let now = new Date(value);
+		let date = new Date(`${now.getFullYear()} ${now.getMonth()} ${now.getDate()} ${dateFormatGetTime(value)}`);
+		var endTime = `${date.getHours() + 1 < 10? `0${date.getHours() + 1}`: date.getHours() + 1}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`;
+
+		if(type === 'start_time') {
+			this.setState({
+				addSchedule : {
+					...this.state.addSchedule,
+					[type]: dateFormatGetTime(now),
+					end_time: endTime,
+				}
+			})
+		} else {
+			console.log(dateFormatGetTime(now));
+			this.setState({
+				addSchedule : {
+					...this.state.addSchedule,
+					[type]: dateFormatGetTime(now),
+				}
+			})
+		}
 	}
 
 	onInputChange = (e) => {
@@ -416,9 +443,11 @@ class ScheduleMember extends React.Component {
 						</div>
 						<div className={classNames('plus_input_area', 'required')}>
 							<label htmlFor="plus_start_time">시간</label>
-							<input type="time" id={'plus_start_time'} className={'input'} onChange={(e) =>this.onInputChange(e)} name={'start_time'} value={addSchedule.start_time || ''}/>
+							<TimePicker className={classNames('input', 'time')} popupClassName={'time_select_layer'} minuteStep={30} showSecond={false} onChange={(e) => this.onTimePickerChange(e, 'start_time')} format={'HH:mm'} use12Hours value={moment(`${addSchedule.date} ${addSchedule.start_time}`, 'YYYY-MM-DD HH:mm')} />
+							{/*<input type="time" id={'plus_start_time'} className={'input'} onChange={(e) =>this.onInputChange(e)} name={'start_time'} value={addSchedule.start_time || ''}/>*/}
 							<span className={'dash'}>-</span>
-							<input type="time" id={'plus_end_time'} className={'input'} onChange={(e) =>this.onInputChange(e)} name={'end_time'} value={addSchedule.end_time || ''}/>
+							<TimePicker className={classNames('input', 'time')}  popupClassName={'time_select_layer'} minuteStep={30} showSecond={false} onChange={(e) => this.onTimePickerChange(e, 'end_time')} format={'HH:mm'} use12Hours value={moment(`${addSchedule.date} ${addSchedule.end_time}`, 'YYYY-MM-DD HH:mm')} />
+							{/*<input type="time" id={'plus_end_time'} className={'input'} onChange={(e) =>this.onInputChange(e)} name={'end_time'} value={addSchedule.end_time || ''}/>*/}
 						</div>
 						<div className={classNames('plus_input_area', 'required')}>
 							<label htmlFor="plus_member">회원</label>
@@ -433,7 +462,8 @@ class ScheduleMember extends React.Component {
 							</select>
 						</div>
 						<div className={'plus_input_area'}>
-							<label htmlFor="plus_description">설명</label> <textarea id={'plus_description'} className={'input'} rows={'4'} onChange={(e) =>this.onInputChange(e)} name={'description'} value={addSchedule.description || ''}/>
+							<label htmlFor="plus_description">설명</label>
+							<textarea id={'plus_description'} className={classNames('input', 'textarea')} rows={'4'} onChange={(e) =>this.onInputChange(e)} name={'description'} value={addSchedule.description || ''}/>
 						</div>
 						{selectCard ?
 							<button className={'btn_add'} type={'button'} onClick={this.onModify}>수정하기</button>

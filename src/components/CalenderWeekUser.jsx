@@ -1,6 +1,10 @@
 import React from 'react';
 import $ from "jquery";
 import axios from "axios";
+import TimePicker from 'rc-time-picker';
+import moment from "moment";
+import 'rc-time-picker/assets/index.css';
+import classNames from 'classnames';
 
 import {Icon} from "../asset/js/icon";
 import {DayPilot, DayPilotCalendar, DayPilotNavigator} from "@daypilot/daypilot-lite-react";
@@ -201,15 +205,39 @@ class CalendarWeekday extends React.Component {
 		// console.log(this.calendarRef.current.updater.enqueueForceUpdate());
 	}
 
+	onTimePickerChange = (value, type) => {
+		let now = new Date(value);
+		let date = new Date(`${now.getFullYear()} ${now.getMonth()} ${now.getDate()} ${dateFormatGetTime(value)}`);
+		var endTime = `${date.getHours() + 1 < 10? `0${date.getHours() + 1}`: date.getHours() + 1}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`;
+
+		if(type === 'start_time') {
+			this.setState({
+				addSchedule : {
+					...this.state.addSchedule,
+					[type]: dateFormatGetTime(now),
+					end_time: endTime,
+				}
+			})
+		} else {
+			console.log(dateFormatGetTime(now));
+			this.setState({
+				addSchedule : {
+					...this.state.addSchedule,
+					[type]: dateFormatGetTime(now),
+				}
+			})
+		}
+	}
+
 	onInputChange = (e) => {
 		var target = e.target;
+		console.log(target);
 
 		if(target.name === 'start_time') {
 			const time = e.target.value;
 			let now = new Date();
 			let date = new Date(`${now.getFullYear()} ${now.getMonth()} ${now.getDate()} ${time}`);
 			let endTime = `${date.getHours() + 1 < 10? `0${date.getHours() + 1}`: date.getHours() + 1}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`;
-
 
 			this.setState({
 				addSchedule : {
@@ -316,9 +344,11 @@ class CalendarWeekday extends React.Component {
 						</div>
 						<div className={'plus_input_area'}>
 							<label htmlFor="plus_start_time">시간</label>
-							<input type="time" id={'plus_start_time'} className={'input'} onChange={(e) =>this.onInputChange(e)} name={'start_time'} value={addSchedule.start_time || ''}/>
+							<TimePicker className={classNames('input', 'time')} popupClassName={'time_select_layer'} minuteStep={30} showSecond={false} onChange={(e) => this.onTimePickerChange(e, 'start_time')} format={'HH:mm'} use12Hours value={moment(`${addSchedule.date} ${addSchedule.start_time}`, 'YYYY-MM-DD HH:mm')} />
+							{/*<input type="time" id={'plus_start_time'} className={'input'} onChange={(e) =>this.onInputChange(e)} name={'start_time'} value={addSchedule.start_time || ''}/>*/}
 							<span className={'dash'}>-</span>
-							<input type="time" id={'plus_end_time'} className={'input'} onChange={(e) =>this.onInputChange(e)} name={'end_time'} value={addSchedule.end_time || ''}/>
+							<TimePicker className={classNames('input', 'time')}  popupClassName={'time_select_layer'} minuteStep={30} showSecond={false} onChange={(e) => this.onTimePickerChange(e, 'end_time')} format={'HH:mm'} use12Hours value={moment(`${addSchedule.date} ${addSchedule.end_time}`, 'YYYY-MM-DD HH:mm')} />
+							{/*<input type="time" id={'plus_end_time'} className={'input'} onChange={(e) =>this.onInputChange(e)} name={'end_time'} value={addSchedule.end_time || ''}/>*/}
 						</div>
 						<div className={'plus_input_area'}>
 							<label htmlFor="plus_member">회원</label>
@@ -328,7 +358,8 @@ class CalendarWeekday extends React.Component {
 							</select>
 						</div>
 						<div className={'plus_input_area'}>
-							<label htmlFor="plus_description">설명</label> <textarea id={'plus_description'} className={'input'} rows={'4'} onChange={(e) =>this.onInputChange(e)} name={'description'} value={addSchedule.description || ''}/>
+							<label htmlFor="plus_description">설명</label>
+							<textarea id={'plus_description'} className={classNames('input', 'textarea')} rows={'4'} onChange={(e) =>this.onInputChange(e)} name={'description'} value={addSchedule.description || ''}/>
 						</div>
 						<div className={'sub_footer'}>
 							<button className={'btn_default'} type={'button'} onClick={(e) => this.onDelete(e, addSchedule.reservation)}>삭제하기</button>
