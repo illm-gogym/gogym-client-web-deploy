@@ -17,13 +17,13 @@ const Modal = (props) => {
 			{open ? (
 				<div className={open ? 'openModal modal' : 'modal'} onClick={e => onDimmedClick(e)}>
 					<section className={'modal_section'}>
-						<header className={'header'}>
+						<header className={'modal_header'}>
 							{header}
 							<button className={'btn_close'} onClick={close}><i><Icon.ic24Close/></i></button>
 						</header>
 						<main className={'main'}>{props.children}</main>
 						{hasFooter !== false &&
-							<footer className={'footer'}>
+							<footer className={'modal_footer'}>
 								<button type={'button'} className={'btn_submit'} onClick={close}>{submit ? submit : '확인'}</button>
 							</footer>
 						}

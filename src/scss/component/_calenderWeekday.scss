@@ -20,6 +20,19 @@
 		font-size: 18px;
 		line-height: 22px;
 	}
+
+	.btn_today {
+		position: absolute;
+		top: 30px;
+		left: 50%;
+		transform: translateX(-50%);
+		color: #666;
+		height: 28px;
+		padding: 0 14px;
+		border: 1px solid #d9d9d9;
+		font-size: 12px;
+		border-radius: 2px;
+	}
 }
 
 #wrap {

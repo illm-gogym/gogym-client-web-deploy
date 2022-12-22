@@ -21,6 +21,7 @@ class AdminLogin extends React.Component {
 
 	onInputChange = (e) => {
 		var target = e.target;
+		console.log(e)
 
 		this.setState({
 			loginInfo: {
@@ -30,7 +31,11 @@ class AdminLogin extends React.Component {
 		});
 	}
 
-
+	onEnterCheck = (e) => {
+		if (e.key === 'Enter' || e.keyCode === 13) {
+			this.loginApi();
+		}
+	}
 
 	render() {
 		const {loginInfo} = this.state;
@@ -51,12 +56,12 @@ class AdminLogin extends React.Component {
 
 				<div className={'form'}>
 					<label htmlFor="form_email">아이디</label>
-					<input id={'form_email'} type="text" placeholder={'아이디를 입력해 주세요'} name={'trainer_id'} value={loginInfo.trainer_id || ''} onChange={(e) =>this.onInputChange(e)}/>
+					<input id={'form_email'} type="text" placeholder={'아이디를 입력해 주세요'} name={'trainer_id'} value={loginInfo.trainer_id || ''} onChange={(e) =>this.onInputChange(e)} onKeyUp={(e) => this.onEnterCheck(e)}/>
 				</div>
 
 				<div className={'form'}>
 					<label htmlFor="form_pwd">비밀번호</label>
-					<input id={'form_pwd'} type="password" placeholder={'비밀번호를 입력해 주세요'} name={'password'} value={loginInfo.password || ''} onChange={(e) =>this.onInputChange(e)} />
+					<input id={'form_pwd'} type="password" placeholder={'비밀번호를 입력해 주세요'} name={'password'} value={loginInfo.password || ''} onChange={(e) =>this.onInputChange(e)} onKeyUp={(e) => this.onEnterCheck(e)}/>
 				</div>
 
 				<button type={'submit'} className={'btn_login'} onClick={this.loginApi}>로그인</button>
