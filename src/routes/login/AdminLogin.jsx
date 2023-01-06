@@ -21,7 +21,6 @@ class AdminLogin extends React.Component {
 
 	onInputChange = (e) => {
 		var target = e.target;
-		console.log(e)
 
 		this.setState({
 			loginInfo: {

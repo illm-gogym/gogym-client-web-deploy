@@ -68,6 +68,8 @@ class CalendarWeekAdmin extends React.Component {
 	}
 
 	makeNewDate = (now) => {
+		// now.setDate(now.getDate() + 1);
+		// now.getTime() - (1 * 24 * 60 * 60 * 1000);
 		return new Date(now.getFullYear(), now.getMonth(), now.getDate())
 	}
 
@@ -101,6 +103,22 @@ class CalendarWeekAdmin extends React.Component {
 		})
 	}
 
+	onToday = () => {
+		const today = new Date(dateFormatResetWithTime(new Date()));
+		const day = today.getDay();
+		const startDate = new Date(today.getTime() +  (-day) * 24 * 60 * 60 * 1000),
+			endDate = new Date(today.getTime() +  (7 - day - 1) * 24 * 60 * 60 * 1000);
+
+		this.setState({
+			calenderOption: {
+				...this.state.calenderOption,
+				startDate: today
+			},
+			periodStartDate: startDate,
+			periodEndDate: endDate,
+		})
+	}
+
 	setChangeHeader = () => { // 달력 header 커스텀
 		const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
 		$('.calendar_default_colheader_inner').each(function (index, item) {
@@ -116,6 +134,7 @@ class CalendarWeekAdmin extends React.Component {
 	}
 
 	setInitPeriod() { // 달력 노출 시작날짜, 마지막날짜 저장
+		// console.log(this.calendar)
 		const endDate = new Date(this.calendar.visibleEnd().value);
 		this.setState({
 			periodStartDate: this.calendar.visibleStart(),
@@ -171,6 +190,7 @@ class CalendarWeekAdmin extends React.Component {
 					<button className={'btn_prev'} onClick={this.onPressArrowLeft}><Icon.ic20BulletArrow/></button>
 					<strong className={'period'}>{dateFormatReset(new Date(this.state.periodStartDate), '.')}~{dateFormatReset(new Date(this.state.periodEndDate), '.', 'day')}</strong>
 					<button className={'btn_next'} onClick={this.onPressArrowRight}><Icon.ic20BulletArrow/></button>
+					<button className={'btn_today'} onClick={this.onToday}>오늘</button>
 				</div>
 				<DayPilotCalendar
 					{...this.state.calenderOption}

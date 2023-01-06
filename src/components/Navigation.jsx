@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import classNames from 'classnames';
 import uuid from 'react-uuid';
 
@@ -51,9 +51,11 @@ class Navigation extends React.Component {
 				<div className={'aside'}>
 					<div className={'aside_header'}>
 						<h1 className={'company'}>
-							{ <Icon.logoSmallGo/>}
-							{ <Icon.logoSmallGym/>}
-							{ <Icon.logoSmallAdmin className={'logo_admin'} />}
+							<Link to={'/login'}>
+								{ <Icon.logoSmallGo/>}
+								{ <Icon.logoSmallGym/>}
+								{ <Icon.logoSmallAdmin className={'logo_admin'} />}
+							</Link>
 						</h1>
 						<div className={'profile'}>
 							<div className="thumb_area">
