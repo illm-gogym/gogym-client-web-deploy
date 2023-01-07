@@ -1,6 +1,5 @@
 .calender_weekday_wrap {
 	.period_header {
-		padding-bottom: 30px;
 		text-align: center;
 	}
 
@@ -23,9 +22,8 @@
 
 	.btn_today {
 		position: absolute;
-		top: 30px;
-		left: 50%;
-		transform: translateX(-50%);
+		top: 0;
+		left: 0;
 		color: #666;
 		height: 28px;
 		padding: 0 14px;
@@ -41,7 +39,8 @@
 		border: 0;
 
 		& > div:nth-child(2) {
-			height: 500px !important;
+			//height: 500px !important;
+			height: calc(100vh - 150px) !important;
 		}
 
 		tr {

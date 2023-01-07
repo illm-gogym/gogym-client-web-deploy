@@ -1,4 +1,10 @@
 .schedule_wrap {
+	overflow-y: auto;
+	height: 100%;
+
+	@include scrollHide;
+	scroll-behavior: smooth;
+
 	&.type_trainer {
 		.calendar_default_event,
 		.calendar_default_cell,
@@ -69,13 +75,17 @@
 		background-color: #FAFAFA;
 	}
 
+	.control_area {
+		padding-bottom: 10px;
+	}
+
 	.person_list {
 		@include clearfix;
 		margin-top: -14px;
 
 		.item {
 			float: left;
-			width: 33.33%;
+			width: 20%;
 			margin-top: 14px;
 			line-height: 20px;
 		}
@@ -149,7 +159,7 @@
 
 	.btn_add {
 		position: absolute;
-		top: 30px;
+		top: 0;
 		right: 0;
 		color: #666;
 		height: 28px;

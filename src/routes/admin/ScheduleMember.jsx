@@ -4,6 +4,7 @@ import {NavLink, withRouter, Link, Redirect} from "react-router-dom";
 import axios from "axios";
 import 'rc-time-picker/assets/index.css';
 import uuid from 'react-uuid';
+import Flicking from "@egjs/react-flicking";
 
 import Navigation from "../../components/Navigation";
 import {Icon} from "../../asset/js/icon";
@@ -15,8 +16,12 @@ import {getAuthToken, getAuthTrainerId} from "../../Util/Authentication";
 import {getPalette} from '../../Util/Palette';
 import moment from "moment";
 import TimePicker from "rc-time-picker";
+import {ReactComponent as ic16BulletBoxLeft} from "../../asset/svg/ic16-bullet-box-left.svg";
+
+let lastScrollY = 0;
 
 class ScheduleMember extends React.Component {
+
 	constructor(props) {
 		super(props);
 
@@ -93,8 +98,8 @@ class ScheduleMember extends React.Component {
 
 	onTimePickerChange = (value, type) => {
 		let now = new Date(value);
-		let date = new Date(`${now.getFullYear()} ${now.getMonth()} ${now.getDate()} ${dateFormatGetTime(value)}`);
-		var endTime = `${date.getHours() + 1 < 10? `0${date.getHours() + 1}`: date.getHours() + 1}:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()}`;
+		// let date = new Date(`${now.getFullYear()} ${now.getMonth()} ${now.getDate()} ${dateFormatGetTime(value)}`);
+		var endTime = `${now.getHours() + 1 < 10? `0${now.getHours() + 1}`: now.getHours() + 1}:${now.getMinutes() < 10 ? `0${now.getMinutes()}` : now.getMinutes()}`;
 
 		if(type === 'start_time') {
 			this.setState({
@@ -362,6 +367,20 @@ class ScheduleMember extends React.Component {
 		this.getTrainerUserAllApi();
 	}
 
+	handleScroll = (e) => {
+		const scrollY = e.target.scrollTop;
+		const direction = scrollY > lastScrollY ? "down" : "up";
+		lastScrollY = scrollY;
+
+		if(direction === 'down' && scrollY >= 20 && scrollY <= 65 ) {
+			e.target.scrollTop = 65;
+			lastScrollY = 65;
+		} else if(direction === 'up' && scrollY < 20) {
+			e.target.scrollTop = 0;
+			lastScrollY = 0;
+		}
+	}
+
 	render() {
 		const {modalOpen, addScheduleList, memberList, selectAllCheck, selectCard, addSchedule, selectCardIndex, menuOpen, paletteList, selectMember} = this.state;
 		const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
@@ -370,44 +389,49 @@ class ScheduleMember extends React.Component {
 			return <Redirect to="/login/admin" />;
 		}
 		return (
-			<div className={classNames('schedule_wrap')}>
+			<div className={classNames('schedule_wrap')} onScroll={this.handleScroll}>
 				<div className={'notify_area'}>
-					<h2>스케줄 관리</h2>
+					<h2>내 회원</h2>
 				</div>
 
 				<div className={'section'}>
 					<div className={'tab_area'}>
-						<div className={'tab'}>
-							<strong className={'text'}>내 회원</strong>
-							<div className={'menu_area'}>
-								<button className={classNames('btn_menu', {'open': menuOpen})} onClick={this.onMenuOpen}><Icon.ic20BulletArrow/></button>
-								<div className={'ly_menu'}>
-									<NavLink to={'/schedule/member'} activeClassName={'active'} className={'menu'} onClick={this.onMenuOpen}>내 회원</NavLink>
-									<NavLink to={'/schedule/trainer'} activeClassName={'active'} className={'menu'} onClick={this.onMenuOpen} >트레이너</NavLink>
-								</div>
-							</div>
-						</div>
 						<div className={'list_area'}>
+							<div className={'control_area'}>
+								<span>1/3</span>
+								<Icon.ic16BulletBoxLeft/>
+								<Icon.ic16BulletBoxRight/>
+							</div>
 							<div className={'person_list'}>
-								<li className={'item'}>
-									<input
-										type="checkbox"
-										onClick={this.handleAllChecked}
-										value="checkedall"
-										defaultChecked={selectAllCheck}
-										className={'input_check'}
-										id={'checkedall'}
-									/>
-									<label htmlFor="checkedall" className={'input_label'}><span className={'text'}>전체 보기</span></label>
-								</li>
-								{memberList.map((value, index) => {
-									return <CheckBox
-										handleCheckChildElement={this.handleCheckChildElement}
-										{...value}
-										paletteList={this.state.paletteList}
-										key={uuid()}
-									/>
-								})}
+								<Flicking
+									align={'prev'}
+									horizontal={true}
+									circular={false}
+									useFindDOMNode={true}
+									useFractionalSize={true}
+									onMoveEnd={e => {
+										console.log(e);
+									}}>
+									<div className={'item'}>
+										<input
+											type="checkbox"
+											onClick={this.handleAllChecked}
+											value="checkedall"
+											defaultChecked={selectAllCheck}
+											className={'input_check'}
+											id={'checkedall'}
+										/>
+										<label htmlFor="checkedall" className={'input_label'}><span className={'text'}>전체 보기</span></label>
+									</div>
+									{memberList.map((value, index) => {
+										return <CheckBox
+											handleCheckChildElement={this.handleCheckChildElement}
+											{...value}
+											paletteList={this.state.paletteList}
+											key={uuid()}
+										/>
+									})}
+								</Flicking>
 							</div>
 						</div>
 					</div>

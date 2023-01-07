@@ -21,6 +21,9 @@ import { ReactComponent as ic24BulletArrowLeft333 } from "../svg/ic24-bullet-arr
 import { ReactComponent as ic12Pencil666 } from "../svg/ic12-pencil-666.svg";
 import { ReactComponent as ic16BulletArrowDown } from "../svg/ic16-bullet-arrow-down.svg";
 import { ReactComponent as ic16AddSchedule } from "../svg/ic16-add-schedule.svg";
+import { ReactComponent as ic16BulletBoxRight } from "../svg/ic16-bullet-box-right.svg";
+import { ReactComponent as ic16BulletBoxLeft } from "../svg/ic16-bullet-box-left.svg";
+
 
 export const Icon = {
 	'logoAdmin' : logoAdmin,
@@ -46,4 +49,6 @@ export const Icon = {
 	'ic12Pencil666' : ic12Pencil666,
 	'ic16BulletArrowDown' : ic16BulletArrowDown,
 	'ic16AddSchedule' : ic16AddSchedule,
+	'ic16BulletBoxRight' : ic16BulletBoxRight,
+	'ic16BulletBoxLeft' : ic16BulletBoxLeft
 }

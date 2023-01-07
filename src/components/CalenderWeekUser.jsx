@@ -31,7 +31,7 @@ class CalendarWeekday extends React.Component {
 				headerDateFormat: `yyyy-MM-d`, //dddd_d
 				headerHeight: '60',
 				durationBarVisible: false,
-				cellHeight: '20',
+				cellHeight: '16',
 				startDate: this.makeNewDate(new Date()),
 				events: [
 					// {

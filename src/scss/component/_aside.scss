@@ -151,6 +151,7 @@
 		border-top: 1px solid #d9d9d9;
 
 		.menage_list {
+			margin: 0 -20px;
 			color: #999;
 
 			.navigation {
@@ -159,9 +160,14 @@
 			}
 
 			.main_link {
+				padding: 0 20px;
 				order: 0;
 				font-size: 16px;
 				line-height: 60px;
+
+				&:hover {
+					background-color: #E9F7FE;
+				}
 			}
 
 			.active {
@@ -184,9 +190,13 @@
 
 			.sub_link {
 				order: 1;
-				padding-left: 44px;
+				padding-left: 64px;
 				font-size: 14px;
 				line-height: 35px;
+
+				&:hover {
+					background-color: #E9F7FE;
+				}
 
 				&.hidden {
 					visibility: hidden;

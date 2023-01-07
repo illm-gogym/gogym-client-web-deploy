@@ -5,7 +5,7 @@ export const CheckBox = props => {
 	const uId = uuid();
 	// console.log(props.paletteList);
 	return (
-		<li className={'item'}>
+		<div className={'item'}>
 			<input
 				onClick={(e) => props.handleCheckChildElement(e, props)}
 				type="checkbox"
@@ -17,7 +17,7 @@ export const CheckBox = props => {
 			<label htmlFor={uId} className={'input_label'} style={{color: props.paletteList[props.user_phone === undefined? props.trainer_id : props.user_phone]}}>
 				<span className={'text'}>{props.name}</span>
 			</label>
-		</li>
+		</div>
 	);
 };
 

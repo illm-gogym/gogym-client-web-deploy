@@ -13,6 +13,8 @@ import CalenderWeekAdmin from "../../components/CalenderWeekAdmin";
 import {getAuthToken, getAuthTrainerId} from "../../Util/Authentication";
 import {getPalette} from "../../Util/Palette";
 
+let lastScrollY = 0;
+
 class ScheduleTrainer extends React.Component {
 	constructor(props) {
 		super(props);
@@ -132,6 +134,20 @@ class ScheduleTrainer extends React.Component {
 		this.getTrainerAllApi();
 	}
 
+	handleScroll = (e) => {
+		const scrollY = e.target.scrollTop;
+		const direction = scrollY > lastScrollY ? "down" : "up";
+		lastScrollY = scrollY;
+
+		if(direction === 'down' && scrollY >= 20 && scrollY <= 65 ) {
+			e.target.scrollTop = 65;
+			lastScrollY = 65;
+		} else if(direction === 'up' && scrollY < 20) {
+			e.target.scrollTop = 0;
+			lastScrollY = 0;
+		}
+	}
+
 	render() {
 		const { memberList, selectAllCheck,  menuOpen, selectMember, paletteList} = this.state;
 
@@ -139,23 +155,23 @@ class ScheduleTrainer extends React.Component {
 			return <Redirect to="/login/admin" />;
 		}
 		return (
-			<div className={classNames('schedule_wrap', 'type_trainer')}>
+			<div className={classNames('schedule_wrap', 'type_trainer')} onScroll={this.handleScroll}>
 				<div className={'notify_area'}>
-					<h2>스케줄 관리</h2>
+					<h2>트레이너</h2>
 				</div>
 
 				<div className={'section'}>
 					<div className={'tab_area'}>
-						<div className={'tab'}>
-							<strong className={'text'}>트레이너</strong>
-							<div className={'menu_area'}>
-								<button className={classNames('btn_menu', {'open': menuOpen})} onClick={this.onMenuOpen}><Icon.ic20BulletArrow/></button>
-								<div className={'ly_menu'}>
-									<NavLink to={'/schedule/member'} activeClassName={'active'} className={'menu'} onClick={this.onMenuOpen}>내 회원</NavLink>
-									<NavLink to={'/schedule/trainer'} activeClassName={'active'} className={'menu'} onClick={this.onMenuOpen} >트레이너</NavLink>
-								</div>
-							</div>
-						</div>
+						{/*<div className={'tab'}>*/}
+							{/*<strong className={'text'}>트레이너</strong>*/}
+							{/*<div className={'menu_area'}>*/}
+								{/*<button className={classNames('btn_menu', {'open': menuOpen})} onClick={this.onMenuOpen}><Icon.ic20BulletArrow/></button>*/}
+								{/*<div className={'ly_menu'}>*/}
+									{/*<NavLink to={'/schedule/member'} activeClassName={'active'} className={'menu'} onClick={this.onMenuOpen}>내 회원</NavLink>*/}
+									{/*<NavLink to={'/schedule/trainer'} activeClassName={'active'} className={'menu'} onClick={this.onMenuOpen} >트레이너</NavLink>*/}
+								{/*</div>*/}
+							{/*</div>*/}
+						{/*</div>*/}
 						<div className={'list_area'}>
 							<div className={'person_list'}>
 								<li className={'item'}>
