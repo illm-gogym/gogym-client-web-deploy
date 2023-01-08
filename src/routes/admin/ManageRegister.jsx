@@ -205,6 +205,7 @@ class ManageRegister extends React.Component {
 					Authorization: `Bearer ${getAuthToken()}`,
 				}
 			};
+			console.log(userInfo);
 			await axios.post("http://13.125.53.84:8080/api/auth/user/signup" ,
 				JSON.stringify(userInfo), requestOption )
 				.then(res =>{

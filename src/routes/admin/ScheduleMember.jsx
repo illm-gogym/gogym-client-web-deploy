@@ -4,7 +4,7 @@ import {NavLink, withRouter, Link, Redirect} from "react-router-dom";
 import axios from "axios";
 import 'rc-time-picker/assets/index.css';
 import uuid from 'react-uuid';
-import Flicking from "@egjs/react-flicking";
+import Flicking, { FlickingError } from "@egjs/react-flicking";
 
 import Navigation from "../../components/Navigation";
 import {Icon} from "../../asset/js/icon";
@@ -25,11 +25,16 @@ class ScheduleMember extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.flicking = React.createRef();
+		this.panels = [];
+
 		this.state = {
 			personalType: 'member',
 			modalOpen: false,
 			selectCard: false,
 			selectCardIndex: -1,
+			flickingList: [],
+			flickingIndex: 1,
 			memberList: [],
 			originTaskList: [
 				// {'date': '2022. 11. 21 09:00', 'name': '한예슬'},
@@ -307,6 +312,23 @@ class ScheduleMember extends React.Component {
 			selectMember: selectList,
 			paletteList: paletteList,
 		});
+
+		// console.log(list);
+		let flickingList = new Array(Math.ceil(list.length/10));
+		for(let i=0; i <= flickingList.length; i++) {
+			if(i === 0) {
+				flickingList[i] = list.slice(0, 9);
+			}
+			else if(i === list.length/10 ) {
+				flickingList[i] = list.slice(i * 10 - 1, i * 10 + list.length%10 + 1);
+			} else {
+				// flickingList[i] = list.slice(i * 10 - 1, i * 10 + 9);
+			}
+		}
+		this.panels = flickingList;
+
+		console.log(this.flicking);
+		console.log(this.flicking.current);
 	}
 
 	onSelectMember = () => {
@@ -381,8 +403,15 @@ class ScheduleMember extends React.Component {
 		}
 	}
 
+	updateTransform = e => {
+		// e.currentTarget.panels.forEach(panel => {
+		// 	console.log(panel);
+		// });
+		console.log(e.currentTarget)
+	};
+
 	render() {
-		const {modalOpen, addScheduleList, memberList, selectAllCheck, selectCard, addSchedule, selectCardIndex, menuOpen, paletteList, selectMember} = this.state;
+		const {modalOpen, addScheduleList, memberList, selectAllCheck, selectCard, addSchedule, selectCardIndex, flickingIndex, paletteList, selectMember} = this.state;
 		const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
 
 		if(!getAuthToken()) {
@@ -398,40 +427,80 @@ class ScheduleMember extends React.Component {
 					<div className={'tab_area'}>
 						<div className={'list_area'}>
 							<div className={'control_area'}>
-								<span>1/3</span>
-								<Icon.ic16BulletBoxLeft/>
-								<Icon.ic16BulletBoxRight/>
+								<span className={'index'}>{flickingIndex} / {this.panels.length}</span>
+								<button type={'button'}  onClick={()=> this.flicking.current.prev()}><Icon.ic16BulletBoxLeft/></button>
+								<button type={'button'} onClick={()=> this.flicking.current.next()}><Icon.ic16BulletBoxRight/></button>
 							</div>
 							<div className={'person_list'}>
 								<Flicking
+									ref={this.flicking}
 									align={'prev'}
 									horizontal={true}
 									circular={false}
 									useFindDOMNode={true}
-									useFractionalSize={true}
+									// useFractionalSize={true}
 									onMoveEnd={e => {
-										console.log(e);
+										console.log(e.direction);
+										let direction = e.direction === 'NEXT' ? 1 : -1;
+										this.setState({
+											flickingIndex: this.state.flickingIndex + (direction)
+										})
 									}}>
-									<div className={'item'}>
-										<input
-											type="checkbox"
-											onClick={this.handleAllChecked}
-											value="checkedall"
-											defaultChecked={selectAllCheck}
-											className={'input_check'}
-											id={'checkedall'}
-										/>
-										<label htmlFor="checkedall" className={'input_label'}><span className={'text'}>전체 보기</span></label>
-									</div>
-									{memberList.map((value, index) => {
-										return <CheckBox
-											handleCheckChildElement={this.handleCheckChildElement}
-											{...value}
-											paletteList={this.state.paletteList}
-											key={uuid()}
-										/>
-									})}
+									{ this.panels.map((data, index) =>
+										<div className={'flicking-panel'}>
+											{index === 0?
+												<div className={'item'}>
+													<input
+														type="checkbox"
+														onClick={this.handleAllChecked}
+														value="checkedall"
+														defaultChecked={selectAllCheck}
+														className={'input_check'}
+														id={'checkedall'}
+													/>
+													<label htmlFor="checkedall" className={'input_label'}><span className={'text'}>전체 보기</span></label>
+												</div> : null
+											}
+											{data.map((value) =>
+												<CheckBox
+													handleCheckChildElement={this.handleCheckChildElement}
+													{...value}
+													paletteList={this.state.paletteList}
+													key={uuid()}
+												/>
+											)}
+										</div>)
+									}
 								</Flicking>
+								{/*<Flicking*/}
+									{/*align={'prev'}*/}
+									{/*horizontal={true}*/}
+									{/*circular={false}*/}
+									{/*useFindDOMNode={true}*/}
+									{/*useFractionalSize={true}*/}
+									{/*onMoveEnd={e => {*/}
+										{/*console.log(e);*/}
+									{/*}}>*/}
+									{/*<div className={'item'}>*/}
+										{/*<input*/}
+											{/*type="checkbox"*/}
+											{/*onClick={this.handleAllChecked}*/}
+											{/*value="checkedall"*/}
+											{/*defaultChecked={selectAllCheck}*/}
+											{/*className={'input_check'}*/}
+											{/*id={'checkedall'}*/}
+										{/*/>*/}
+										{/*<label htmlFor="checkedall" className={'input_label'}><span className={'text'}>전체 보기</span></label>*/}
+									{/*</div>*/}
+									{/*{memberList.map((value, index) => {*/}
+										{/*return <CheckBox*/}
+											{/*handleCheckChildElement={this.handleCheckChildElement}*/}
+											{/*{...value}*/}
+											{/*paletteList={this.state.paletteList}*/}
+											{/*key={uuid()}*/}
+										{/*/>*/}
+									{/*})}*/}
+								{/*</Flicking>*/}
 							</div>
 						</div>
 					</div>

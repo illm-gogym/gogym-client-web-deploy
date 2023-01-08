@@ -77,6 +77,11 @@
 
 	.control_area {
 		padding-bottom: 10px;
+
+		.index {
+			font-size: 12px;
+			padding-right: 12px;
+		}
 	}
 
 	.person_list {
@@ -383,5 +388,16 @@
 
 	.rc-time-picker-panel-inner {
 		transform: translateY(39px) !important;
+	}
+}
+
+.flicking-viewport {
+	overflow: hidden;
+	white-space: nowrap;
+
+	.flicking-panel {
+		display: inline-block;
+		width: 100%;
+		vertical-align: top;
 	}
 }
