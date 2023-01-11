@@ -34,6 +34,8 @@ export function dateFormatYYYYMMDD(date, splice='-', type='default') {
 		const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
 		let week = WEEKDAY[date.getDay()];
 		return date.getFullYear() + splice + month + splice + day + ' ' + week + '요일';
+	} else if(type === '2digits') {
+		return date.getFullYear().toString().slice(2,4) + splice + month + splice + day;
 	} else {
 		return date.getFullYear() + splice + month + splice + day;
 	}

@@ -34,7 +34,7 @@ class ScheduleMember extends React.Component {
 			selectCard: false,
 			selectCardIndex: -1,
 			flickingList: [],
-			flickingIndex: 1,
+			flickingIndex: 0,
 			memberList: [],
 			originTaskList: [
 				// {'date': '2022. 11. 21 09:00', 'name': '한예슬'},
@@ -311,9 +311,9 @@ class ScheduleMember extends React.Component {
 		this.setState({
 			selectMember: selectList,
 			paletteList: paletteList,
+			flickingIndex: 1
 		});
 
-		// console.log(list);
 		let flickingList = new Array(Math.ceil(list.length/10));
 		for(let i=0; i <= flickingList.length; i++) {
 			if(i === 0) {
@@ -326,9 +326,6 @@ class ScheduleMember extends React.Component {
 			}
 		}
 		this.panels = flickingList;
-
-		console.log(this.flicking);
-		console.log(this.flicking.current);
 	}
 
 	onSelectMember = () => {

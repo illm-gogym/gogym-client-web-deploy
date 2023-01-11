@@ -31,6 +31,10 @@ class ManageDetail extends React.Component {
 				{name: '예정', group: 'sort', isChecked: false, user_state: -1},
 			],
 			personalList: [],
+			ticketInfo: {
+				registration: {},
+				user: {}
+			},
 			isLoadDate: false,
 			selectState: 0,
 		}
@@ -81,28 +85,27 @@ class ManageDetail extends React.Component {
 			personal: personal,
 		});
 		this.getUserNameReservationApi([personal.user_phone]);
+		this.getUserNameTicketApi(personal.user_phone);
 	}
 
 	render() {
-		const { personal, personalList, isLoadDate, scheduleStateList, selectState } = this.state;
+		const { personal, personalList, isLoadDate, scheduleStateList, selectState, ticketInfo } = this.state;
 
 		const getPersonalList = personalList.map((value, index) =>
-			(value.reservation.usage_state === selectState || selectState === 0) && <li className={'item'} key={uuid()}>
-				<span className={classNames('index')}>
-					{personalList.length - index}
-				</span>
-				<span className={classNames('date')}>
-					{dateFormatWithTime(value.reservation.start_time, '.', 'day').replace('T', ' ')}
-
-				</span>
-				<span className={classNames('state', {'prearrange' : value.reservation.usage_state === -1} )}>
-					{value.reservation.usage_state === -1 ? '예정' : '완료'}
-				</span>
-				<span className={'detail'}>
-					<Link to={{pathname:`/manage/class`,  state:value}} className={'btn_detail'}>
-						수업 보기
-					</Link>
-				</span>
+			(value.reservation.usage_state === selectState || selectState === 0) &&
+			<li className={'item'} key={uuid()}>
+				<Link to={{pathname:`/manage/class`,  state:value}}>
+					<span className={classNames('index')}>
+						{personalList.length - index}
+					</span>
+					<span className={classNames('date')}>
+						{dateFormatYYYYMMDD(value.reservation.start_time, '.', 'day').replace('T', ' ')}
+					</span>
+					<span className={classNames('state', {'prearrange' : value.reservation.usage_state === -1} )}>
+						{value.reservation.usage_state === -1 ? '예정' : '완료'}
+					</span>
+					<Icon.ic24BulletArrowRight/>
+				</Link>
 			</li>
 		);
 
@@ -116,17 +119,61 @@ class ManageDetail extends React.Component {
 							개인 관리
 						</h2>
 					</div>
+					<div className={classNames('section')}>
+						<div className={'manage_header'}>
+							<strong>{personal.name}</strong>
+							<button type={'button'} className={'btn_edit'}>
+								<Icon.ic12Pencil666/>
+								회원 정보 수정
+							</button>
+						</div>
+						<div className={'manage_ticket'}>
+							<dl className={'ticket_info'}>
+								<dt>
+									남은 수강권
+								</dt>
+								<dd>
+									<strong className={'highlight'}>{ticketInfo.registration.remaining} 남음</strong> (총 {ticketInfo.registration.total} 회)
+								</dd>
+								<dt>
+									수강 기간
+								</dt>
+								<dd>
+									{dateFormatYYYYMMDD(ticketInfo.registration.ins_dtm, '.', '2digits')} ~
+									{dateFormatYYYYMMDD(ticketInfo.registration.date, '.', '2digits')}
+								</dd>
+							</dl>
+							<dl className={'ticket_info'}>
+								<dt>
+									생년월일
+								</dt>
+								<dd>
+									{dateFormatYYYYMMDD(ticketInfo.user.date, '.')}
+								</dd>
+								<dt>
+									전화번호
+								</dt>
+								<dd>
+									{ticketInfo.user.user_phone}
+								</dd>
+								<dt>
+									주소
+								</dt>
+								<dd>
+									주소관련 정보가 따로 안옵니다. 주소 꼭 필요할까요?
+								</dd>
+							</dl>
 
+						</div>
+					</div>
 					<div className={classNames('section', 'full')}>
 						<div className={'manage_header'}>
 							<div className={'header_area'}>
-								<strong>{personal.name}</strong>
-								<button type={'button'} className={'btn_edit'}>
-									<Icon.ic12Pencil666/>
-									회원 정보 수정
-								</button>
+								<strong>운동 기록</strong>
 							</div>
+						</div>
 
+						<div className={'manage_content'}>
 							<ul className={'sort_list'}>
 								{scheduleStateList.map((value, index) => {
 									return <RadioButton
@@ -136,9 +183,6 @@ class ManageDetail extends React.Component {
 									/>
 								})}
 							</ul>
-						</div>
-
-						<div className={'manage_content'}>
 							<div className={'personal_list'}>
 								{isLoadDate ? getPersonalList : null}
 							</div>
@@ -173,6 +217,42 @@ class ManageDetail extends React.Component {
 							...resData.data
 						]
 					})
+				})
+				.catch(ex=>{
+					console.log("login requset fail : " + ex);
+					// console.log(ex.response.status);
+				})
+				.finally(()=>{console.log("login request end")});
+		}catch(e){
+			console.log(e.response);
+		}
+	}
+
+	getUserNameTicketApi = async (value) => {
+		try{
+			const param = JSON.parse(JSON.stringify({
+				user_phone: value
+			}));
+
+			console.log(param);
+			const requestOption ={
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Cache-Control': 'no-cache',
+					'Accept': 'application/json',
+					Authorization: `Bearer ${getAuthToken()}`,
+				},
+			};
+			await axios.post("http://13.125.53.84:8080/api/auth/registration/byuser",
+				JSON.stringify(param), requestOption )
+				.then(res =>{
+					const resData = JSON.parse(JSON.stringify(res.data));
+					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
+					this.setState({
+						ticketInfo : resData.data
+					})
+					console.log(resData.data);
 				})
 				.catch(ex=>{
 					console.log("login requset fail : " + ex);
