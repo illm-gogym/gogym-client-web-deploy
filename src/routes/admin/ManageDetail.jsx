@@ -104,7 +104,12 @@ class ManageDetail extends React.Component {
 					<span className={classNames('state', {'prearrange' : value.reservation.usage_state === -1} )}>
 						{value.reservation.usage_state === -1 ? '예정' : '완료'}
 					</span>
-					<Icon.ic24BulletArrowRight/>
+					<button className={'btn_detail'} type={'button'}>
+						완료하기
+					</button>
+					<span className={'ic_arrow'}>
+						<Icon.ic24BulletArrowRight/>
+					</span>
 				</Link>
 			</li>
 		);
@@ -252,7 +257,6 @@ class ManageDetail extends React.Component {
 					this.setState({
 						ticketInfo : resData.data
 					})
-					console.log(resData.data);
 				})
 				.catch(ex=>{
 					console.log("login requset fail : " + ex);

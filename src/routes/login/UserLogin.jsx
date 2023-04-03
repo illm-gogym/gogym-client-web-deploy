@@ -67,6 +67,11 @@ class UserLogin extends React.Component {
 	}
 
 	userLoginApi = async () =>  {
+		if(this.state.loginInfo.user_phone == null || this.state.loginInfo.password == null) {
+			alert('아이디 또는 비밀번호를 확인해주세요.');
+			return;
+		}
+
 		try{
 			console.log('사용자 로그인');
 			let userLoginInfo = {

@@ -315,14 +315,11 @@ class ScheduleMember extends React.Component {
 		});
 
 		let flickingList = new Array(Math.ceil(list.length/10));
-		for(let i=0; i <= flickingList.length; i++) {
+		for(let i=0; i < flickingList.length; i++) {
 			if(i === 0) {
 				flickingList[i] = list.slice(0, 9);
-			}
-			else if(i === list.length/10 ) {
-				flickingList[i] = list.slice(i * 10 - 1, i * 10 + list.length%10 + 1);
-			} else {
-				// flickingList[i] = list.slice(i * 10 - 1, i * 10 + 9);
+			} else  {
+				flickingList[i] = list.slice(i*10 - 1, i*10 + 9);
 			}
 		}
 		this.panels = flickingList;
@@ -399,13 +396,6 @@ class ScheduleMember extends React.Component {
 			lastScrollY = 0;
 		}
 	}
-
-	updateTransform = e => {
-		// e.currentTarget.panels.forEach(panel => {
-		// 	console.log(panel);
-		// });
-		console.log(e.currentTarget)
-	};
 
 	render() {
 		const {modalOpen, addScheduleList, memberList, selectAllCheck, selectCard, addSchedule, selectCardIndex, flickingIndex, paletteList, selectMember} = this.state;

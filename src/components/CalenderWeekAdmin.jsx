@@ -208,7 +208,7 @@ class CalendarWeekAdmin extends React.Component {
 				start_time: dateFormatResetWithTime(this.state.periodStartDate),
 				end_time: dateFormatResetWithTime(this.state.periodEndDate),
 			}));
-			// console.log(param);
+			console.log(param);
 			const requestOption ={
 				method: 'POST',
 				headers: {
@@ -227,6 +227,7 @@ class CalendarWeekAdmin extends React.Component {
 						scheduleList: resData.data,
 					})
 					this.makeTaskList(resData.data);
+					console.log(resData.data);
 				})
 				.catch(ex=>{
 					console.log("login requset fail : " + ex);

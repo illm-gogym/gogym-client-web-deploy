@@ -71,8 +71,13 @@ class AdminLogin extends React.Component {
 	}
 
 	loginApi = async () => {
-		console.log('관리자 로그인');
+		if(this.state.loginInfo.trainer_id == '' || this.state.loginInfo.password == '') {
+			alert('아이디 또는 비밀번호를 확인해주세요.');
+			return;
+		}
+
 		try{
+			console.log('관리자 로그인');
 			let loginInfo = JSON.parse(JSON.stringify(this.state.loginInfo));
 			const requestOption ={
 				method: 'POST',
@@ -93,6 +98,7 @@ class AdminLogin extends React.Component {
 						token : accessToken.token,
 						trainer_id : loginInfo.trainer_id
 					};
+					console.log(myObject);
 					localStorage.setItem('access-info', JSON.stringify(myObject));
 					// console.log(localStorage.getItem('access-info'));
 					// API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정

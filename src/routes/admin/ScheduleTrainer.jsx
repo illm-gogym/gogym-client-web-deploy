@@ -225,7 +225,6 @@ class ScheduleTrainer extends React.Component {
 							...resData.data
 						]
 					});
-
 					this.initTrainerMine(resData.data);
 				})
 				.catch(ex=>{
