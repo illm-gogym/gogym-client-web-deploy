@@ -134,12 +134,19 @@ class CalendarWeekAdmin extends React.Component {
 	}
 
 	setInitPeriod() { // 달력 노출 시작날짜, 마지막날짜 저장
-		// console.log(this.calendar)
-		const endDate = new Date(this.calendar.visibleEnd().value);
+		const today = new Date();
+		const numDay = today.getDay();
+
 		this.setState({
-			periodStartDate: this.calendar.visibleStart(),
-			periodEndDate: new Date(endDate.setDate(endDate.getDate() - 1)),
+			periodStartDate: new Date(dateFormatYYYYMMDD(today.getTime() - 24 * 60 * 60 * 1000 * ( 6 - numDay))),
+			periodEndDate: new Date(dateFormatYYYYMMDD(today.getTime() + 24 * 60 * 60 * 1000 * ( 6 - numDay))),
 		});
+
+		// const endDate = new Date(this.calendar.visibleEnd().value);
+		// this.setState({
+		// 	periodStartDate: this.calendar.visibleStart(),
+		// 	periodEndDate: new Date(endDate.setDate(endDate.getDate() - 1)),
+		// });
 	}
 
 	makeTaskList = (dataList) => { // 일정 목록 배열 -> 캘린더 event용 배열로 커스텀
@@ -222,12 +229,12 @@ class CalendarWeekAdmin extends React.Component {
 				JSON.stringify(param), requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
+					console.log(resData);
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
 					this.setState({
 						scheduleList: resData.data,
 					})
 					this.makeTaskList(resData.data);
-					console.log(resData.data);
 				})
 				.catch(ex=>{
 					console.log("login requset fail : " + ex);
@@ -238,6 +245,7 @@ class CalendarWeekAdmin extends React.Component {
 			console.log(e.response);
 		}
 	}
+
 }
 
 export default CalendarWeekAdmin;

@@ -94,7 +94,7 @@ class ManageDetail extends React.Component {
 		const getPersonalList = personalList.map((value, index) =>
 			(value.reservation.usage_state === selectState || selectState === 0) &&
 			<li className={'item'} key={uuid()}>
-				<Link to={{pathname:`/manage/class`,  state:value}}>
+				<div className="inner">
 					<span className={classNames('index')}>
 						{personalList.length - index}
 					</span>
@@ -110,7 +110,8 @@ class ManageDetail extends React.Component {
 					<span className={'ic_arrow'}>
 						<Icon.ic24BulletArrowRight/>
 					</span>
-				</Link>
+				</div>
+				<Link to={{pathname:`/manage/class`,  state:value}}/>
 			</li>
 		);
 
@@ -161,12 +162,12 @@ class ManageDetail extends React.Component {
 								<dd>
 									{ticketInfo.user.user_phone}
 								</dd>
-								<dt>
-									주소
-								</dt>
-								<dd>
-									주소관련 정보가 따로 안옵니다. 주소 꼭 필요할까요?
-								</dd>
+								{/*<dt>*/}
+									{/*주소*/}
+								{/*</dt>*/}
+								{/*<dd>*/}
+									{/*주소관련 정보가 따로 안옵니다. 주소 꼭 필요할까요?*/}
+								{/*</dd>*/}
 							</dl>
 
 						</div>

@@ -411,7 +411,7 @@ class CalendarWeekday extends React.Component {
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
 					this.makeTaskList(resData.data);
-					// console.log(resData);
+
 				})
 				.catch(ex=>{
 					console.log("login requset fail : " + ex);

@@ -24,8 +24,6 @@ export function dateFormatYYYYMMDD(date, splice='-', type='default') {
 	date = new Date(date);
 	let month = date.getMonth() + 1;
 	let day = date.getDate();
-	let hour = date.getHours();
-	let minute = date.getMinutes();
 
 	month = month >= 10 ? month : '0' + month;
 	day = day >= 10 ? day : '0' + day;
@@ -38,6 +36,26 @@ export function dateFormatYYYYMMDD(date, splice='-', type='default') {
 		return date.getFullYear().toString().slice(2,4) + splice + month + splice + day;
 	} else {
 		return date.getFullYear() + splice + month + splice + day;
+	}
+}
+
+export function dateFormatYYMMDD(date, splice='-', type='default') {
+	date = new Date(date);
+	let year = date.getFullYear().toString().slice(2,4);
+	let month = date.getMonth() + 1;
+	let day = date.getDate();
+
+	month = month >= 10 ? month : '0' + month;
+	day = day >= 10 ? day : '0' + day;
+
+	if(type === 'day') {
+		const WEEKDAY = ['일', '월', '화', '수', '목', '금', '토'];
+		let week = WEEKDAY[date.getDay()];
+		return year + splice + month + splice + day + ' ' + week + '요일';
+	} else if(type === '2digits') {
+		return year.toString().slice(2,4) + splice + month + splice + day;
+	} else {
+		return year + splice + month + splice + day;
 	}
 }
 

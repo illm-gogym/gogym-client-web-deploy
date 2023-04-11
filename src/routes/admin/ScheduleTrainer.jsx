@@ -219,7 +219,6 @@ class ScheduleTrainer extends React.Component {
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
-					// console.log(resData.data);
 					this.setState({
 						memberList : [
 							...resData.data

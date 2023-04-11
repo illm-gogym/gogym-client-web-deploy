@@ -4,7 +4,7 @@ import ContentEditable from "react-contenteditable";
 import {Icon} from "../../asset/js/icon";
 
 import {getAuthToken, getAuthTrainerId} from '../../Util/Authentication';
-import {dateFormatYYYYMMDD, dateFormatGetTime, dateFormatWithTime} from '../../Util/DateFormat';
+import {dateFormatYYYYMMDD, dateFormatYYMMDD, dateFormatGetTime, dateFormatWithTime} from '../../Util/DateFormat';
 import {useParams, useLocation, Link, withRouter} from "react-router-dom";
 import axios from "axios";
 
@@ -26,6 +26,16 @@ class ManageClass extends React.Component {
 
 	historyBack = () => {
 		this.props.history.goBack();
+	}
+
+	onDelete = () => {
+		const reservation = this.state.personal.reservation;
+		if(window.confirm("일정을 취소 하시겠습니까?")) {
+			this.setUserReservationDeleteApi(reservation.reservation_id);
+
+		} else {
+			// this.closeModifyModal();
+		}
 	}
 
 	onEditChange  = (e) => {
@@ -70,8 +80,13 @@ class ManageClass extends React.Component {
 					<div className={classNames('section', 'full')}>
 						{isLoadDate &&
 						<>
-							<div className={'title'}>
-								{dateFormatYYYYMMDD(personal.reservation.start_time, '.', 'day')}
+							<div className={'class_header'}>
+								<strong className={'date'}>{dateFormatYYMMDD(personal.reservation.start_time, '.', 'day')}</strong>
+								<span className={'time'}>{dateFormatGetTime(personal.reservation.start_time)} ~ {dateFormatGetTime(personal.reservation.end_time)}</span>
+								<span className={'reservation'}>
+									<button type={'button'} className={'btn_cancel'} onClick={(e) => this.onDelete()}>일정취소</button>
+									<button type={'button'} className={'btn_finish'}>완료하기</button>
+								</span>
 							</div>
 							<ContentEditable
 								innerRef={this.editRef}
@@ -113,6 +128,37 @@ class ManageClass extends React.Component {
 			};
 			await axios.post("http://13.125.53.84:8080/api/auth/reservation/update",
 				JSON.stringify(param), requestOption )
+				.then(res =>{
+					const resData = JSON.parse(JSON.stringify(res.data));
+					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
+					this.props.history.goBack();
+				})
+				.catch(ex=>{
+					console.log("login requset fail : " + ex);
+				})
+				.finally(()=>{console.log("login request end")});
+		}catch(e){
+			console.log(e.response);
+		}
+	}
+
+	// 일정 삭제
+	setUserReservationDeleteApi = async (value) => {
+		const param = JSON.parse(JSON.stringify({
+			reservation_id: value
+		}));
+		try{
+			const requestOption ={
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Cache-Control': 'no-cache',
+					'Accept': 'application/json',
+					Authorization: `Bearer ${getAuthToken()}`,
+				},
+			};
+			await axios.post(`http://13.125.53.84:8080/api/auth/reservation/delete/${value}`, {},
+				requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;

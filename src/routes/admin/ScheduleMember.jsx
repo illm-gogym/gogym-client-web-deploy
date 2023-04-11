@@ -427,11 +427,13 @@ class ScheduleMember extends React.Component {
 									useFindDOMNode={true}
 									// useFractionalSize={true}
 									onMoveEnd={e => {
-										console.log(e.direction);
-										let direction = e.direction === 'NEXT' ? 1 : -1;
-										this.setState({
-											flickingIndex: this.state.flickingIndex + (direction)
-										})
+										console.log(e);
+										if(e._canceled !== false) {
+											let direction = e.direction === 'NEXT' ? 1 : -1;
+											this.setState({
+												flickingIndex: this.state.flickingIndex + (direction)
+											})
+										}
 									}}>
 									{ this.panels.map((data, index) =>
 										<div className={'flicking-panel'}>
