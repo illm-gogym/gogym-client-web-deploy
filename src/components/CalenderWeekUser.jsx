@@ -391,6 +391,7 @@ class CalendarWeekday extends React.Component {
 
 	// 특정 사용자 일정
 	getUserNameReservationApi = async (value) => {
+		console.log('getTrainerReservationApi');
 		try{
 			const param = JSON.parse(JSON.stringify({
 				user_phone: value

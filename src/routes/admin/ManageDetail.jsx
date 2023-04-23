@@ -69,6 +69,13 @@ class ManageDetail extends React.Component {
 		}
 	};
 
+	onFinish = (value, state) => {
+		if(window.confirm("일정을 완료 하시겠습니까?")) {
+			value.reservation.usage_state = Number(value.reservation.usage_state) * -1;
+			this.setUserReservationUpdateApi(value, value.reservation.start_time, value.reservation.end_time);
+		}
+	}
+
 	componentDidUpdate(prevProps, prevState) {
 		if (this.state.personalList.length !== prevState.personalList.length) {
 			this.setState({
@@ -104,9 +111,12 @@ class ManageDetail extends React.Component {
 					<span className={classNames('state', {'prearrange' : value.reservation.usage_state === -1} )}>
 						{value.reservation.usage_state === -1 ? '예정' : '완료'}
 					</span>
-					<button className={'btn_detail'} type={'button'}>
-						완료하기
-					</button>
+					{
+						value.reservation.usage_state === -1 &&
+							<button className={'btn_detail'} type={'button'} onClick={() => this.onFinish(value)}>
+								완료하기
+							</button>
+					}
 					<span className={'ic_arrow'}>
 						<Icon.ic24BulletArrowRight/>
 					</span>
@@ -262,6 +272,43 @@ class ManageDetail extends React.Component {
 				.catch(ex=>{
 					console.log("login requset fail : " + ex);
 					// console.log(ex.response.status);
+				})
+				.finally(()=>{console.log("login request end")});
+		}catch(e){
+			console.log(e.response);
+		}
+	}
+
+	// 회원 일정 수정
+	setUserReservationUpdateApi = async (value, start, end) => {
+		const param = JSON.parse(JSON.stringify({
+			description: value.reservation.description,
+			end_time: dateFormatWithTime(end),
+			reservation_id: value.reservation.reservation_id,
+			start_time: dateFormatWithTime(start),
+			usage_state: value.reservation.usage_state,
+			user_phone: value.reservation.user_phone,
+		}));
+		// console.log(param);
+		try{
+			const requestOption ={
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Cache-Control': 'no-cache',
+					'Accept': 'application/json',
+					Authorization: `Bearer ${getAuthToken()}`,
+				},
+			};
+			await axios.post("http://13.125.53.84:8080/api/auth/reservation/update",
+				JSON.stringify(param), requestOption )
+				.then(res =>{
+					const resData = JSON.parse(JSON.stringify(res.data));
+					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
+					window.location.reload();
+				})
+				.catch(ex=>{
+					console.log("login requset fail : " + ex);
 				})
 				.finally(()=>{console.log("login request end")});
 		}catch(e){

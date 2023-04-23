@@ -134,19 +134,19 @@ class CalendarWeekAdmin extends React.Component {
 	}
 
 	setInitPeriod() { // 달력 노출 시작날짜, 마지막날짜 저장
-		const today = new Date();
-		const numDay = today.getDay();
-
-		this.setState({
-			periodStartDate: new Date(dateFormatYYYYMMDD(today.getTime() - 24 * 60 * 60 * 1000 * ( 6 - numDay))),
-			periodEndDate: new Date(dateFormatYYYYMMDD(today.getTime() + 24 * 60 * 60 * 1000 * ( 6 - numDay))),
-		});
-
-		// const endDate = new Date(this.calendar.visibleEnd().value);
+		// const today = new Date();
+		// const numDay = today.getDay();
+		//
 		// this.setState({
-		// 	periodStartDate: this.calendar.visibleStart(),
-		// 	periodEndDate: new Date(endDate.setDate(endDate.getDate() - 1)),
+		// 	periodStartDate: new Date(dateFormatYYYYMMDD(today.getTime() - 24 * 60 * 60 * 1000 * ( 6 - numDay))),
+		// 	periodEndDate: new Date(dateFormatYYYYMMDD(today.getTime() + 24 * 60 * 60 * 1000 * ( 6 - numDay))),
 		// });
+
+		const endDate = new Date(this.calendar.visibleEnd().value);
+		this.setState({
+			periodStartDate: this.calendar.visibleStart(),
+			periodEndDate: new Date(endDate.setDate(endDate.getDate() - 1)),
+		});
 	}
 
 	makeTaskList = (dataList) => { // 일정 목록 배열 -> 캘린더 event용 배열로 커스텀
@@ -178,8 +178,10 @@ class CalendarWeekAdmin extends React.Component {
 
 		if(this.props.selectMember !== prevProps.selectMember && this.props.selectMember.length !== prevProps.selectMember.length) {
 			this.setChangeReservation(this.props.selectMember);
-		} else if(this.props.selectMember !== prevProps.selectMember && this.props.selectMember === 'none') {
-			//
+		}
+
+		if(this.state.periodStartDate !== prevState.periodStartDate && this.state.periodEndDate !== prevState.periodEndDate) {
+			this.setChangeReservation(this.props.selectMember);
 		}
 	}
 

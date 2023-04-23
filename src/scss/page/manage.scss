@@ -30,19 +30,21 @@
 			margin-left: auto;
 		}
 
-		.btn_cancel,
-		.btn_finish {
+		.btn {
 			font-size: 12px;
 			height: 32px;
 			padding: 0 8px;
 			border: 1px solid $color-gray-d9;
 			border-radius: 4px;
-		}
 
-		.btn_finish {
-			margin-left: 7px;
-			color: $color-main;
-			border-color: $color-main;
+			& ~ .btn {
+				margin-left: 7px;
+			}
+
+			&.finish {
+				color: $color-main;
+				border-color: $color-main;
+			}
 		}
 	}
 
@@ -146,6 +148,8 @@
 
 			.state {
 				padding: 0 16px;
+				font-size: 11px;
+				color: #999;
 
 				&.prearrange {
 					color: #25AAF5;

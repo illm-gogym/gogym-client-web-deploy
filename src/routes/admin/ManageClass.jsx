@@ -56,9 +56,26 @@ class ManageClass extends React.Component {
 		this.setUserReservationUpdateApi(this.state.personal, this.state.personal.reservation.start_time, this.state.personal.reservation.end_time);
 	}
 
+	onFinish = (e) => {
+		let usageState = e.target.value;
+		this.setState({
+			personal: {
+				...this.state.personal,
+				reservation: {
+					...this.state.personal.reservation,
+					usage_state: Number(usageState) * -1,
+				}
+			}
+		});
+
+		let personal = this.state.personal;
+		personal.reservation.usage_state = Number(usageState) * -1;
+
+		this.setUserReservationUpdateApi(this.state.personal, this.state.personal.reservation.start_time, this.state.personal.reservation.end_time);
+	}
+
 	componentDidMount() {
 		const personal = this.props.location.state;
-
 		this.setState({
 			personal: personal,
 			isLoadDate: true,
@@ -84,8 +101,11 @@ class ManageClass extends React.Component {
 								<strong className={'date'}>{dateFormatYYMMDD(personal.reservation.start_time, '.', 'day')}</strong>
 								<span className={'time'}>{dateFormatGetTime(personal.reservation.start_time)} ~ {dateFormatGetTime(personal.reservation.end_time)}</span>
 								<span className={'reservation'}>
-									<button type={'button'} className={'btn_cancel'} onClick={(e) => this.onDelete()}>일정취소</button>
-									<button type={'button'} className={'btn_finish'}>완료하기</button>
+									<button type={'button'} className={classNames('btn')} onClick={(e) => this.onDelete()}>일정취소</button>
+									{personal.reservation.usage_state === -1 ?
+										<button type={'button'} className={classNames('btn', 'finish')} value={personal.reservation.usage_state} onClick={(e) => this.onFinish(e)}>완료하기</button> :
+										<button type={'button'} className={classNames('btn')} value={personal.reservation.usage_state} onClick={(e) => this.onFinish(e)}>예정으로 변경</button>
+									}
 								</span>
 							</div>
 							<ContentEditable
@@ -131,6 +151,7 @@ class ManageClass extends React.Component {
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
+					console.log(resData);
 					this.props.history.goBack();
 				})
 				.catch(ex=>{
