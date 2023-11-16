@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "https://illm-gogym.github.io/gogym-client-web-deploy/static/css/main.532f8e63.css",
-    "main.js": "https://illm-gogym.github.io/gogym-client-web-deploy/static/js/main.9a1c1583.js",
+    "main.css": "https://illm-gogym.github.io/gogym-client-web-deploy/static/css/main.259c7279.css",
+    "main.js": "https://illm-gogym.github.io/gogym-client-web-deploy/static/js/main.9d7c19f8.js",
     "static/js/787.6ced20fd.chunk.js": "https://illm-gogym.github.io/gogym-client-web-deploy/static/js/787.6ced20fd.chunk.js",
     "static/media/logo_small_admin.svg": "https://illm-gogym.github.io/gogym-client-web-deploy/static/media/logo_small_admin.153e4fb3b071c6d714e4ad3f49aff78b.svg",
     "static/media/logo_admin.svg": "https://illm-gogym.github.io/gogym-client-web-deploy/static/media/logo_admin.3febd82cbc3a45853bee9c6c66740b0e.svg",
@@ -20,6 +20,8 @@
     "static/media/ic14-close.svg": "https://illm-gogym.github.io/gogym-client-web-deploy/static/media/ic14-close.ec9d32b7086830e73613977cd996fd05.svg",
     "static/media/ic24_close.svg": "https://illm-gogym.github.io/gogym-client-web-deploy/static/media/ic24_close.96aac57ed199fdf811567a9c8cc1c15d.svg",
     "static/media/ic24-schedule.svg": "https://illm-gogym.github.io/gogym-client-web-deploy/static/media/ic24-schedule.31f5923645d6d7781dd5076454a339ab.svg",
+    "static/media/ic16-bullet-box-left.svg": "https://illm-gogym.github.io/gogym-client-web-deploy/static/media/ic16-bullet-box-left.d5c317f0a70d7224457d3d1b5df2e452.svg",
+    "static/media/ic16-bullet-box-right.svg": "https://illm-gogym.github.io/gogym-client-web-deploy/static/media/ic16-bullet-box-right.03245909083a4d3afa96603fd83a6f80.svg",
     "static/media/ic20-bullet-arrow.svg": "https://illm-gogym.github.io/gogym-client-web-deploy/static/media/ic20-bullet-arrow.921a9fdeb8677f8a56846b81ee9a825f.svg",
     "static/media/ic14-copy.svg": "https://illm-gogym.github.io/gogym-client-web-deploy/static/media/ic14-copy.03231fbe109c8e5e91907bf3c70439b4.svg",
     "static/media/ic16-bullet-arrow-down.svg": "https://illm-gogym.github.io/gogym-client-web-deploy/static/media/ic16-bullet-arrow-down.c0c04aef0e87af213803e13fa469c61a.svg",
@@ -27,12 +29,12 @@
     "static/media/ic24-bullet-arrow-left-333.svg": "https://illm-gogym.github.io/gogym-client-web-deploy/static/media/ic24-bullet-arrow-left-333.c1aadbe2fb7595e0b4ab858df3a8e180.svg",
     "static/media/ic24_bullet_arrow_right.svg": "https://illm-gogym.github.io/gogym-client-web-deploy/static/media/ic24_bullet_arrow_right.a518613cbd7c038415ed2051a1ecf778.svg",
     "static/media/ic24-plus.svg": "https://illm-gogym.github.io/gogym-client-web-deploy/static/media/ic24-plus.db0d34d8e0dd012743ce45b215c6a737.svg",
-    "main.532f8e63.css.map": "https://illm-gogym.github.io/gogym-client-web-deploy/static/css/main.532f8e63.css.map",
-    "main.9a1c1583.js.map": "https://illm-gogym.github.io/gogym-client-web-deploy/static/js/main.9a1c1583.js.map",
+    "main.259c7279.css.map": "https://illm-gogym.github.io/gogym-client-web-deploy/static/css/main.259c7279.css.map",
+    "main.9d7c19f8.js.map": "https://illm-gogym.github.io/gogym-client-web-deploy/static/js/main.9d7c19f8.js.map",
     "787.6ced20fd.chunk.js.map": "https://illm-gogym.github.io/gogym-client-web-deploy/static/js/787.6ced20fd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.532f8e63.css",
-    "static/js/main.9a1c1583.js"
+    "static/css/main.259c7279.css",
+    "static/js/main.9d7c19f8.js"
   ]
 }
