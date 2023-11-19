@@ -70,6 +70,7 @@ class CalendarWeekAdmin extends React.Component {
 	makeNewDate = (now) => {
 		// now.setDate(now.getDate() + 1);
 		// now.getTime() - (1 * 24 * 60 * 60 * 1000);
+		console.log(now.getDay())
 		return new Date(now.getFullYear(), now.getMonth(), now.getDate())
 	}
 
@@ -138,7 +139,7 @@ class CalendarWeekAdmin extends React.Component {
 		// const numDay = today.getDay();
 		//
 		// this.setState({
-		// 	periodStartDate: new Date(dateFormatYYYYMMDD(today.getTime() - 24 * 60 * 60 * 1000 * ( 6 - numDay))),
+		// 	periodStartDate: new Date(dateFormatYYYYMMDD(today.getTime() - 24 * 60 * 60 * 1000 * (numDay))),
 		// 	periodEndDate: new Date(dateFormatYYYYMMDD(today.getTime() + 24 * 60 * 60 * 1000 * ( 6 - numDay))),
 		// });
 
@@ -227,7 +228,7 @@ class CalendarWeekAdmin extends React.Component {
 					Authorization: `Bearer ${getAuthToken()}`,
 				},
 			};
-			await axios.post("http://13.125.53.84:8080/api/auth/reservation/all/trainertime",
+			await axios.post("http://13.124.66.16:8080/api/auth/reservation/all/trainertime",
 				JSON.stringify(param), requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));

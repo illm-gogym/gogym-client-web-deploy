@@ -145,7 +145,7 @@ class Schedule extends React.Component {
 					Authorization: `Bearer ${getAuthToken()}`,
 				},
 			};
-			await axios.post("http://13.125.53.84:8080/api/auth/reservation/all/user",
+			await axios.post("http://13.124.66.16:8080/api/auth/reservation/all/user",
 				JSON.stringify(param), requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));

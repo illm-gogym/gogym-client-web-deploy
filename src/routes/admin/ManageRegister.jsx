@@ -206,7 +206,7 @@ class ManageRegister extends React.Component {
 				}
 			};
 			console.log(userInfo);
-			await axios.post("http://13.125.53.84:8080/api/auth/user/signup" ,
+			await axios.post("http://13.124.66.16:8080/api/auth/user/signup" ,
 				JSON.stringify(userInfo), requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));

@@ -89,7 +89,7 @@ class AdminLogin extends React.Component {
 			};
 
 			console.log(loginInfo);
-			await axios.post("http://13.125.53.84:8080/api/authenticate/login/trainer" ,
+			await axios.post("http://13.124.66.16:8080/api/authenticate/login/trainer" ,
 				JSON.stringify(loginInfo), requestOption )
 
 				.then(res =>{

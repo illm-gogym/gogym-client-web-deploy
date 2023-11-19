@@ -567,7 +567,7 @@ class ScheduleMember extends React.Component {
 					Authorization: `Bearer ${getAuthToken()}`,
 				},
 			};
-			const result = await axios.get("http://13.125.53.84:8080/api/auth/trainer/userall", requestOption )
+			const result = await axios.get("http://13.124.66.16:8080/api/auth/trainer/userall", requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
@@ -602,7 +602,7 @@ class ScheduleMember extends React.Component {
 					Authorization: `Bearer ${getAuthToken()}`,
 				}
 			};
-			await axios.post("http://13.125.53.84:8080/api/auth/reservation/add" ,
+			await axios.post("http://13.124.66.16:8080/api/auth/reservation/add" ,
 				JSON.stringify(scheduleList), requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
