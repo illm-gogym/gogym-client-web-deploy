@@ -406,7 +406,7 @@ class CalendarWeekday extends React.Component {
 					Authorization: `Bearer ${getAuthToken()}`,
 				},
 			};
-			await axios.post("/api/auth/reservation/all/user",
+			await axios.post("http://13.124.66.160:8080/api/auth/reservation/all/user",
 				JSON.stringify(param), requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
@@ -445,7 +445,7 @@ class CalendarWeekday extends React.Component {
 					Authorization: `Bearer ${getAuthToken()}`,
 				},
 			};
-			await axios.post("/api/auth/reservation/update",
+			await axios.post("http://13.124.66.160:8080/api/auth/reservation/update",
 				JSON.stringify(param), requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
@@ -477,7 +477,7 @@ class CalendarWeekday extends React.Component {
 					Authorization: `Bearer ${getAuthToken()}`,
 				},
 			};
-			await axios.post(`/api/auth/reservation/delete/${value}`, {},
+			await axios.post(`http://13.124.66.160:8080/api/auth/reservation/delete/${value}`, {},
 				requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));

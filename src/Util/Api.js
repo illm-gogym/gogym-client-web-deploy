@@ -11,7 +11,7 @@ const getTrainerUserAllApi = async () => {
 				Authorization: `Bearer ${getAuthToken()}`,
 			},
 		};
-		const result = await axios.get("/api/auth/trainer/userall", requestOption )
+		const result = await axios.get("http://13.124.66.160:8080/api/auth/trainer/userall", requestOption )
 			.then(res =>{
 				const resData = JSON.parse(JSON.stringify(res.data));
 				axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
