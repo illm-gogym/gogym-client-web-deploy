@@ -2,7 +2,6 @@
   "name": "gogym-deploy",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://13.124.66.160:8080",
   "homepage": "https://illm-gogym.github.io/gogym-client-web-deploy",
   "dependencies": {
     "@daypilot/daypilot-lite-react": "^3.11.0",
