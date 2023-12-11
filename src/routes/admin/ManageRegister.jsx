@@ -72,6 +72,7 @@ class ManageRegister extends React.Component {
 				}
 			});
 		} else if(target.name.indexOf('_time')) {
+			console.log(target.value);
 			this.setState({
 				...this.state,
 				userInfo: {

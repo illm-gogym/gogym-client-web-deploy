@@ -90,6 +90,7 @@ class Manage extends React.Component {
 							<li key={uuid()} className={'item'}>
 								<Link to={{pathname:`/manage/detail`, state: value}}>
 									<strong>{value.name}</strong>
+									{console.log(value)}
 									<span className={'date'}>{dateFormatYYYYMMDD(value.ins_dtm, '.')} ~ {dateFormatYYYYMMDD(value.upd_dtm, '.')}</span>
 									<i className={'arrow'}><Icon.ic24BulletArrowRight/></i>
 								</Link>

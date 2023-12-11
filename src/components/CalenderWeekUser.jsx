@@ -247,7 +247,6 @@ class CalendarWeekday extends React.Component {
 
 	onInputChange = (e) => {
 		var target = e.target;
-		console.log(target.description);
 
 		if(target.name === 'start_time') {
 			const time = e.target.value;
@@ -377,6 +376,7 @@ class CalendarWeekday extends React.Component {
 						</div>
 						<div className={'plus_input_area'}>
 							<label htmlFor="plus_description">설명</label>
+							{console.log(encodeURI(addSchedule.description))}
 							{console.log(addSchedule.description)}
 							<textarea id={'plus_description'} className={classNames('input', 'textarea')} rows={'4'} onChange={(e) =>this.onInputChange(e)} name={'description'} value={addSchedule.description || ''}/>
 						</div>
@@ -428,14 +428,13 @@ class CalendarWeekday extends React.Component {
 	// 회원 일정 수정
 	setUserReservationUpdateApi = async (value, start, end) => {
 		const param = JSON.parse(JSON.stringify({
-			description: value.reservation.description,
+			description: value.description,
 			end_time: dateFormatWithTime(end),
 			reservation_id: value.reservation.reservation_id,
 			start_time: dateFormatWithTime(start),
 			usage_state: value.reservation.usage_state,
 			user_phone: value.reservation.user_phone,
 		}));
-		// console.log(param);
 		try{
 			const requestOption ={
 				method: 'POST',

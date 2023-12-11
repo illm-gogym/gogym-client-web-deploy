@@ -108,14 +108,15 @@ class ManageClass extends React.Component {
 									}
 								</span>
 							</div>
-							<ContentEditable
-								innerRef={this.editRef}
-								html={personal.reservation.description}
-								disabled={false}
-								onChange={(e) => this.onEditChange(e)}
-								className={'class_description'}
-								// onChange={(e) => setState((prev) => ({ ...prev, html: e.target.value }))}
-							/>
+							{/*<ContentEditable*/}
+								{/*innerRef={this.editRef}*/}
+								{/*html={personal.reservation.description}*/}
+								{/*disabled={false}*/}
+								{/*onChange={(e) => this.onEditChange(e)}*/}
+								{/*className={'class_description'}*/}
+								{/*// onChange={(e) => setState((prev) => ({ ...prev, html: e.target.value }))}*/}
+							{/*/>*/}
+							<textarea name="" id="" cols="30" rows="10" onChange={(e) => this.onEditChange(e)} value={personal.reservation.description} className={'class_description'}></textarea>
 						</>
 						}
 
