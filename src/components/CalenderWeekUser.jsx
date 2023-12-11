@@ -247,7 +247,7 @@ class CalendarWeekday extends React.Component {
 
 	onInputChange = (e) => {
 		var target = e.target;
-		console.log(target);
+		console.log(target.description);
 
 		if(target.name === 'start_time') {
 			const time = e.target.value;
@@ -377,6 +377,7 @@ class CalendarWeekday extends React.Component {
 						</div>
 						<div className={'plus_input_area'}>
 							<label htmlFor="plus_description">설명</label>
+							{console.log(addSchedule.description)}
 							<textarea id={'plus_description'} className={classNames('input', 'textarea')} rows={'4'} onChange={(e) =>this.onInputChange(e)} name={'description'} value={addSchedule.description || ''}/>
 						</div>
 						<div className={'sub_footer'}>
@@ -406,7 +407,7 @@ class CalendarWeekday extends React.Component {
 					Authorization: `Bearer ${getAuthToken()}`,
 				},
 			};
-			await axios.post("http://13.124.66.160:8080/api/auth/reservation/all/user",
+			await axios.post("http://59.18.236.206:8080/api/auth/reservation/all/user",
 				JSON.stringify(param), requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
@@ -445,7 +446,7 @@ class CalendarWeekday extends React.Component {
 					Authorization: `Bearer ${getAuthToken()}`,
 				},
 			};
-			await axios.post("http://13.124.66.160:8080/api/auth/reservation/update",
+			await axios.post("http://59.18.236.206:8080/api/auth/reservation/update",
 				JSON.stringify(param), requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
@@ -477,7 +478,7 @@ class CalendarWeekday extends React.Component {
 					Authorization: `Bearer ${getAuthToken()}`,
 				},
 			};
-			await axios.post(`http://13.124.66.160:8080/api/auth/reservation/delete/${value}`, {},
+			await axios.post(`http://59.18.236.206:8080/api/auth/reservation/delete/${value}`, {},
 				requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));

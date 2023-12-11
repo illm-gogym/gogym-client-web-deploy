@@ -344,7 +344,8 @@ class CalendarWeekday extends React.Component {
 							</select>
 						</div>
 						<div className={'plus_input_area'}>
-							<label htmlFor="plus_description">설명</label> <textarea id={'plus_description'} className={'input'} rows={'4'} onChange={(e) =>this.onInputChange(e)} name={'description'} value={addSchedule.description || ''}/>
+							<label htmlFor="plus_description">설명</label>
+							<textarea id={'plus_description'} className={'input'} rows={'4'} onChange={(e) =>this.onInputChange(e)} name={'description'} value={addSchedule.description || ''}/>
 						</div>
 						<div className={'sub_footer'}>
 							<button className={'btn_default'} type={'button'} onClick={(e) => this.onDelete(e, addSchedule.reservation)}>삭제하기</button>
@@ -372,7 +373,7 @@ class CalendarWeekday extends React.Component {
 					Authorization: `Bearer ${getAuthToken()}`,
 				},
 			};
-			await axios.post("http://13.124.66.160:8080/api/auth/reservation/all/user",
+			await axios.post("http://59.18.236.206:8080/api/auth/reservation/all/user",
 				JSON.stringify(param), requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
@@ -411,7 +412,7 @@ class CalendarWeekday extends React.Component {
 					Authorization: `Bearer ${getAuthToken()}`,
 				},
 			};
-			await axios.post("http://13.124.66.160:8080/api/auth/reservation/update",
+			await axios.post("http://59.18.236.206:8080/api/auth/reservation/update",
 				JSON.stringify(param), requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
@@ -443,7 +444,7 @@ class CalendarWeekday extends React.Component {
 					Authorization: `Bearer ${getAuthToken()}`,
 				},
 			};
-			await axios.post(`http://13.124.66.160:8080/api/auth/reservation/delete/${value}`, {},
+			await axios.post(`http://59.18.236.206:8080/api/auth/reservation/delete/${value}`, {},
 				requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
@@ -477,7 +478,7 @@ class CalendarWeekday extends React.Component {
 					Authorization: `Bearer ${getAuthToken()}`,
 				},
 			};
-			await axios.post("http://13.124.66.160:8080/api/auth/reservation/all/trainertime",
+			await axios.post("http://59.18.236.206:8080/api/auth/reservation/all/trainertime",
 				JSON.stringify(param), requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));

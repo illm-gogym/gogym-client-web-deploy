@@ -228,7 +228,7 @@ class CalendarWeekAdmin extends React.Component {
 					Authorization: `Bearer ${getAuthToken()}`,
 				},
 			};
-			await axios.post("http://13.124.66.160:8080/api/auth/reservation/all/trainertime",
+			await axios.post("http://59.18.236.206:8080/api/auth/reservation/all/trainertime",
 				JSON.stringify(param), requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
