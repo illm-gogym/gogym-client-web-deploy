@@ -35,7 +35,7 @@ class Manage extends React.Component {
 					// 'Authorization': `${localStorage.getItem('access-token')}`
 				},
 			};
-			await axios.get("http://59.18.236.206:8080/api/auth/trainer/userall", requestOption )
+			await axios.get("http://gogym.co.kr:8080/api/auth/trainer/userall", requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('access-token')}`;

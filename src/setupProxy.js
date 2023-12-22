@@ -4,7 +4,7 @@ module.exports = function(app) {
 	app.use(
 		'/api',
 		createProxyMiddleware({
-			target: 'http://59.18.236.206:8080',
+			target: 'http://gogym.co.kr:8080',
 			changeOrigin: true,
 		})
 	);

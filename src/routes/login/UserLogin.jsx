@@ -87,7 +87,7 @@ class UserLogin extends React.Component {
 					'Accept': 'application/json'
 				}
 			};
-			await axios.post("http://59.18.236.206:8080/api/authenticate/login/user" ,
+			await axios.post("http://gogym.co.kr:8080/api/authenticate/login/user" ,
 				JSON.stringify(userLoginInfo), requestOption )
 
 				.then(res =>{

@@ -223,7 +223,7 @@ class ManageDetail extends React.Component {
 					Authorization: `Bearer ${getAuthToken()}`,
 				},
 			};
-			await axios.post("http://59.18.236.206:8080/api/auth/reservation/all/user",
+			await axios.post("http://gogym.co.kr:8080/api/auth/reservation/all/user",
 				JSON.stringify(param), requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
@@ -260,7 +260,7 @@ class ManageDetail extends React.Component {
 					Authorization: `Bearer ${getAuthToken()}`,
 				},
 			};
-			await axios.post("http://59.18.236.206:8080/api/auth/registration/byuser",
+			await axios.post("http://gogym.co.kr:8080/api/auth/registration/byuser",
 				JSON.stringify(param), requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
@@ -300,7 +300,7 @@ class ManageDetail extends React.Component {
 					Authorization: `Bearer ${getAuthToken()}`,
 				},
 			};
-			await axios.post("http://59.18.236.206:8080/api/auth/reservation/update",
+			await axios.post("http://gogym.co.kr:8080/api/auth/reservation/update",
 				JSON.stringify(param), requestOption )
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
