@@ -2,7 +2,6 @@
   "name": "gogym-deploy",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://illm-gogym.github.io/gogym-client-web-deploy",
   "dependencies": {
     "@daypilot/daypilot-lite-react": "^3.11.0",
     "@egjs/react-flicking": "^4.10.5",
@@ -11,6 +10,7 @@
     "@testing-library/user-event": "^13.2.1",
     "axios": "^1.2.1",
     "classnames": "^2.3.2",
+    "cross-env": "^7.0.3",
     "jquery": "^3.6.2",
     "moment": "^2.29.4",
     "nanoid": "^4.0.0",
@@ -26,8 +26,8 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "cross-env NODE_PATH=src react-scripts start",
+    "build": "cross-env NODE_PATH=src react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "gh-pages -d build",

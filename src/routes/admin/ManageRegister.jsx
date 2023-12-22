@@ -16,7 +16,7 @@ class ManageRegister extends React.Component {
 		this.state = {
 			modalOpen: false,
 			userInfo: {
-				birth: '',
+				birth: this.onToday(),
 				gender: 'Man',
 				gym_id: 1800,
 				name: '',
@@ -32,6 +32,12 @@ class ManageRegister extends React.Component {
 			},
 			submitDisabled: true,
 		}
+	}
+
+	onToday = () => {
+		const dateNow = new Date();
+		const today = dateNow.toISOString().slice(0, 10);
+		return today;
 	}
 
 	openModal = () => {
@@ -72,7 +78,6 @@ class ManageRegister extends React.Component {
 				}
 			});
 		} else if(target.name.indexOf('_time')) {
-			console.log(target.value);
 			this.setState({
 				...this.state,
 				userInfo: {
@@ -109,7 +114,7 @@ class ManageRegister extends React.Component {
 	setInputReset = () => {
 		this.setState({
 			userInfo: {
-				birth: '',
+				birth: this.onToday(),
 				gender: 'Man',
 				gym_id: 1800,
 				name: '',
@@ -145,7 +150,8 @@ class ManageRegister extends React.Component {
 							<label className={'form_label'}>이름</label>
 						</div>
 						<div className={'form_box'}>
-							<input type="date" className={'form_input'} placeholder={'생년월일을 입력해 주세요'} required={true} onChange={(e) =>this.onInputChange(e)} onKeyUp={this.validate} name={'birth'}/>
+							<input type="input" className={classNames('keyboard')} placeholder={'생년월일을 입력해 주세요'} required={true} onChange={(e) =>this.onInputChange(e)} onKeyUp={this.validate} name={'birth'} value={userInfo.birth}/>
+							<input type="date" className={'form_input'} placeholder={'생년월일을 입력해 주세요'} required={true} onChange={(e) =>this.onInputChange(e)} onKeyUp={this.validate} name={'birth'} value={userInfo.birth}/>
 							<label className={'form_label'}>생년월일</label>
 							<p className={'form_detail'}>예) 1992-02-28</p>
 						</div>
@@ -160,11 +166,13 @@ class ManageRegister extends React.Component {
 							<p className={'form_detail'}>안내문구 작성하기</p>
 						</div>
 
-						<div className={classNames('form_box', 'multi')}>
+						<div className={classNames('form_box')}>
 							<label htmlFor="plus_start_time" className={'form_label'}>기간</label>
-							<input type="date" id={'plus_start_time'} value={userInfo.start_time} className={'form_input'} onChange={(e) =>this.onInputChange(e)} name={'start_time'} />
-							<span className={'dash'}>-</span>
-							<input type="date" id={'plus_end_time'} value={userInfo.end_time} className={'form_input'} onChange={(e) =>this.onInputChange(e)} name={'end_time'}/>
+							<div className={'multi'}>
+								<input type="date" id={'plus_start_time'} value={userInfo.start_time} className={'form_input'} onChange={(e) =>this.onInputChange(e)} name={'start_time'} />
+								<span className={'dash'}>-</span>
+								<input type="date" id={'plus_end_time'} value={userInfo.end_time} className={'form_input'} onChange={(e) =>this.onInputChange(e)} name={'end_time'}/>
+							</div>
 						</div>
 					</form>
 

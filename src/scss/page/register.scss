@@ -16,7 +16,8 @@
 
 		.form_box {
 			position: relative;
-			padding-top: 33px;
+			display: flex;
+			flex-direction: column;
 
 			& ~ .form_box {
 				margin-top: 30px;
@@ -25,7 +26,7 @@
 
 		.multi {
 			display: flex;
-			align-items: center;
+			flex-direction: row;
 
 			.dash {
 				padding: 0 10px;
@@ -33,9 +34,7 @@
 		}
 
 		.form_label {
-			position: absolute;
-			top: 0;
-			left: 0;
+			order: -1;
 			font-weight: 700;
 			line-height: 25px;
 		}
@@ -72,6 +71,23 @@
 						vertical-align: 10px;
 					}
 				}
+			}
+		}
+
+		.keyboard {
+			position: absolute;
+			top: 25px;
+			left: 12px;
+			margin-top: 10px;
+			width: 80px;
+			border: 0;
+			z-index: 10;
+			outline: none;
+			appearance: none;
+			-webkit-appearance: none;
+
+			& + .form_input {
+				font-size: 0;
 			}
 		}
 
