@@ -39,7 +39,6 @@ class Manage extends React.Component {
 				.then(res =>{
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('access-token')}`;
-					// console.log(resData);
 					this.setState({
 						memberList : [
 							...resData.data

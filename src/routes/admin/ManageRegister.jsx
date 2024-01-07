@@ -61,11 +61,12 @@ class ManageRegister extends React.Component {
 		var target = e.target;
 
 		if(target.name === 'phone') {
+			// console.log();
 			this.setState({
 				...this.state,
 				userInfo: {
 					...this.state.userInfo,
-					[target.name]:target.value,
+					[target.name]: target.value.replace(/[^0-9]/g, ""),
 					password: target.value.substr(target.value.length - 4, target.value.length),
 				}
 			});
@@ -150,12 +151,12 @@ class ManageRegister extends React.Component {
 						</div>
 						<div className={'form_box'}>
 							<input type="input" className={classNames('keyboard')} placeholder={'생년월일을 입력해 주세요'} required={true} onChange={(e) =>this.onInputChange(e)} onKeyUp={this.validate} name={'birth'} value={userInfo.birth}/>
-							<input type="date" className={'form_input'} placeholder={'생년월일을 입력해 주세요'} required={true} onChange={(e) =>this.onInputChange(e)} onKeyUp={this.validate} name={'birth'} value={userInfo.birth}/>
+							<input type="date" className={'form_input'} placeholder={'생년월일을 입력해 주세요'} required={true} onChange={(e) =>this.onInputChange(e)} onKeyUp={this.validate}   name={'birth'} value={userInfo.birth}/>
 							<label className={'form_label'}>생년월일</label>
 							<p className={'form_detail'}>예) 1992-02-28</p>
 						</div>
 						<div className={'form_box'}>
-							<input type="number" className={'form_input'} placeholder={'01012345678'} required={true} onChange={(e) =>this.onInputChange(e)} onKeyUp={this.validate} name={'phone'}/>
+							<input type="input" className={'form_input'} placeholder={'01012345678'} required={true}  onChange={(e) =>this.onInputChange(e)} onKeyUp={this.validate} name={'phone'} value={userInfo.phone} maxLength={11} />
 							<label className={'form_label'}>전화번호</label>
 							<p className={'form_detail'}>‘-’ 없이 숫자만 입력해 주세요 </p>
 						</div>
