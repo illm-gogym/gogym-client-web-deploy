@@ -156,7 +156,7 @@ class ManageDetail extends React.Component {
 								</dt>
 								<dd>
 									{dateFormatYYYYMMDD(ticketInfo.registration.ins_dtm, '.', '2digits')} ~
-									{dateFormatYYYYMMDD(ticketInfo.registration.date, '.', '2digits')}
+									{dateFormatYYYYMMDD(ticketInfo.registration.upd_dtm, '.', '2digits')}
 								</dd>
 							</dl>
 							<dl className={'ticket_info'}>
@@ -233,6 +233,8 @@ class ManageDetail extends React.Component {
 							...resData.data
 						]
 					})
+
+					console.log(resData.data);
 				})
 				.catch(ex=>{
 					console.log("login requset fail : " + ex);
@@ -249,8 +251,6 @@ class ManageDetail extends React.Component {
 			const param = JSON.parse(JSON.stringify({
 				user_phone: value
 			}));
-
-			console.log(param);
 			const requestOption ={
 				method: 'POST',
 				headers: {
