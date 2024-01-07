@@ -289,7 +289,7 @@ class ManageDetail extends React.Component {
 			usage_state: value.reservation.usage_state,
 			user_phone: value.reservation.user_phone,
 		}));
-		// console.log(param);
+		console.log(param);
 		try{
 			const requestOption ={
 				method: 'POST',

@@ -27,7 +27,7 @@ class ManageRegister extends React.Component {
 				total: 0,
 				trainer_id: getAuthTrainerId() ? getAuthTrainerId() : '',
 				until: dateFormatYYYYMMDD(new Date()),
-				start_time: dateFormatYYYYMMDD(new Date()),
+				start_date: dateFormatYYYYMMDD(new Date()),
 				end_time:  dateFormatYYYYMMDD(new Date()),
 			},
 			submitDisabled: true,
@@ -124,9 +124,8 @@ class ManageRegister extends React.Component {
 				remaining: 0,
 				total: 0,
 				trainer_id: getAuthTrainerId() ? getAuthTrainerId() : '',
-				until: "2022-12-31",
-				start_time: new Date(),
-				end_time: new Date(),
+				start_date: new Date(),
+				until: new Date(),
 			}
 		});
 	}
@@ -169,7 +168,7 @@ class ManageRegister extends React.Component {
 						<div className={classNames('form_box')}>
 							<label htmlFor="plus_start_time" className={'form_label'}>기간</label>
 							<div className={'multi'}>
-								<input type="date" id={'plus_start_time'} value={userInfo.start_time} className={'form_input'} onChange={(e) =>this.onInputChange(e)} name={'start_time'} />
+								<input type="date" id={'plus_start_time'} value={userInfo.start_date} className={'form_input'} onChange={(e) =>this.onInputChange(e)} name={'start_date'} />
 								<span className={'dash'}>-</span>
 								<input type="date" id={'plus_end_time'} value={userInfo.end_time} className={'form_input'} onChange={(e) =>this.onInputChange(e)} name={'end_time'}/>
 							</div>

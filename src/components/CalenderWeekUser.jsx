@@ -376,8 +376,6 @@ class CalendarWeekday extends React.Component {
 						</div>
 						<div className={'plus_input_area'}>
 							<label htmlFor="plus_description">설명</label>
-							{console.log(encodeURI(addSchedule.description))}
-							{console.log(addSchedule.description)}
 							<textarea id={'plus_description'} className={classNames('input', 'textarea')} rows={'4'} onChange={(e) =>this.onInputChange(e)} name={'description'} value={addSchedule.description || ''}/>
 						</div>
 						<div className={'sub_footer'}>
@@ -392,7 +390,6 @@ class CalendarWeekday extends React.Component {
 
 	// 특정 사용자 일정
 	getUserNameReservationApi = async (value) => {
-		console.log('getTrainerReservationApi');
 		try{
 			const param = JSON.parse(JSON.stringify({
 				user_phone: value
@@ -413,7 +410,6 @@ class CalendarWeekday extends React.Component {
 					const resData = JSON.parse(JSON.stringify(res.data));
 					axios.defaults.headers.common['Authorization'] = `Bearer ${getAuthToken()}`;
 					this.makeTaskList(resData.data);
-
 				})
 				.catch(ex=>{
 					console.log("login requset fail : " + ex);
@@ -427,8 +423,9 @@ class CalendarWeekday extends React.Component {
 
 	// 회원 일정 수정
 	setUserReservationUpdateApi = async (value, start, end) => {
+		console.log(value);
 		const param = JSON.parse(JSON.stringify({
-			description: value.description,
+			description: value.reservation.description,
 			end_time: dateFormatWithTime(end),
 			reservation_id: value.reservation.reservation_id,
 			start_time: dateFormatWithTime(start),
